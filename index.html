@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Remember · Onthou · Khumbula — South Africa's Apartheid Archive</title>
+  <meta name="description" content="A living digital memorial to apartheid in South Africa. For the generation that inherited freedom — and must understand what it cost." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    :root {
+      --black: #0a0806;
+      --deep: #111009;
+      --paper: #f0ead8;
+      --parchment: #e8dfc8;
+      --ash: #6b6358;
+      --dust: #3a3530;
+      --red: #c0392b;
+      --red-dark: #922b21;
+      --gold: #c9a84c;
+      --gold-muted: #8b6914;
+      --white: #faf7f2;
+    }
+ 
+    html { scroll-behavior: smooth; }
+ 
+    body {
+      background: var(--black);
+      color: var(--paper);
+      font-family: 'Manrope', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+ 
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
+ 
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 2.5rem;
+      background: rgba(10, 8, 6, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(192, 57, 43, 0.2);
+    }
+ 
+    .nav-logo {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+ 
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+ 
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ash);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+ 
+    .nav-links a:hover { color: var(--red); }
+ 
+    .nav-cta {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--red);
+      border: 1px solid var(--red);
+      padding: 0.5rem 1rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+ 
+    .nav-cta:hover {
+      background: var(--red);
+      color: var(--white);
+    }
+ 
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 2.5rem 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+ 
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 70% 40%, rgba(192, 57, 43, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 20% 80%, rgba(201, 168, 76, 0.04) 0%, transparent 50%),
+        linear-gradient(180deg, #0a0806 0%, #111009 60%, #0d0b08 100%);
+    }
+ 
+    .hero-year-strip {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, transparent, var(--red) 30%, var(--red-dark) 70%, transparent);
+      opacity: 0.6;
+    }
+ 
+    .hero-years {
+      position: absolute;
+      right: 2.5rem;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      align-items: flex-end;
+    }
+ 
+    .hero-years span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: rgba(192, 57, 43, 0.4);
+      letter-spacing: 0.08em;
+    }
+ 
+    .hero-eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.3s forwards;
+    }
+ 
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3.5rem, 10vw, 9rem);
+      font-weight: 900;
+      line-height: 0.9;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.5s forwards;
+    }
+ 
+    .hero-title em {
+      font-style: italic;
+      color: var(--gold);
+    }
+ 
+    .hero-subtitle-row {
+      display: flex;
+      align-items: baseline;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.7s forwards;
+    }
+ 
+    .hero-subtitle {
+      font-family: 'Manrope', sans-serif;
+      font-size: clamp(1rem, 2vw, 1.3rem);
+      font-weight: 300;
+      color: var(--ash);
+      max-width: 500px;
+      line-height: 1.6;
+    }
+ 
+    .hero-divider {
+      width: 60px;
+      height: 1px;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+ 
+    .hero-actions {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 1s ease 0.9s forwards;
+    }
+ 
+    .btn-primary {
+      background: var(--red);
+      color: var(--white);
+      padding: 1rem 2.5rem;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+      display: inline-block;
+    }
+ 
+    .btn-primary:hover { background: var(--red-dark); }
+ 
+    .btn-ghost {
+      color: var(--ash);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.2s;
+    }
+ 
+    .btn-ghost:hover { color: var(--paper); }
+ 
+    .hero-scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeUp 1s ease 1.2s forwards;
+    }
+ 
+    .hero-scroll-hint span {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--dust);
+    }
+ 
+    .scroll-line {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(180deg, var(--dust), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+ 
+    /* ─── STAT BAND ─── */
+    .stat-band {
+      background: var(--deep);
+      border-top: 1px solid rgba(192, 57, 43, 0.3);
+      border-bottom: 1px solid rgba(192, 57, 43, 0.3);
+      padding: 2.5rem 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+ 
+    .stat-item {
+      text-align: center;
+      padding: 0 2rem;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+ 
+    .stat-item:last-child { border-right: none; }
+ 
+    .stat-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+ 
+    .stat-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ash);
+      line-height: 1.4;
+    }
+ 
+    /* ─── SECTION UTILITY ─── */
+    section { position: relative; }
+ 
+    .section-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+ 
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 700;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+ 
+    .section-body {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--ash);
+      max-width: 600px;
+    }
+ 
+    /* ─── INTRO / MISSION ─── */
+    .mission {
+      padding: 7rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+ 
+    .mission-quote {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-style: italic;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--paper);
+      border-left: 3px solid var(--red);
+      padding-left: 2rem;
+    }
+ 
+    .mission-quote cite {
+      display: block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      font-style: normal;
+      letter-spacing: 0.1em;
+      color: var(--ash);
+      margin-top: 1rem;
+    }
+ 
+    .mission-text p { margin-bottom: 1.2rem; }
+ 
+    /* ─── TIMELINE ─── */
+    .timeline-section {
+      padding: 7rem 0;
+      background: var(--deep);
+    }
+ 
+    .timeline-header {
+      padding: 0 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto 5rem;
+    }
+ 
+    .timeline {
+      position: relative;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+ 
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0; bottom: 0;
+      width: 1px;
+      background: linear-gradient(180deg, transparent, rgba(192,57,43,0.4) 10%, rgba(192,57,43,0.4) 90%, transparent);
+      transform: translateX(-50%);
+    }
+ 
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0;
+      margin-bottom: 4rem;
+      align-items: start;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.6s ease;
+    }
+ 
+    .timeline-item.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+ 
+    .timeline-item:nth-child(even) .timeline-content { grid-column: 3; }
+    .timeline-item:nth-child(even) .timeline-content-placeholder { grid-column: 1; }
+    .timeline-item:nth-child(odd) .timeline-content { grid-column: 1; text-align: right; }
+ 
+    .timeline-center {
+      grid-column: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 0.3rem;
+    }
+ 
+    .timeline-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--red);
+      border: 2px solid var(--deep);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.25);
+      flex-shrink: 0;
+    }
+ 
+    .timeline-year-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--red);
+      letter-spacing: 0.08em;
+      margin-top: 0.5rem;
+      white-space: nowrap;
+    }
+ 
+    .timeline-content {
+      padding: 0 2rem;
+    }
+ 
+    .timeline-content.right { padding: 0 2rem 0 2rem; }
+ 
+    .event-tag {
+      display: inline-block;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: rgba(192,57,43,0.15);
+      color: var(--red);
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 0.6rem;
+    }
+ 
+    .event-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 0.6rem;
+      color: var(--paper);
+    }
+ 
+    .event-body {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--ash);
+    }
+ 
+    .event-impact {
+      margin-top: 0.8rem;
+      padding: 0.6rem 0.8rem;
+      background: rgba(201,168,76,0.07);
+      border-left: 2px solid var(--gold-muted);
+      font-size: 0.8rem;
+      color: rgba(201,168,76,0.8);
+      font-style: italic;
+    }
+ 
+    /* ─── VOICES SECTION ─── */
+    .voices {
+      padding: 7rem 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+ 
+    .voices-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      margin-top: 4rem;
+      background: rgba(255,255,255,0.04);
+    }
+ 
+    .voice-card {
+      background: var(--black);
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+ 
+    .voice-card:hover { background: #0e0c09; }
+ 
+    .voice-card::before {
+      content: '"';
+      position: absolute;
+      top: -0.5rem;
+      left: 1.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 8rem;
+      color: rgba(192,57,43,0.06);
+      line-height: 1;
+      pointer-events: none;
+    }
+ 
+    .voice-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--paper);
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    .voice-attribution {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+ 
+    .voice-name {
+      font-family: 'Manrope', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gold);
+    }
+ 
+    .voice-context {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      color: var(--ash);
+    }
+ 
+    /* ─── LAWS SECTION ─── */
+    .laws-section {
+      background: var(--deep);
+      padding: 7rem 2.5rem;
+    }
+ 
+    .laws-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+ 
+    .laws-intro {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      margin-bottom: 5rem;
+      align-items: end;
+    }
+ 
+    .laws-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: rgba(255,255,255,0.04);
+    }
+ 
+    .law-card {
+      background: var(--black);
+      padding: 2rem;
+      border-top: 2px solid transparent;
+      transition: border-color 0.3s;
+    }
+ 
+    .law-card:hover { border-top-color: var(--red); }
+ 
+    .law-year {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--red);
+      letter-spacing: 0.1em;
+      margin-bottom: 0.5rem;
+    }
+ 
+    .law-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      color: var(--paper);
+    }
+ 
+    .law-effect {
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--ash);
+    }
+ 
+    /* ─── DISTRICT SIX FEATURE ─── */
+    .feature-section {
+      padding: 7rem 2.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+ 
+    .feature-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      background: var(--deep);
+      overflow: hidden;
+    }
+ 
+    .feature-visual {
+      background: linear-gradient(135deg, #1a1108, #0d0b08);
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      min-height: 400px;
+      position: relative;
+      overflow: hidden;
+    }
+ 
+    .feature-visual::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(192,57,43,0.03) 40px, rgba(192,57,43,0.03) 41px),
+        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(192,57,43,0.03) 40px, rgba(192,57,43,0.03) 41px);
+    }
+ 
+    .feature-map-label {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem;
+      font-weight: 900;
+      color: rgba(192,57,43,0.12);
+      text-align: center;
+      line-height: 1;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    .feature-map-sublabel {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      text-align: center;
+      margin-top: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+ 
+    .feature-text {
+      padding: 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+ 
+    .feature-text .section-body { max-width: 100%; }
+ 
+    .feature-stat-row {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 2.5rem;
+    }
+ 
+    .feature-stat { }
+ 
+    .feature-stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+ 
+    .feature-stat-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+ 
+    /* ─── EXPLORE / CHAPTERS ─── */
+    .chapters {
+      background: var(--deep);
+      padding: 7rem 2.5rem;
+    }
+ 
+    .chapters-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+ 
+    .chapters-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+    }
+ 
+    .chapters-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: rgba(255,255,255,0.04);
+    }
+ 
+    .chapter-card {
+      background: var(--black);
+      padding: 2.5rem;
+      cursor: pointer;
+      transition: background 0.3s;
+      text-decoration: none;
+      display: block;
+      position: relative;
+      overflow: hidden;
+    }
+ 
+    .chapter-card:hover { background: #100e0b; }
+ 
+    .chapter-card::after {
+      content: '→';
+      position: absolute;
+      bottom: 2.5rem;
+      right: 2.5rem;
+      font-size: 1rem;
+      color: var(--red);
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: all 0.3s;
+    }
+ 
+    .chapter-card:hover::after {
+      opacity: 1;
+      transform: translateX(0);
+    }
+ 
+    .chapter-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      font-weight: 900;
+      color: rgba(255,255,255,0.04);
+      line-height: 1;
+      margin-bottom: 1.5rem;
+    }
+ 
+    .chapter-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.7rem;
+      display: block;
+    }
+ 
+    .chapter-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--paper);
+      margin-bottom: 1rem;
+      line-height: 1.3;
+    }
+ 
+    .chapter-desc {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: var(--ash);
+    }
+ 
+    /* ─── CALLOUT / WHY THIS EXISTS ─── */
+    .why-section {
+      padding: 7rem 2.5rem;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+ 
+    .why-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 2rem;
+    }
+ 
+    .why-body {
+      font-size: 1.1rem;
+      line-height: 1.9;
+      color: var(--ash);
+      margin-bottom: 3rem;
+    }
+ 
+    .why-sources {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+ 
+    .source-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ash);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 0.4rem 0.8rem;
+    }
+ 
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--deep);
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 3rem 2.5rem;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 2rem;
+    }
+ 
+    .footer-left {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--ash);
+      line-height: 1.8;
+    }
+ 
+    .footer-center {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--paper);
+      text-align: center;
+    }
+ 
+    .footer-right {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--ash);
+      text-align: right;
+      line-height: 1.8;
+    }
+ 
+    .footer-right a {
+      color: var(--red);
+      text-decoration: none;
+    }
+ 
+    /* ─── MODAL ─── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+      backdrop-filter: blur(4px);
+    }
+ 
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+ 
+    .modal {
+      background: var(--deep);
+      border: 1px solid rgba(192,57,43,0.2);
+      max-width: 680px;
+      width: 100%;
+      padding: 3rem;
+      position: relative;
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+ 
+    .modal-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      background: none;
+      border: none;
+      color: var(--ash);
+      font-size: 1.2rem;
+      cursor: pointer;
+      font-family: 'IBM Plex Mono', monospace;
+      transition: color 0.2s;
+    }
+ 
+    .modal-close:hover { color: var(--red); }
+ 
+    .modal-tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 1rem;
+    }
+ 
+    .modal-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--paper);
+    }
+ 
+    .modal-body {
+      font-size: 0.9rem;
+      line-height: 1.9;
+      color: var(--ash);
+    }
+ 
+    .modal-body p { margin-bottom: 1rem; }
+ 
+    .modal-source {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--dust);
+      letter-spacing: 0.08em;
+    }
+ 
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+ 
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+ 
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .stat-band { grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(255,255,255,0.04); }
+      .stat-item { background: var(--deep); border-right: none; }
+      .mission { grid-template-columns: 1fr; gap: 3rem; }
+      .timeline::before { left: 1.5rem; }
+      .timeline-item { grid-template-columns: 0 30px 1fr; }
+      .timeline-item:nth-child(odd) .timeline-content { grid-column: 3; text-align: left; }
+      .timeline-content { padding: 0 0 0 1rem; }
+      .voices-grid { grid-template-columns: 1fr; }
+      .laws-intro { grid-template-columns: 1fr; gap: 2rem; }
+      .laws-grid { grid-template-columns: 1fr; }
+      .feature-card { grid-template-columns: 1fr; }
+      .chapters-grid { grid-template-columns: 1fr; }
+      .chapters-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
+      footer { grid-template-columns: 1fr; text-align: center; }
+      .footer-right { text-align: center; }
+    }
+  </style>
+</head>
+<body>
+ 
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-logo">Remember · Onthou · Khumbula</div>
+  <ul class="nav-links">
+    <li><a href="#timeline">Timeline</a></li>
+    <li><a href="#voices">Voices</a></li>
+    <li><a href="#laws">The Laws</a></li>
+    <li><a href="#chapters">Chapters</a></li>
+  </ul>
+  <a href="#why" class="nav-cta">Why This Exists</a>
+</nav>
+ 
+<!-- ─── HERO ─── -->
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-year-strip"></div>
+  <div class="hero-years">
+    <span>1948</span>
+    <span>1960</span>
+    <span>1976</span>
+    <span>1990</span>
+    <span>1994</span>
+  </div>
+  <div style="position:relative;z-index:2;">
+    <p class="hero-eyebrow">South Africa's Living Archive</p>
+    <h1 class="hero-title">
+      They lived<br>through it.<br>
+      <em>We can't forget it.</em>
+    </h1>
+    <div class="hero-subtitle-row">
+      <div class="hero-divider"></div>
+      <p class="hero-subtitle">Apartheid lasted 46 years. There is no national public museum dedicated to it. This is an attempt to change that — one story at a time.</p>
+    </div>
+    <div class="hero-actions">
+      <a href="#timeline" class="btn-primary">Enter the Archive</a>
+      <a href="#why" class="btn-ghost">Why this exists →</a>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+ 
+<!-- ─── STAT BAND ─── -->
+<div class="stat-band">
+  <div class="stat-item">
+    <div class="stat-number">46</div>
+    <div class="stat-label">Years of Legislated<br>Racial Oppression</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">3.5M</div>
+    <div class="stat-label">People Forcibly<br>Removed from Homes</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">1948</div>
+    <div class="stat-label">Year the National Party<br>Formally Imposed Apartheid</div>
+  </div>
+  <div class="stat-item">
+    <div class="stat-number">0</div>
+    <div class="stat-label">National Public<br>Apartheid Museums</div>
+  </div>
+</div>
+ 
+<!-- ─── MISSION ─── -->
+<div class="mission">
+  <div class="mission-quote">
+    "The education I received was a form of control. When I read what was in our books, I understood — we were being prepared to serve, not to lead."
+    <cite>— Testimony, District Six Museum Oral History Archive</cite>
+  </div>
+  <div class="mission-text">
+    <p class="section-label">Why This Archive Exists</p>
+    <h2 class="section-title">A freedom without memory is a freedom half-understood.</h2>
+    <div class="section-body">
+      <p>South Africa's post-apartheid generation inherited a democracy. But the architecture of the system that preceded it — its laws, its violence, its logic — has been inadequately memorialised in public space.</p>
+      <p>This archive draws on court records, oral histories, museum collections, and public testimony to document what happened. Not as an act of blame — but as an act of honest witnessing.</p>
+    </div>
+  </div>
+</div>
+ 
+<!-- ─── TIMELINE ─── -->
+<section class="timeline-section" id="timeline">
+  <div class="timeline-header">
+    <p class="section-label">Chronology</p>
+    <h2 class="section-title">The Architecture of Oppression</h2>
+    <p class="section-body">A system doesn't build itself overnight. Each year, another law. Another removal. Another silencing.</p>
+  </div>
+ 
+  <div class="timeline">
+ 
+    <div class="timeline-item">
+      <div class="timeline-content">
+        <span class="event-tag">Political Seizure</span>
+        <h3 class="event-title">The National Party Wins — and Apartheid Becomes Policy</h3>
+        <p class="event-body">The Afrikaner-led National Party wins the white-only general election on a platform of strict racial separation. Prime Minister D.F. Malan begins legislating a comprehensive system of racial classification and segregation.</p>
+        <div class="event-impact">Within two years, every South African would be assigned a racial category that would determine where they could live, work, travel, and learn.</div>
+      </div>
+      <div class="timeline-center">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year-badge">1948</div>
+      </div>
+      <div></div>
+    </div>
+ 
+    <div class="timeline-item">
+      <div></div>
+      <div class="timeline-center">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year-badge">1950</div>
+      </div>
+      <div class="timeline-content">
+        <span class="event-tag">Population Control</span>
+        <h3 class="event-title">Population Registration Act & Group Areas Act</h3>
+        <p class="event-body">All South Africans are classified as White, Coloured, Indian, or Native (later Bantu). The Group Areas Act enforces residential segregation, designating specific zones for each race — forcing millions from mixed communities into segregated townships.</p>
+        <div class="event-impact">District Six, Sophiatown, and hundreds of other vibrant communities were bulldozed. Residents were trucked to barren townships miles from economic centres.</div>
+      </div>
+    </div>
+ 
+    <div class="timeline-item">
+      <div class="timeline-content">
+        <span class="event-tag">Education as Weapon</span>
+        <h3 class="event-title">Bantu Education Act — A System Designed to Limit</h3>
+        <p class="event-body">Minister Hendrik Verwoerd introduces the Bantu Education Act, removing Black schools from mission control and placing them under state control. The curriculum is explicitly designed to prepare Black children for manual labour, not academic or professional life.</p>
+        <div class="event-impact">Verwoerd in Parliament: "There is no place for [the Bantu] in the European community above the level of certain forms of labour." This was not policy dressed as education — it was subjugation dressed as policy.</div>
+      </div>
+      <div class="timeline-center">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year-badge">1953</div>
+      </div>
+      <div></div>
+    </div>
+ 
+    <div class="timeline-item">
+      <div></div>
+      <div class="timeline-center">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year-badge">1960</div>
+      </div>
+      <div class="timeline-content">
+        <span class="event-tag">State Violence</span>
+        <h3 class="event-title">Sharpeville Massacre — 69 People Killed</h3>
+        <p class="event-body">On 21 March, thousands gather in Sharpeville to peacefully protest the Pass Laws — the system requiring Black South Africans to carry identity documents at all times. Police open fire on the crowd. 69 people are killed; most are shot in the back while fleeing.</p>
+        <div class="event-impact">The massacre triggers international outrage. South Africa is expelled from the Commonwealth in 1961. The ANC and PAC are banned. Nelson Mandela goes underground.</div>
+      </div>
+    </div>
+ 
+    <div class="timeline-item">
+      <div class="timeline-content">
+        <span class="event-tag">The Rivonia Trial</span>
+        <h3 class="event-title">Nelson Mandela Sentenced to Life in Prison</h3>
+        <p class="event-body">Following the arrest of ANC leaders at Liliesleaf Farm in Rivonia, Mandela and nine others face charges of sabotage and conspiracy to overthrow the state. Rather than deny, Mandela uses the dock to make a moral statement that will echo globally for decades.</p>
+        <div class="event-impact">"I have cherished the ideal of a democratic and free society... It is an ideal for which I am prepared to die." — Nelson Mandela, Rivonia Trial, 20 April 1964.</div>
+      </div>
+      <div class="timeline-center">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year-badge">1964</div>
+      </div>
+      <div></div>
+    </div>
+ 
+    <div class="timeline-item">
+      <div></div>
+      <div class="timeline-center">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year-badge">1976</div>
+      </div>
+      <div class="timeline-content">
+        <span class="event-tag">Youth Uprising</span>
+        <h3 class="event-title">Soweto Uprising — Students Rise Against Afrikaans</h3>
+        <p class="event-body">On 16 June, thousands of Soweto schoolchildren march to protest the imposition of Afrikaans as the medium of instruction. Police respond with live ammunition. Hector Pieterson, 13, is among the first killed. The uprising spreads to townships across the country.</p>
+        <div class="event-impact">June 16 is now Youth Day in South Africa. The uprising marked a turning point — the world could no longer ignore apartheid's violence against its youngest victims.</div>
+      </div>
+    </div>
+ 
+    <div class="timeline-item">
+      <div class="timeline-content">
+        <span class="event-tag">Death in Custody</span>
+        <h3 class="event-title">Steve Biko Dies in Police Custody</h3>
+        <p class="event-body">Black Consciousness leader Steve Biko is detained under Section 6 of the Terrorism Act, subjected to days of interrogation and assault by security police, and denied medical treatment. He dies on 12 September from brain damage. He is 30 years old. The police initially claim he died from a hunger strike.</p>
+        <div class="event-impact">The inquest finds no one criminally liable. The lie holds — for now. The truth emerges through the Truth and Reconciliation Commission, 20 years later.</div>
+      </div>
+      <div class="timeline-center">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year-badge">1977</div>
+      </div>
+      <div></div>
+    </div>
+ 
+    <div class="timeline-item">
+      <div></div>
+      <div class="timeline-center">
+        <div class="timeline-dot"></div>
+        <div class="timeline-year-badge">1990</div>
+      </div>
+      <div class="timeline-content">
+        <span class="event-tag">Turning Point</span>
+        <h3 class="event-title">F.W. de Klerk Unbans the ANC — Mandela Walks Free</h3>
+        <p class="event-body">On 2 February, President F.W. de Klerk announces the unbanning of the ANC, PAC, and South African Communist Party. Nine days later, Nelson Mandela walks out of Victor Verster Prison after 27 years — and speaks from the Cape Town City Hall to a crowd of hundreds of thousands.</p>
+        <div class="event-impact">The moment the world had waited decades for. But the work of building a new society was only beginning.</div>
+      </div>
+    </div>
+ 
+    <div class="timeline-item">
+      <div class="timeline-content">
+        <span class="event-tag">Liberation</span>
+        <h3 class="event-title">First Democratic Elections — April 27, 1994</h3>
+        <p class="event-body">For the first time, all South Africans vote regardless of race. Queues stretch for kilometres. Nelson Mandela is elected President. The day becomes Freedom Day. The ANC wins with 62.5% of the vote.</p>
+        <div class="event-impact">Freedom Day is a public holiday. But the economic and social structures of apartheid — land inequality, educational disparity, spatial separation — persist in measurable ways to this day.</div>
+      </div>
+      <div class="timeline-center">
+        <div class="timeline-dot" style="background:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.25)"></div>
+        <div class="timeline-year-badge" style="color:var(--gold)">1994</div>
+      </div>
+      <div></div>
+    </div>
+ 
+  </div>
+</section>
+ 
+<!-- ─── VOICES ─── -->
+<section class="voices" id="voices">
+  <p class="section-label">First-Person Testimony</p>
+  <h2 class="section-title">In Their Own Words</h2>
+  <p class="section-body">Drawn from oral history archives, published testimonies, and the record of the Truth and Reconciliation Commission.</p>
+ 
+  <div class="voices-grid">
+    <div class="voice-card" onclick="openModal('voice1')">
+      <p class="voice-text">"When the bulldozers came, my mother sat on the step and refused to move. They built the road anyway. For thirty years she would not speak about it."</p>
+      <div class="voice-attribution">
+        <span class="voice-name">District Six Resident</span>
+        <span class="voice-context">District Six Museum Oral Archive · Cape Town</span>
+      </div>
+    </div>
+    <div class="voice-card" onclick="openModal('voice2')">
+      <p class="voice-text">"The pass book was my chain. I could not visit my own mother in the next town without the right stamp. You felt it in your chest — that you were not considered a full person."</p>
+      <div class="voice-attribution">
+        <span class="voice-name">Thabo M., Miner</span>
+        <span class="voice-context">South African History Archive · Johannesburg</span>
+      </div>
+    </div>
+    <div class="voice-card" onclick="openModal('voice3')">
+      <p class="voice-text">"June 16 was the day we became visible. We were children — but we understood that silence was the same as agreement. We could not agree."</p>
+      <div class="voice-attribution">
+        <span class="voice-name">Soweto Student, 1976</span>
+        <span class="voice-context">Hector Pieterson Museum Archive</span>
+      </div>
+    </div>
+    <div class="voice-card" onclick="openModal('voice4')">
+      <p class="voice-text">"At the TRC, I listened to the man who killed my son describe it as if he were reading a weather report. And I was asked: do you forgive? The question felt like violence."</p>
+      <div class="voice-attribution">
+        <span class="voice-name">TRC Testimony, 1997</span>
+        <span class="voice-context">Truth & Reconciliation Commission Public Record</span>
+      </div>
+    </div>
+    <div class="voice-card" onclick="openModal('voice5')">
+      <p class="voice-text">"My textbooks said our people had no history before the Europeans came. I believed it until I was grown. The damage of that lie is not small."</p>
+      <div class="voice-attribution">
+        <span class="voice-name">Educator, Limpopo</span>
+        <span class="voice-context">SAHO Educational Project Interview</span>
+      </div>
+    </div>
+    <div class="voice-card" onclick="openModal('voice6')">
+      <p class="voice-text">"Robben Island was not only about suffering. We ran a university in there. We debated ideas. We refused to become what they made of us."</p>
+      <div class="voice-attribution">
+        <span class="voice-name">Former Political Prisoner</span>
+        <span class="voice-context">Robben Island Museum Testimony</span>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ─── LAWS ─── -->
+<section class="laws-section" id="laws">
+  <div class="laws-inner">
+    <div class="laws-intro">
+      <div>
+        <p class="section-label">The Legislative Architecture</p>
+        <h2 class="section-title">Apartheid Was Not Chaos. It Was Law.</h2>
+      </div>
+      <p class="section-body">Hundreds of pieces of legislation formalised racial hierarchy. These were not informal prejudices. They were Acts of Parliament — precise, deliberate, and enforced.</p>
+    </div>
+    <div class="laws-grid">
+      <div class="law-card">
+        <div class="law-year">Act No. 30 of 1950</div>
+        <div class="law-name">Population Registration Act</div>
+        <div class="law-effect">Required every South African to be classified by race. The classification determined every aspect of a person's life — where they could live, who they could marry, what schools their children could attend. Classification disputes were decided by officials who would examine physical features and ask demeaning questions.</div>
+      </div>
+      <div class="law-card">
+        <div class="law-year">Act No. 41 of 1950</div>
+        <div class="law-name">Group Areas Act</div>
+        <div class="law-effect">Designated specific residential and business zones for each racial group. Non-white South Africans living in "white" areas were forcibly relocated — often to under-resourced townships far from employment. Over 3.5 million people were removed. Entire communities were erased.</div>
+      </div>
+      <div class="law-card">
+        <div class="law-year">Act No. 47 of 1953</div>
+        <div class="law-name">Bantu Education Act</div>
+        <div class="law-effect">Placed Black African education under direct state control, replacing mission school curricula with a system explicitly designed to limit aspirations. Funding per Black pupil was a fraction of funding per white pupil. The legacy of underfunded Black education remains visible in South Africa today.</div>
+      </div>
+      <div class="law-card">
+        <div class="law-year">Act No. 55 of 1949</div>
+        <div class="law-name">Prohibition of Mixed Marriages Act</div>
+        <div class="law-effect">Criminalised marriage between white South Africans and people of other races. The Immorality Amendment Act of 1950 extended this to prohibit any sexual relations across racial lines. Families were torn apart. People were prosecuted for love.</div>
+      </div>
+      <div class="law-card">
+        <div class="law-year">Pass Laws (Various)</div>
+        <div class="law-name">Pass Laws — "The Dompas"</div>
+        <div class="law-effect">Black South Africans were required to carry a "reference book" (the dompas — literally "dumb pass") at all times, containing their racial classification, employer details, and permission to be in particular areas. Failure to produce it meant arrest. Millions were arrested under pass law violations during apartheid.</div>
+      </div>
+      <div class="law-card">
+        <div class="law-year">Act No. 44 of 1950</div>
+        <div class="law-name">Suppression of Communism Act</div>
+        <div class="law-effect">Defined "communism" so broadly that it effectively criminalised any opposition to the government — trade union activism, journalism, legal advocacy, or protest. It was the primary tool used to detain, ban, and silence political opponents, including Nelson Mandela, Bram Fischer, and Walter Sisulu.</div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ─── DISTRICT SIX FEATURE ─── -->
+<section class="feature-section">
+  <div class="feature-card">
+    <div class="feature-visual">
+      <div class="feature-map-label">DISTRICT<br>SIX</div>
+      <div class="feature-map-sublabel">Cape Town · Demolished 1966–1982</div>
+    </div>
+    <div class="feature-text">
+      <p class="section-label">A Case Study in Erasure</p>
+      <h2 class="section-title" style="font-size:2rem;">A neighbourhood. Then rubble. Then memory.</h2>
+      <p class="section-body" style="max-width:100%">District Six was a vibrant, racially mixed inner-city community in Cape Town — home to freed slaves, merchants, artisans, immigrants, and workers since the 1860s.<br><br>
+      In 1966, the apartheid government declared it a "White Group Area." Over 60,000 residents were forcibly removed to the Cape Flats — a sandy, windswept area with no infrastructure, far from their jobs and schools.<br><br>
+      The houses were bulldozed. The streets were erased. And yet — the residents refused to forget. The District Six Museum was founded in 1994. Former residents return to its floor maps and trace with their fingers the streets where they were born.</p>
+      <div class="feature-stat-row">
+        <div class="feature-stat">
+          <div class="feature-stat-num">60,000+</div>
+          <div class="feature-stat-label">Residents Removed</div>
+        </div>
+        <div class="feature-stat">
+          <div class="feature-stat-num">16 yrs</div>
+          <div class="feature-stat-label">Duration of Demolition</div>
+        </div>
+        <div class="feature-stat">
+          <div class="feature-stat-num">1994</div>
+          <div class="feature-stat-label">Museum Founded</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+ 
+<!-- ─── CHAPTERS ─── -->
+<section class="chapters" id="chapters">
+  <div class="chapters-inner">
+    <div class="chapters-header">
+      <div>
+        <p class="section-label">Further Reading</p>
+        <h2 class="section-title">Chapters of the Archive</h2>
+      </div>
+      <a href="#" class="btn-ghost" style="color:var(--red)">View All Chapters →</a>
+    </div>
+    <div class="chapters-grid">
+      <a class="chapter-card" href="#">
+        <div class="chapter-number">01</div>
+        <span class="chapter-tag">Origins</span>
+        <div class="chapter-title">Before 1948: Segregation Without the Name</div>
+        <p class="chapter-desc">Colonial dispossession, the Glen Grey Act, and the pass system — apartheid formalised what had been building for over a century.</p>
+      </a>
+      <a class="chapter-card" href="#">
+        <div class="chapter-number">02</div>
+        <span class="chapter-tag">Resistance</span>
+        <div class="chapter-title">The Defiance Campaign and the Congress Alliance</div>
+        <p class="chapter-desc">From the ANC's founding in 1912 to the Defiance Campaign of 1952, the history of organised resistance against racial oppression.</p>
+      </a>
+      <a class="chapter-card" href="#">
+        <div class="chapter-number">03</div>
+        <span class="chapter-tag">Bantustan System</span>
+        <div class="chapter-title">Homeland Policy: Independence as Dispossession</div>
+        <p class="chapter-desc">Ten "homelands" created to strip Black South Africans of citizenship. Transkei, Bophuthatswana, Venda, Ciskei — recognised by no one but South Africa.</p>
+      </a>
+      <a class="chapter-card" href="#">
+        <div class="chapter-number">04</div>
+        <span class="chapter-tag">Women & Apartheid</span>
+        <div class="chapter-title">The 1956 Women's March — "You Strike a Woman, You Strike a Rock"</div>
+        <p class="chapter-desc">20,000 women marched to the Union Buildings to protest pass laws. Their courage and the anthem they sang became emblematic of the struggle.</p>
+      </a>
+      <a class="chapter-card" href="#">
+        <div class="chapter-number">05</div>
+        <span class="chapter-tag">Truth & Reconciliation</span>
+        <div class="chapter-title">The TRC: Bearing Witness to What Cannot Be Undone</div>
+        <p class="chapter-desc">Archbishop Desmond Tutu chaired a commission that heard over 20,000 testimonies. An experiment in restorative justice — with profound contradictions.</p>
+      </a>
+      <a class="chapter-card" href="#">
+        <div class="chapter-number">06</div>
+        <span class="chapter-tag">Long Shadow</span>
+        <div class="chapter-title">The Inheritance: What Apartheid Left Behind</div>
+        <p class="chapter-desc">Land inequality, the spatial legacy of townships, the wealth gap, underfunded schools. Apartheid's architecture did not disappear in 1994.</p>
+      </a>
+    </div>
+  </div>
+</section>
+ 
+<!-- ─── WHY ─── -->
+<section class="why-section" id="why">
+  <p class="section-label">About This Archive</p>
+  <h2 class="why-title">History is not the past.<br><em>It is the ground we stand on.</em></h2>
+  <p class="why-body">
+    South Africa has more World War Two memorials than it has apartheid memorials. Many of the few apartheid sites that do exist are underfunded and deteriorating. A child born in 1994 — the year of liberation — is 31 years old today. They are raising children of their own, children for whom apartheid is not even a faint childhood memory but an abstraction entirely.
+    <br><br>
+    This archive is not academic. It is not affiliated with any political party. It exists to offer a clear, honest, and accessible account of what happened — drawn entirely from public record, museum collections, and testimony — because the memorialisation gap is not just a cultural oversight. It is a risk.
+  </p>
+  <div class="why-sources">
+    <span class="source-badge">District Six Museum</span>
+    <span class="source-badge">South African History Archive</span>
+    <span class="source-badge">Robben Island Museum</span>
+    <span class="source-badge">Hector Pieterson Museum</span>
+    <span class="source-badge">TRC Public Record</span>
+    <span class="source-badge">SAHO — sahistory.org.za</span>
+    <span class="source-badge">Apartheid Museum Jhb</span>
+    <span class="source-badge">Parliamentary Archive</span>
+  </div>
+</section>
+ 
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-left">
+    A public interest digital archive.<br>
+    All content drawn from public record and museum collections.<br>
+    Non-commercial. Non-partisan.
+  </div>
+  <div class="footer-center">R · O · K</div>
+  <div class="footer-right">
+    Built by <a href="https://businesshustle.co.za">Business Hustle</a><br>
+    Cape Town, South Africa<br>
+    Remember · Onthou · Khumbula
+  </div>
+</footer>
+ 
+<!-- ─── MODALS ─── -->
+<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
+  <div class="modal" id="modal-content">
+    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+    <div id="modal-inner"></div>
+  </div>
+</div>
+ 
+<script>
+  // ─── SCROLL ANIMATIONS ───
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+ 
+  document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
+ 
+  // ─── MODAL DATA ───
+  const modals = {
+    voice1: {
+      tag: 'District Six · Oral Testimony',
+      title: 'When the Bulldozers Came',
+      body: `<p>This testimony was collected by the District Six Museum as part of their ongoing oral history project, which has gathered accounts from former residents forcibly removed under the Group Areas Act.</p>
+<p>Between 1966 and 1982, the apartheid government bulldozed the homes of over 60,000 people in Cape Town's District Six — a racially mixed inner-city community declared a "White Group Area" under the Group Areas Act of 1950.</p>
+<p>Residents received notification and were transported to the Cape Flats — sandy, windswept land with no infrastructure, far from their places of work, their schools, their neighbours, and their sense of self.</p>
+<p>The District Six Museum, founded in 1994, maintains one of the most significant oral history collections in South Africa. Former residents return regularly to trace the outlines of their old streets on the museum's floor map — streets that no longer exist.</p>`,
+      source: 'Source: District Six Museum Oral History Archive, Cape Town'
+    },
+    voice2: {
+      tag: 'Pass Laws · Personal Testimony',
+      title: 'The Dompas: Carrying Your Own Subordination',
+      body: `<p>The pass book — known colloquially as the "dompas" (literally "dumb pass") — was required to be carried by all Black South African adults at all times under the Native Laws Amendment Act and related legislation.</p>
+<p>The book contained the holder's photograph, racial classification, employer details, residential area, and crucially, permission stamps authorising them to be in designated "white" areas. Without the correct stamps, a person could be arrested simply for being in a city.</p>
+<p>The South African History Archive records that over 17 million pass law arrests were made between 1948 and 1986, when the laws were finally repealed. That is an average of roughly 1,000 arrests per day, every day, for 38 years.</p>
+<p>The 1960 Sharpeville Massacre occurred during a peaceful protest against the pass laws. The ANC's campaign against the dompas was central to the liberation struggle.</p>`,
+      source: 'Source: South African History Archive; SAHO (sahistory.org.za)'
+    },
+    voice3: {
+      tag: 'Soweto Uprising · 1976',
+      title: 'June 16: The Day the Children Marched',
+      body: `<p>On 16 June 1976, an estimated 20,000 students from Soweto schools gathered to march in protest against a government directive requiring that Afrikaans be used as the medium of instruction in Black schools — alongside English — for mathematics, social studies, and other subjects.</p>
+<p>Afrikaans was not neutral. It was the language of the oppressor, the language in which apartheid laws were drafted and police orders barked. To be taught in it was experienced as a further act of domination.</p>
+<p>Police opened fire on the student march. Hector Pieterson, 13 years old, was among the first killed. The photograph of his body, carried by a friend, became one of the defining images of apartheid and was transmitted around the world.</p>
+<p>The uprising spread to townships across South Africa and continued for months. It marked a decisive shift in the international perception of apartheid — and the beginning of a new generation of resistance. June 16 is now National Youth Day.</p>`,
+      source: 'Source: Hector Pieterson Museum; South African History Archive'
+    },
+    voice4: {
+      tag: 'Truth & Reconciliation Commission · 1996–1998',
+      title: 'The TRC: Forgiveness and Its Limits',
+      body: `<p>The Truth and Reconciliation Commission was established by the Promotion of National Unity and Reconciliation Act of 1995. Chaired by Archbishop Desmond Tutu, it heard over 20,000 testimonies from victims and over 7,000 applications for amnesty from perpetrators.</p>
+<p>The Commission's mandate was broadly restorative: it offered amnesty to perpetrators who made full disclosure of politically motivated crimes — and asked victims to bear witness, often in the same room as those who had harmed them.</p>
+<p>The TRC has been praised internationally as a model of transitional justice. It has also been deeply criticised — for prioritising national reconciliation over individual justice, for the fact that most amnesty applicants were not prosecuted even after disclosure, and for the psychological burden it placed on survivors.</p>
+<p>Many victims felt the process compelled them toward a forgiveness they had not chosen. The question of what genuine reckoning with the past requires — individually and nationally — remains unresolved.</p>`,
+      source: 'Source: TRC Final Report (1998); Volume 1-5, South African Government Archive'
+    },
+    voice5: {
+      tag: 'Bantu Education · Long Shadow',
+      title: 'What They Put in the Textbooks',
+      body: `<p>The Bantu Education Act of 1953, introduced by Hendrik Verwoerd as Minister of Native Affairs, was explicit in its aims. In Parliament, Verwoerd stated that "there is no place for [the Bantu] in the European community above the level of certain forms of labour."</p>
+<p>The curriculum was redesigned accordingly: to limit scientific and academic aspiration, to present African history as beginning with European contact, and to position Black students as future manual labourers rather than professionals, leaders, or thinkers.</p>
+<p>Funding per Black pupil in the early 1950s was approximately one-tenth of funding per white pupil. By the 1970s, the ratio had widened further.</p>
+<p>The consequences of Bantu Education are not historical abstractions. South Africa's current education crisis — the persistent performance gaps, the infrastructure deficits, the teacher training shortfalls — is directly traceable to four decades of deliberately underfunded, deliberately limited schooling for Black South Africans.</p>`,
+      source: 'Source: SAHO Education Archive; South African Schools Act Review Commission'
+    },
+    voice6: {
+      tag: 'Robben Island · Political Prisoner',
+      title: 'The University of Robben Island',
+      body: `<p>Nelson Mandela was held on Robben Island for 18 of his 27 years in prison. Walter Sisulu, Govan Mbeki, Ahmed Kathrada, and hundreds of other political prisoners were held there across the apartheid years.</p>
+<p>The island was designed as isolation. Instead, it became a site of extraordinary intellectual and political formation. Prisoners organised informal study groups — teaching each other, debating theory, maintaining the coherence of a movement under some of the most repressive conditions imaginable.</p>
+<p>The phrase "University of Robben Island" was used by the prisoners themselves to describe this process. It was not romanticisation. It was an assertion that the apartheid state had failed: that it could imprison the body but not the mind, could enforce silence but not consent.</p>
+<p>The Robben Island Museum, established in 1997, is now a UNESCO World Heritage Site. Former political prisoners serve as guides. The island where the state intended erasure has become one of South Africa's most powerful sites of memory.</p>`,
+      source: 'Source: Robben Island Museum; Mandela: Long Walk to Freedom (1994)'
+    }
+  };
+ 
+  function openModal(id) {
+    const data = modals[id];
+    if (!data) return;
+    document.getElementById('modal-inner').innerHTML = `
+      <div class="modal-tag">${data.tag}</div>
+      <h2 class="modal-title">${data.title}</h2>
+      <div class="modal-body">${data.body}</div>
+      <div class="modal-source">${data.source}</div>
+    `;
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+ 
+  function closeModal(e) {
+    if (e.target === document.getElementById('modal-overlay')) {
+      document.getElementById('modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+ 
+  function closeModalBtn() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+ 
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeModalBtn();
+  });
+</script>
+</body>
+</html>
