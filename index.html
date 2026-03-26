@@ -1,1531 +1,1139 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Remember · Onthou · Khumbula — South Africa's Apartheid Archive</title>
-  <meta name="description" content="A living digital memorial to apartheid in South Africa. For the generation that inherited freedom — and must understand what it cost." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=IBM+Plex+Mono:wght@300;400;500&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
- 
-    :root {
-      --black: #0a0806;
-      --deep: #111009;
-      --paper: #f0ead8;
-      --parchment: #e8dfc8;
-      --ash: #6b6358;
-      --dust: #3a3530;
-      --red: #c0392b;
-      --red-dark: #922b21;
-      --gold: #c9a84c;
-      --gold-muted: #8b6914;
-      --white: #faf7f2;
-    }
- 
-    html { scroll-behavior: smooth; }
- 
-    body {
-      background: var(--black);
-      color: var(--paper);
-      font-family: 'Manrope', sans-serif;
-      font-weight: 300;
-      overflow-x: hidden;
-    }
- 
-    /* ─── NOISE TEXTURE OVERLAY ─── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 9999;
-      opacity: 0.4;
-    }
- 
-    /* ─── NAV ─── */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.2rem 2.5rem;
-      background: rgba(10, 8, 6, 0.92);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(192, 57, 43, 0.2);
-    }
- 
-    .nav-logo {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 400;
-      letter-spacing: 0.15em;
-      color: var(--gold);
-      text-transform: uppercase;
-    }
- 
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-    }
- 
-    .nav-links a {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ash);
-      text-decoration: none;
-      transition: color 0.2s;
-    }
- 
-    .nav-links a:hover { color: var(--red); }
- 
-    .nav-cta {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--red);
-      border: 1px solid var(--red);
-      padding: 0.5rem 1rem;
-      text-decoration: none;
-      transition: all 0.2s;
-    }
- 
-    .nav-cta:hover {
-      background: var(--red);
-      color: var(--white);
-    }
- 
-    /* ─── HERO ─── */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 0 2.5rem 5rem;
-      position: relative;
-      overflow: hidden;
-    }
- 
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse at 70% 40%, rgba(192, 57, 43, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 20% 80%, rgba(201, 168, 76, 0.04) 0%, transparent 50%),
-        linear-gradient(180deg, #0a0806 0%, #111009 60%, #0d0b08 100%);
-    }
- 
-    .hero-year-strip {
-      position: absolute;
-      top: 0; right: 0; bottom: 0;
-      width: 3px;
-      background: linear-gradient(180deg, transparent, var(--red) 30%, var(--red-dark) 70%, transparent);
-      opacity: 0.6;
-    }
- 
-    .hero-years {
-      position: absolute;
-      right: 2.5rem;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      gap: 0.8rem;
-      align-items: flex-end;
-    }
- 
-    .hero-years span {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      color: rgba(192, 57, 43, 0.4);
-      letter-spacing: 0.08em;
-    }
- 
-    .hero-eyebrow {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.3s forwards;
-    }
- 
-    .hero-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(3.5rem, 10vw, 9rem);
-      font-weight: 900;
-      line-height: 0.9;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.5s forwards;
-    }
- 
-    .hero-title em {
-      font-style: italic;
-      color: var(--gold);
-    }
- 
-    .hero-subtitle-row {
-      display: flex;
-      align-items: baseline;
-      gap: 2rem;
-      margin-bottom: 3rem;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.7s forwards;
-    }
- 
-    .hero-subtitle {
-      font-family: 'Manrope', sans-serif;
-      font-size: clamp(1rem, 2vw, 1.3rem);
-      font-weight: 300;
-      color: var(--ash);
-      max-width: 500px;
-      line-height: 1.6;
-    }
- 
-    .hero-divider {
-      width: 60px;
-      height: 1px;
-      background: var(--red);
-      flex-shrink: 0;
-    }
- 
-    .hero-actions {
-      display: flex;
-      gap: 1.5rem;
-      align-items: center;
-      opacity: 0;
-      animation: fadeUp 1s ease 0.9s forwards;
-    }
- 
-    .btn-primary {
-      background: var(--red);
-      color: var(--white);
-      padding: 1rem 2.5rem;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      border: none;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s;
-      display: inline-block;
-    }
- 
-    .btn-primary:hover { background: var(--red-dark); }
- 
-    .btn-ghost {
-      color: var(--ash);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: color 0.2s;
-    }
- 
-    .btn-ghost:hover { color: var(--paper); }
- 
-    .hero-scroll-hint {
-      position: absolute;
-      bottom: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0;
-      animation: fadeUp 1s ease 1.2s forwards;
-    }
- 
-    .hero-scroll-hint span {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--dust);
-    }
- 
-    .scroll-line {
-      width: 1px;
-      height: 40px;
-      background: linear-gradient(180deg, var(--dust), transparent);
-      animation: scrollPulse 2s ease infinite;
-    }
- 
-    /* ─── STAT BAND ─── */
-    .stat-band {
-      background: var(--deep);
-      border-top: 1px solid rgba(192, 57, 43, 0.3);
-      border-bottom: 1px solid rgba(192, 57, 43, 0.3);
-      padding: 2.5rem 2.5rem;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-    }
- 
-    .stat-item {
-      text-align: center;
-      padding: 0 2rem;
-      border-right: 1px solid rgba(255,255,255,0.06);
-    }
- 
-    .stat-item:last-child { border-right: none; }
- 
-    .stat-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 2.8rem;
-      font-weight: 700;
-      color: var(--red);
-      line-height: 1;
-      margin-bottom: 0.5rem;
-    }
- 
-    .stat-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--ash);
-      line-height: 1.4;
-    }
- 
-    /* ─── SECTION UTILITY ─── */
-    section { position: relative; }
- 
-    .section-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 1rem;
-    }
- 
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 700;
-      line-height: 1.1;
-      margin-bottom: 1.5rem;
-    }
- 
-    .section-body {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--ash);
-      max-width: 600px;
-    }
- 
-    /* ─── INTRO / MISSION ─── */
-    .mission {
-      padding: 7rem 2.5rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      align-items: center;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
- 
-    .mission-quote {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(1.4rem, 2.5vw, 2rem);
-      font-style: italic;
-      font-weight: 400;
-      line-height: 1.5;
-      color: var(--paper);
-      border-left: 3px solid var(--red);
-      padding-left: 2rem;
-    }
- 
-    .mission-quote cite {
-      display: block;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      font-style: normal;
-      letter-spacing: 0.1em;
-      color: var(--ash);
-      margin-top: 1rem;
-    }
- 
-    .mission-text p { margin-bottom: 1.2rem; }
- 
-    /* ─── TIMELINE ─── */
-    .timeline-section {
-      padding: 7rem 0;
-      background: var(--deep);
-    }
- 
-    .timeline-header {
-      padding: 0 2.5rem;
-      max-width: 1200px;
-      margin: 0 auto 5rem;
-    }
- 
-    .timeline {
-      position: relative;
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 2.5rem;
-    }
- 
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0; bottom: 0;
-      width: 1px;
-      background: linear-gradient(180deg, transparent, rgba(192,57,43,0.4) 10%, rgba(192,57,43,0.4) 90%, transparent);
-      transform: translateX(-50%);
-    }
- 
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 1fr 60px 1fr;
-      gap: 0;
-      margin-bottom: 4rem;
-      align-items: start;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: all 0.6s ease;
-    }
- 
-    .timeline-item.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
- 
-    .timeline-item:nth-child(even) .timeline-content { grid-column: 3; }
-    .timeline-item:nth-child(even) .timeline-content-placeholder { grid-column: 1; }
-    .timeline-item:nth-child(odd) .timeline-content { grid-column: 1; text-align: right; }
- 
-    .timeline-center {
-      grid-column: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 0.3rem;
-    }
- 
-    .timeline-dot {
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      background: var(--red);
-      border: 2px solid var(--deep);
-      box-shadow: 0 0 0 3px rgba(192,57,43,0.25);
-      flex-shrink: 0;
-    }
- 
-    .timeline-year-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--red);
-      letter-spacing: 0.08em;
-      margin-top: 0.5rem;
-      white-space: nowrap;
-    }
- 
-    .timeline-content {
-      padding: 0 2rem;
-    }
- 
-    .timeline-content.right { padding: 0 2rem 0 2rem; }
- 
-    .event-tag {
-      display: inline-block;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      background: rgba(192,57,43,0.15);
-      color: var(--red);
-      padding: 0.2rem 0.5rem;
-      margin-bottom: 0.6rem;
-    }
- 
-    .event-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      line-height: 1.3;
-      margin-bottom: 0.6rem;
-      color: var(--paper);
-    }
- 
-    .event-body {
-      font-size: 0.85rem;
-      line-height: 1.7;
-      color: var(--ash);
-    }
- 
-    .event-impact {
-      margin-top: 0.8rem;
-      padding: 0.6rem 0.8rem;
-      background: rgba(201,168,76,0.07);
-      border-left: 2px solid var(--gold-muted);
-      font-size: 0.8rem;
-      color: rgba(201,168,76,0.8);
-      font-style: italic;
-    }
- 
-    /* ─── VOICES SECTION ─── */
-    .voices {
-      padding: 7rem 2.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
- 
-    .voices-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5px;
-      margin-top: 4rem;
-      background: rgba(255,255,255,0.04);
-    }
- 
-    .voice-card {
-      background: var(--black);
-      padding: 2.5rem;
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
- 
-    .voice-card:hover { background: #0e0c09; }
- 
-    .voice-card::before {
-      content: '"';
-      position: absolute;
-      top: -0.5rem;
-      left: 1.5rem;
-      font-family: 'Playfair Display', serif;
-      font-size: 8rem;
-      color: rgba(192,57,43,0.06);
-      line-height: 1;
-      pointer-events: none;
-    }
- 
-    .voice-text {
-      font-family: 'Playfair Display', serif;
-      font-size: 1rem;
-      font-style: italic;
-      line-height: 1.7;
-      color: var(--paper);
-      margin-bottom: 1.5rem;
-      position: relative;
-      z-index: 1;
-    }
- 
-    .voice-attribution {
-      display: flex;
-      flex-direction: column;
-      gap: 0.2rem;
-    }
- 
-    .voice-name {
-      font-family: 'Manrope', sans-serif;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--gold);
-    }
- 
-    .voice-context {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.08em;
-      color: var(--ash);
-    }
- 
-    /* ─── LAWS SECTION ─── */
-    .laws-section {
-      background: var(--deep);
-      padding: 7rem 2.5rem;
-    }
- 
-    .laws-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
- 
-    .laws-intro {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 5rem;
-      margin-bottom: 5rem;
-      align-items: end;
-    }
- 
-    .laws-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1px;
-      background: rgba(255,255,255,0.04);
-    }
- 
-    .law-card {
-      background: var(--black);
-      padding: 2rem;
-      border-top: 2px solid transparent;
-      transition: border-color 0.3s;
-    }
- 
-    .law-card:hover { border-top-color: var(--red); }
- 
-    .law-year {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--red);
-      letter-spacing: 0.1em;
-      margin-bottom: 0.5rem;
-    }
- 
-    .law-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 0.8rem;
-      color: var(--paper);
-    }
- 
-    .law-effect {
-      font-size: 0.82rem;
-      line-height: 1.7;
-      color: var(--ash);
-    }
- 
-    /* ─── DISTRICT SIX FEATURE ─── */
-    .feature-section {
-      padding: 7rem 2.5rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
- 
-    .feature-card {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0;
-      background: var(--deep);
-      overflow: hidden;
-    }
- 
-    .feature-visual {
-      background: linear-gradient(135deg, #1a1108, #0d0b08);
-      padding: 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      min-height: 400px;
-      position: relative;
-      overflow: hidden;
-    }
- 
-    .feature-visual::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background:
-        repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(192,57,43,0.03) 40px, rgba(192,57,43,0.03) 41px),
-        repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(192,57,43,0.03) 40px, rgba(192,57,43,0.03) 41px);
-    }
- 
-    .feature-map-label {
-      font-family: 'Playfair Display', serif;
-      font-size: 5rem;
-      font-weight: 900;
-      color: rgba(192,57,43,0.12);
-      text-align: center;
-      line-height: 1;
-      position: relative;
-      z-index: 1;
-    }
- 
-    .feature-map-sublabel {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--red);
-      text-align: center;
-      margin-top: 1rem;
-      position: relative;
-      z-index: 1;
-    }
- 
-    .feature-text {
-      padding: 4rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
- 
-    .feature-text .section-body { max-width: 100%; }
- 
-    .feature-stat-row {
-      display: flex;
-      gap: 2.5rem;
-      margin-top: 2.5rem;
-    }
- 
-    .feature-stat { }
- 
-    .feature-stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--gold);
-    }
- 
-    .feature-stat-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--ash);
-    }
- 
-    /* ─── EXPLORE / CHAPTERS ─── */
-    .chapters {
-      background: var(--deep);
-      padding: 7rem 2.5rem;
-    }
- 
-    .chapters-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
- 
-    .chapters-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      margin-bottom: 4rem;
-    }
- 
-    .chapters-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.5px;
-      background: rgba(255,255,255,0.04);
-    }
- 
-    .chapter-card {
-      background: var(--black);
-      padding: 2.5rem;
-      cursor: pointer;
-      transition: background 0.3s;
-      text-decoration: none;
-      display: block;
-      position: relative;
-      overflow: hidden;
-    }
- 
-    .chapter-card:hover { background: #100e0b; }
- 
-    .chapter-card::after {
-      content: '→';
-      position: absolute;
-      bottom: 2.5rem;
-      right: 2.5rem;
-      font-size: 1rem;
-      color: var(--red);
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: all 0.3s;
-    }
- 
-    .chapter-card:hover::after {
-      opacity: 1;
-      transform: translateX(0);
-    }
- 
-    .chapter-number {
-      font-family: 'Playfair Display', serif;
-      font-size: 3rem;
-      font-weight: 900;
-      color: rgba(255,255,255,0.04);
-      line-height: 1;
-      margin-bottom: 1.5rem;
-    }
- 
-    .chapter-tag {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 0.7rem;
-      display: block;
-    }
- 
-    .chapter-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.2rem;
-      font-weight: 700;
-      color: var(--paper);
-      margin-bottom: 1rem;
-      line-height: 1.3;
-    }
- 
-    .chapter-desc {
-      font-size: 0.8rem;
-      line-height: 1.7;
-      color: var(--ash);
-    }
- 
-    /* ─── CALLOUT / WHY THIS EXISTS ─── */
-    .why-section {
-      padding: 7rem 2.5rem;
-      max-width: 900px;
-      margin: 0 auto;
-      text-align: center;
-    }
- 
-    .why-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 900;
-      line-height: 1.1;
-      margin-bottom: 2rem;
-    }
- 
-    .why-body {
-      font-size: 1.1rem;
-      line-height: 1.9;
-      color: var(--ash);
-      margin-bottom: 3rem;
-    }
- 
-    .why-sources {
-      display: flex;
-      gap: 1.5rem;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
- 
-    .source-badge {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--ash);
-      border: 1px solid rgba(255,255,255,0.08);
-      padding: 0.4rem 0.8rem;
-    }
- 
-    /* ─── FOOTER ─── */
-    footer {
-      background: var(--deep);
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 3rem 2.5rem;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 2rem;
-    }
- 
-    .footer-left {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--ash);
-      line-height: 1.8;
-    }
- 
-    .footer-center {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--paper);
-      text-align: center;
-    }
- 
-    .footer-right {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--ash);
-      text-align: right;
-      line-height: 1.8;
-    }
- 
-    .footer-right a {
-      color: var(--red);
-      text-decoration: none;
-    }
- 
-    /* ─── MODAL ─── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.88);
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-      backdrop-filter: blur(4px);
-    }
- 
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
- 
-    .modal {
-      background: var(--deep);
-      border: 1px solid rgba(192,57,43,0.2);
-      max-width: 680px;
-      width: 100%;
-      padding: 3rem;
-      position: relative;
-      max-height: 85vh;
-      overflow-y: auto;
-    }
- 
-    .modal-close {
-      position: absolute;
-      top: 1.5rem;
-      right: 1.5rem;
-      background: none;
-      border: none;
-      color: var(--ash);
-      font-size: 1.2rem;
-      cursor: pointer;
-      font-family: 'IBM Plex Mono', monospace;
-      transition: color 0.2s;
-    }
- 
-    .modal-close:hover { color: var(--red); }
- 
-    .modal-tag {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 1rem;
-    }
- 
-    .modal-title {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.8rem;
-      font-weight: 700;
-      margin-bottom: 1.5rem;
-      color: var(--paper);
-    }
- 
-    .modal-body {
-      font-size: 0.9rem;
-      line-height: 1.9;
-      color: var(--ash);
-    }
- 
-    .modal-body p { margin-bottom: 1rem; }
- 
-    .modal-source {
-      margin-top: 2rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--dust);
-      letter-spacing: 0.08em;
-    }
- 
-    /* ─── ANIMATIONS ─── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
- 
-    @keyframes scrollPulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
- 
-    /* ─── RESPONSIVE ─── */
-    @media (max-width: 900px) {
-      .nav-links { display: none; }
-      .stat-band { grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(255,255,255,0.04); }
-      .stat-item { background: var(--deep); border-right: none; }
-      .mission { grid-template-columns: 1fr; gap: 3rem; }
-      .timeline::before { left: 1.5rem; }
-      .timeline-item { grid-template-columns: 0 30px 1fr; }
-      .timeline-item:nth-child(odd) .timeline-content { grid-column: 3; text-align: left; }
-      .timeline-content { padding: 0 0 0 1rem; }
-      .voices-grid { grid-template-columns: 1fr; }
-      .laws-intro { grid-template-columns: 1fr; gap: 2rem; }
-      .laws-grid { grid-template-columns: 1fr; }
-      .feature-card { grid-template-columns: 1fr; }
-      .chapters-grid { grid-template-columns: 1fr; }
-      .chapters-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-      footer { grid-template-columns: 1fr; text-align: center; }
-      .footer-right { text-align: center; }
-    }
-  </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Khotso Seatlholo Foundation — South Africa's Living Archive</title>
+<meta name="description" content="The Khotso Seatlholo Foundation. South Africa's living archive of apartheid history, royal resistance, and the people who fought for freedom."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&family=Inconsolata:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#080705;
+  --vault:#0f0d0a;
+  --chamber:#171410;
+  --stone:#1e1b16;
+  --parchment:#f2e8d0;
+  --aged:#e0d4b8;
+  --ash:#877d6e;
+  --dust:#554e42;
+  --mist:#c4b89a;
+  --crimson:#9e1c15;
+  --crimson-dark:#741410;
+  --gold:#c4922a;
+  --gold-pale:#d4aa55;
+  --gold-dim:#7a5a1a;
+  --gold-wash:rgba(196,146,42,0.08);
+  --seal:#b8860b;
+  --cream:#faf4e6;
+  --green-deep:#1a3326;
+}
+html{scroll-behavior:smooth}
+body{
+  background:var(--ink);
+  color:var(--parchment);
+  font-family:'EB Garamond',serif;
+  font-size:18px;
+  overflow-x:hidden;
+  line-height:1.6;
+}
+/* grain */
+body::after{
+  content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity:.45;
+}
+
+/* ── UTILITY ── */
+.eyebrow{font-family:'Inconsolata',monospace;font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+.section-h{font-family:'EB Garamond',serif;font-size:clamp(1.9rem,3.5vw,3.2rem);font-weight:700;line-height:1.1;margin-bottom:1.2rem}
+.section-body{font-size:1rem;line-height:1.85;color:var(--ash);max-width:600px}
+.gold-rule{width:48px;height:2px;background:linear-gradient(90deg,var(--gold),transparent);margin:1.2rem 0}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:500;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 2.5rem;
+  background:rgba(8,7,5,.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(196,146,42,.2);
+}
+.nav-identity{display:flex;align-items:center;gap:.9rem}
+.nav-seal{
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(196,146,42,.35);
+  background:radial-gradient(circle,rgba(196,146,42,.12),transparent 70%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;color:var(--gold);flex-shrink:0;
+}
+.nav-wordmark{display:flex;flex-direction:column;gap:.05rem}
+.nav-title{font-family:'EB Garamond',serif;font-size:.95rem;font-weight:700;color:var(--parchment);letter-spacing:.03em}
+.nav-sub{font-family:'Inconsolata',monospace;font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-family:'Inconsolata',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--gold)}
+.nav-cta{font-family:'Inconsolata',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--crimson);border:1px solid var(--crimson);padding:.38rem .85rem;text-decoration:none;transition:all .2s}
+.nav-cta:hover{background:var(--crimson);color:var(--cream)}
+
+/* ── HERO ── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:0 2.5rem 5rem;
+  position:relative;overflow:hidden;
+}
+.hero-bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse at 60% 30%, rgba(158,28,21,.07) 0%, transparent 55%),
+    radial-gradient(ellipse at 15% 80%, rgba(196,146,42,.05) 0%, transparent 50%),
+    linear-gradient(170deg,#080705 0%,#0f0d0a 50%,#0a0807 100%);
+}
+/* geometric ornament — large watermark */
+.hero-ornament{
+  position:absolute;right:-60px;top:50%;transform:translateY(-50%);
+  width:600px;height:600px;pointer-events:none;
+  border:1px solid rgba(196,146,42,.04);
+  border-radius:50%;
+}
+.hero-ornament::before{
+  content:'';position:absolute;inset:30px;
+  border:1px solid rgba(196,146,42,.04);border-radius:50%;
+}
+.hero-ornament::after{
+  content:'KSF';
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-family:'EB Garamond',serif;font-size:12rem;font-weight:800;
+  color:rgba(196,146,42,.03);letter-spacing:-.04em;white-space:nowrap;
+}
+.hero-vert{
+  position:absolute;top:0;right:2.5rem;bottom:0;
+  writing-mode:vertical-rl;display:flex;align-items:center;
+  padding-top:5.5rem;
+  font-family:'Inconsolata',monospace;font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(196,146,42,.15);pointer-events:none;
+}
+.hero-bottom-rule{
+  position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(196,146,42,.3) 30%,rgba(196,146,42,.3) 70%,transparent);
+}
+.hero-inner{position:relative;z-index:2;max-width:800px}
+.hero-kicker{
+  font-family:'Inconsolata',monospace;font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:2rem;
+  opacity:0;animation:riseIn .9s ease .3s forwards;
+}
+.hero-name-line{
+  font-family:'EB Garamond',serif;font-size:clamp(1rem,2.5vw,1.6rem);font-style:italic;
+  color:rgba(242,232,208,.45);font-weight:400;display:block;margin-bottom:.3rem;
+  opacity:0;animation:riseIn .9s ease .45s forwards;
+}
+.hero-h{
+  font-family:'EB Garamond',serif;font-size:clamp(3.2rem,9vw,8.5rem);font-weight:800;
+  line-height:.9;letter-spacing:-.025em;margin-bottom:1.8rem;
+  opacity:0;animation:riseIn .9s ease .6s forwards;
+}
+.hero-h em{font-style:italic;color:var(--gold)}
+.hero-desc{
+  font-size:clamp(.95rem,1.3vw,1.15rem);line-height:1.8;color:var(--ash);
+  max-width:540px;margin-bottom:2.8rem;
+  opacity:0;animation:riseIn .9s ease .75s forwards;
+}
+.hero-actions{
+  display:flex;gap:1.5rem;align-items:center;
+  opacity:0;animation:riseIn .9s ease .9s forwards;
+}
+.btn-primary{background:var(--crimson);color:var(--cream);padding:.85rem 2.2rem;font-family:'Inconsolata',monospace;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;display:inline-block;transition:background .2s;border:none;cursor:pointer}
+.btn-primary:hover{background:var(--crimson-dark)}
+.btn-ghost{color:var(--ash);font-family:'Inconsolata',monospace;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;display:flex;align-items:center;gap:.5rem;transition:color .2s}
+.btn-ghost:hover{color:var(--parchment)}
+
+/* ── STATS BAND ── */
+.stats-band{
+  display:grid;grid-template-columns:repeat(5,1fr);
+  background:var(--chamber);
+  border-top:1px solid rgba(196,146,42,.2);
+  border-bottom:1px solid rgba(196,146,42,.2);
+}
+.stat-item{padding:2rem 1.5rem;text-align:center;border-right:1px solid rgba(255,255,255,.05)}
+.stat-item:last-child{border-right:none}
+.stat-n{font-family:'EB Garamond',serif;font-size:2.5rem;font-weight:700;color:var(--crimson);line-height:1;margin-bottom:.4rem}
+.stat-l{font-family:'Inconsolata',monospace;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);line-height:1.5}
+
+/* ── INTRODUCTION ── */
+.intro-section{padding:6rem 2.5rem;max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
+.intro-quote{position:sticky;top:7rem}
+.large-quote{
+  font-family:'EB Garamond',serif;font-size:clamp(1.3rem,2vw,1.75rem);font-style:italic;line-height:1.55;
+  color:var(--parchment);border-left:3px solid var(--crimson);padding-left:1.8rem;margin-bottom:1.5rem;
+}
+.large-quote cite{display:block;font-family:'Inconsolata',monospace;font-size:.55rem;font-style:normal;letter-spacing:.1em;color:var(--ash);margin-top:.8rem}
+.intro-text p{margin-bottom:1.1rem;font-size:1.02rem;line-height:1.88;color:var(--ash)}
+.intro-text p:first-of-type{color:var(--parchment);font-size:1.08rem}
+.royal-badge{display:inline-flex;align-items:center;gap:.7rem;background:rgba(196,146,42,.07);border:1px solid rgba(196,146,42,.2);padding:.5rem 1rem;font-family:'Inconsolata',monospace;font-size:.52rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim);margin-top:1.5rem}
+
+/* ── KSF BIOGRAPHY ── */
+.bio-section{background:var(--vault);padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.bio-inner{max-width:1280px;margin:0 auto}
+.bio-top{display:grid;grid-template-columns:2fr 1fr;gap:4rem;margin-bottom:3.5rem;align-items:end}
+.vitals-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04);margin-bottom:4rem}
+.vital{background:var(--ink);padding:1.6rem 1.5rem}
+.vital-lbl{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--crimson);margin-bottom:.4rem}
+.vital-val{font-family:'EB Garamond',serif;font-size:1rem;font-weight:600;color:var(--parchment);line-height:1.35}
+.bio-chapters{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.bio-ch{border-top:1px solid rgba(255,255,255,.07);padding-top:1.5rem}
+.bio-yr{font-family:'Inconsolata',monospace;font-size:.56rem;letter-spacing:.12em;color:var(--gold);margin-bottom:.45rem}
+.bio-ch-title{font-family:'EB Garamond',serif;font-size:1.15rem;font-weight:700;margin-bottom:.7rem;color:var(--parchment);line-height:1.25}
+.bio-ch-text{font-size:.92rem;line-height:1.82;color:var(--ash)}
+.callout{background:rgba(158,28,21,.07);border-left:3px solid var(--crimson);padding:1rem 1.3rem;margin-top:.9rem;font-size:.88rem;line-height:1.75;color:rgba(242,232,208,.75);font-style:italic}
+
+/* ── VIDEO SECTION ── */
+.video-section{padding:6rem 2.5rem;max-width:1280px;margin:0 auto}
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3.5rem}
+.video-wrapper{display:flex;flex-direction:column;gap:1rem}
+.video-embed{position:relative;width:100%;padding-bottom:56.25%;background:var(--chamber);border:1px solid rgba(196,146,42,.15);overflow:hidden}
+.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+.video-caption{padding:.8rem 0}
+.video-tag{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:.4rem}
+.video-title{font-family:'EB Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--parchment);margin-bottom:.4rem}
+.video-desc{font-size:.85rem;line-height:1.75;color:var(--ash)}
+
+/* ── FAMILY LINEAGE ── */
+.lineage-section{background:var(--vault);padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.lineage-inner{max-width:1280px;margin:0 auto}
+.lineage-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(255,255,255,.04);margin-top:3.5rem}
+.lc{background:var(--ink);padding:2rem;position:relative;overflow:hidden}
+.lc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--gold-dim),transparent)}
+.lc-era{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:.6rem}
+.lc-name{font-family:'EB Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--parchment);margin-bottom:.7rem;line-height:1.25}
+.lc-body{font-size:.88rem;line-height:1.8;color:var(--ash)}
+.lc-src{margin-top:.9rem;padding-top:.7rem;border-top:1px solid rgba(255,255,255,.05);font-family:'Inconsolata',monospace;font-size:.48rem;letter-spacing:.09em;color:var(--dust)}
+
+/* ── ROYALTIES SECTION ── */
+.royalties-section{padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.royalties-inner{max-width:1280px;margin:0 auto}
+.royalties-intro{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-bottom:5rem;align-items:end}
+.pull-band{
+  display:flex;gap:1.8rem;align-items:stretch;margin-bottom:4.5rem;
+  padding:2rem;background:var(--gold-wash);border-left:3px solid var(--gold-dim);
+}
+.pb-text{font-family:'EB Garamond',serif;font-size:1.1rem;font-style:italic;line-height:1.75;color:var(--aged)}
+.royal-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(255,255,255,.04);margin-bottom:4rem}
+.rc{background:var(--vault);padding:2rem;cursor:pointer;transition:background .3s;position:relative;overflow:hidden}
+.rc:hover{background:var(--stone)}
+.rc-top-bar{position:absolute;top:0;left:0;right:0;height:3px}
+.rc-head{display:flex;align-items:flex-start;gap:.7rem;margin:0.4rem 0 1rem}
+.rc-diamond{color:var(--gold-dim);font-size:1.1rem;margin-top:.1rem;flex-shrink:0}
+.rc-nation{font-family:'EB Garamond',serif;font-size:.98rem;font-weight:700;color:var(--parchment);line-height:1.2}
+.rc-region{font-family:'Inconsolata',monospace;font-size:.47rem;letter-spacing:.1em;color:var(--ash);margin-top:.2rem}
+.rc-badge{margin-left:auto;flex-shrink:0;font-family:'Inconsolata',monospace;font-size:.44rem;letter-spacing:.12em;text-transform:uppercase;padding:.22rem .5rem}
+.badge-resist{background:rgba(26,51,38,.35);color:#6aaf7a;border:1px solid rgba(26,51,38,.6)}
+.badge-complex{background:rgba(158,28,21,.15);color:var(--crimson);border:1px solid rgba(158,28,21,.35)}
+.badge-split{background:rgba(196,146,42,.1);color:var(--gold-dim);border:1px solid rgba(196,146,42,.25)}
+.rc-title{font-family:'EB Garamond',serif;font-size:1.05rem;font-weight:700;line-height:1.3;color:var(--parchment);margin-bottom:.7rem}
+.rc-body{font-size:.84rem;line-height:1.78;color:var(--ash);margin-bottom:1rem}
+.rc-more{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.1em;color:var(--crimson)}
+/* Bantustan table */
+.bs-wrap{display:grid;grid-template-columns:1fr 1fr;gap:4rem;background:var(--vault);border:1px solid rgba(196,146,42,.1);padding:3rem}
+.bs-title{font-family:'EB Garamond',serif;font-size:1.45rem;font-weight:700;line-height:1.2;margin-bottom:1.4rem;color:var(--parchment)}
+.bs-body{font-size:.88rem;line-height:1.82;color:var(--ash);margin-bottom:1rem}
+.bs-table{border:1px solid rgba(255,255,255,.06);width:100%}
+.bs-row{display:grid;grid-template-columns:1fr 1fr auto;gap:.8rem;padding:.6rem 1rem;border-bottom:1px solid rgba(255,255,255,.04);align-items:center}
+.bs-row:last-child{border-bottom:none}
+.bs-row:hover{background:rgba(255,255,255,.02)}
+.bsr-name{font-family:'EB Garamond',serif;font-size:.95rem;font-weight:700;color:var(--parchment)}
+.bsr-group{font-size:.8rem;color:var(--ash)}
+.bsr-yr{font-family:'Inconsolata',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--crimson);white-space:nowrap}
+.bs-foot{margin-top:.9rem;font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--gold-dim);border-top:1px solid rgba(196,146,42,.1);padding-top:.7rem;line-height:1.65}
+
+/* ── TIMELINE ── */
+.timeline-section{background:var(--vault);padding:6rem 0;border-top:1px solid rgba(255,255,255,.04)}
+.tl-head{padding:0 2.5rem;max-width:1280px;margin:0 auto 4.5rem}
+.timeline{position:relative;max-width:960px;margin:0 auto;padding:0 2.5rem}
+.timeline::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(180deg,transparent,rgba(196,146,42,.3) 8%,rgba(196,146,42,.3) 92%,transparent);transform:translateX(-50%)}
+.tl-item{display:grid;grid-template-columns:1fr 52px 1fr;margin-bottom:3.5rem;align-items:start;opacity:0;transform:translateY(25px);transition:all .6s ease}
+.tl-item.vis{opacity:1;transform:translateY(0)}
+.tl-item:nth-child(odd) .tl-content{grid-column:1;text-align:right}
+.tl-item:nth-child(even) .tl-content{grid-column:3}
+.tl-mid{grid-column:2;display:flex;flex-direction:column;align-items:center;padding-top:.2rem}
+.tl-dot{width:11px;height:11px;border-radius:50%;background:var(--crimson);border:2px solid var(--vault);box-shadow:0 0 0 3px rgba(158,28,21,.22);flex-shrink:0}
+.tl-yr{font-family:'Inconsolata',monospace;font-size:.52rem;color:var(--crimson);letter-spacing:.06em;margin-top:.4rem;white-space:nowrap}
+.tl-content{padding:0 1.8rem}
+.tl-tag{display:inline-block;font-family:'Inconsolata',monospace;font-size:.48rem;letter-spacing:.14em;text-transform:uppercase;background:rgba(158,28,21,.12);color:var(--crimson);padding:.17rem .48rem;margin-bottom:.52rem}
+.tl-title{font-family:'EB Garamond',serif;font-size:1.1rem;font-weight:700;line-height:1.25;margin-bottom:.5rem;color:var(--parchment)}
+.tl-body{font-size:.88rem;line-height:1.78;color:var(--ash)}
+.tl-callout{margin-top:.7rem;padding:.6rem .8rem;background:var(--gold-wash);border-left:2px solid var(--gold-dim);font-size:.82rem;color:rgba(212,170,85,.8);font-style:italic;line-height:1.65}
+
+/* ── ROBBEN ISLAND ARCHIVE (FUNCTIONAL) ── */
+.robben-section{padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.robben-inner{max-width:1280px;margin:0 auto}
+.robben-top{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-bottom:4rem;align-items:end}
+/* Featured prisoner — Jacob Gaonakala Seatlholo */
+.featured-prisoner{background:var(--vault);border:1px solid rgba(196,146,42,.18);padding:2.5rem;margin-bottom:3rem;position:relative;overflow:hidden}
+.featured-prisoner::before{content:'FEATURED RECORD';position:absolute;top:1rem;right:1.5rem;font-family:'Inconsolata',monospace;font-size:.45rem;letter-spacing:.18em;color:var(--gold-dim)}
+.fp-header{display:flex;align-items:flex-start;gap:2rem;margin-bottom:2rem}
+.fp-seal{width:64px;height:64px;border-radius:50%;border:2px solid rgba(196,146,42,.35);background:radial-gradient(circle,rgba(196,146,42,.1),transparent 70%);display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0}
+.fp-id{flex:1}
+.fp-archive-num{font-family:'Inconsolata',monospace;font-size:.52rem;letter-spacing:.15em;color:var(--crimson);margin-bottom:.3rem}
+.fp-name{font-family:'EB Garamond',serif;font-size:1.5rem;font-weight:700;color:var(--parchment);margin-bottom:.3rem}
+.fp-subtitle{font-family:'Inconsolata',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--ash)}
+.fp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.04);margin-bottom:1.5rem}
+.fp-fact{background:var(--chamber);padding:1rem}
+.fp-fact-lbl{font-family:'Inconsolata',monospace;font-size:.47rem;letter-spacing:.13em;text-transform:uppercase;color:var(--crimson);margin-bottom:.3rem}
+.fp-fact-val{font-family:'EB Garamond',serif;font-size:.95rem;font-weight:700;color:var(--parchment);line-height:1.3}
+.fp-testimony{background:rgba(158,28,21,.07);border-left:3px solid var(--crimson);padding:1.2rem 1.5rem;margin-bottom:1.2rem;font-size:.92rem;line-height:1.82;color:var(--aged);font-style:italic}
+.fp-source{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--dust)}
+/* Prisoner search */
+.prisoner-search-wrap{background:var(--vault);border:1px solid rgba(196,146,42,.12);padding:2rem;margin-bottom:2rem}
+.ps-label{font-family:'Inconsolata',monospace;font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.ps-row{display:flex;gap:.8rem;margin-bottom:1rem}
+.ps-input{flex:1;background:var(--chamber);border:1px solid rgba(255,255,255,.1);color:var(--parchment);padding:.7rem 1rem;font-family:'EB Garamond',serif;font-size:1rem;outline:none;transition:border-color .2s}
+.ps-input::placeholder{color:var(--dust)}
+.ps-input:focus{border-color:rgba(196,146,42,.4)}
+.ps-btn{background:var(--crimson);color:var(--cream);border:none;padding:.7rem 1.5rem;font-family:'Inconsolata',monospace;font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap}
+.ps-btn:hover{background:var(--crimson-dark)}
+.ps-filters{display:flex;gap:.6rem;flex-wrap:wrap}
+.ps-filter{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:.32rem .7rem;background:transparent;border:1px solid rgba(255,255,255,.12);color:var(--ash);cursor:pointer;transition:all .2s}
+.ps-filter.active,.ps-filter:hover{background:var(--gold-wash);border-color:rgba(196,146,42,.35);color:var(--gold-pale)}
+/* Results */
+.prisoner-results{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(255,255,255,.04)}
+.pr-card{background:var(--vault);padding:1.5rem;cursor:pointer;transition:background .3s}
+.pr-card:hover{background:var(--stone)}
+.pr-org{font-family:'Inconsolata',monospace;font-size:.47rem;letter-spacing:.12em;text-transform:uppercase;color:var(--crimson);margin-bottom:.3rem}
+.pr-name{font-family:'EB Garamond',serif;font-size:1rem;font-weight:700;color:var(--parchment);margin-bottom:.3rem}
+.pr-meta{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--ash);margin-bottom:.6rem}
+.pr-excerpt{font-size:.82rem;line-height:1.7;color:var(--ash)}
+.pr-no-results{padding:3rem;text-align:center;color:var(--dust);font-style:italic;background:var(--vault);font-size:.95rem}
+.pr-count{font-family:'Inconsolata',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--ash);margin-bottom:.8rem}
+
+/* ── KS WRITINGS ── */
+.writings-section{background:var(--vault);padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.writings-inner{max-width:1280px;margin:0 auto}
+.writings-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5px;background:rgba(255,255,255,.04);margin-top:3.5rem}
+.wc{background:var(--ink);padding:2.5rem;cursor:pointer;transition:background .3s;position:relative;overflow:hidden}
+.wc:hover{background:var(--chamber)}
+.wc::before{content:'"';position:absolute;top:-1rem;left:1.2rem;font-family:'EB Garamond',serif;font-size:9rem;color:rgba(158,28,21,.05);line-height:1;pointer-events:none}
+.wc-essay{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:.7rem}
+.wc-text{font-family:'EB Garamond',serif;font-size:1.12rem;font-style:italic;line-height:1.65;color:var(--parchment);margin-bottom:1.2rem;position:relative;z-index:1}
+.wc-ctx{font-family:'Inconsolata',monospace;font-size:.52rem;letter-spacing:.08em;color:var(--ash)}
+
+/* ── VOICES ── */
+.voices-section{padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.voices-inner{max-width:1280px;margin:0 auto}
+.voices-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(255,255,255,.04);margin-top:3.5rem}
+.vc{background:var(--vault);padding:2rem;cursor:pointer;transition:background .3s;position:relative;overflow:hidden}
+.vc:hover{background:var(--stone)}
+.vc::before{content:'"';position:absolute;top:-1.2rem;left:1rem;font-family:'EB Garamond',serif;font-size:7rem;color:rgba(158,28,21,.05);pointer-events:none}
+.vc-q{font-family:'EB Garamond',serif;font-size:.97rem;font-style:italic;line-height:1.72;color:var(--parchment);margin-bottom:1.2rem;position:relative;z-index:1}
+.vc-who{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--gold-dim);margin-bottom:.2rem}
+.vc-src{font-family:'Inconsolata',monospace;font-size:.47rem;letter-spacing:.06em;color:var(--dust)}
+
+/* ── LAWS ── */
+.laws-section{background:var(--vault);padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.laws-inner{max-width:1280px;margin:0 auto}
+.laws-top{display:grid;grid-template-columns:1fr 1fr;gap:4rem;margin-bottom:4rem;align-items:end}
+.laws-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04)}
+.law-card{background:var(--ink);padding:1.8rem;border-top:2px solid transparent;transition:border-color .3s}
+.law-card:hover{border-top-color:var(--crimson)}
+.law-act{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.12em;color:var(--crimson);margin-bottom:.4rem}
+.law-name{font-family:'EB Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--parchment);margin-bottom:.7rem}
+.law-text{font-size:.85rem;line-height:1.78;color:var(--ash)}
+
+/* ── CHAPTERS ── */
+.chapters-section{padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.chapters-inner{max-width:1280px;margin:0 auto}
+.chapters-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:rgba(255,255,255,.04);margin-top:3.5rem}
+.chap{background:var(--vault);padding:2.2rem;cursor:pointer;transition:background .3s;text-decoration:none;display:block;position:relative;overflow:hidden}
+.chap:hover{background:var(--stone)}
+.chap::after{content:'→';position:absolute;bottom:2.2rem;right:2.2rem;font-size:1rem;color:var(--crimson);opacity:0;transform:translateX(-8px);transition:all .3s}
+.chap:hover::after{opacity:1;transform:translateX(0)}
+.chap-n{font-family:'EB Garamond',serif;font-size:3.5rem;font-weight:800;color:rgba(255,255,255,.03);line-height:1;margin-bottom:1.2rem}
+.chap-tag{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--crimson);display:block;margin-bottom:.5rem}
+.chap-title{font-family:'EB Garamond',serif;font-size:1.12rem;font-weight:700;color:var(--parchment);margin-bottom:.7rem;line-height:1.25}
+.chap-desc{font-size:.85rem;line-height:1.75;color:var(--ash)}
+
+/* ── MISSION / ABOUT ── */
+.mission-section{background:var(--vault);padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.mission-inner{max-width:880px;margin:0 auto;text-align:center}
+.mission-seal{
+  width:80px;height:80px;border-radius:50%;border:1px solid rgba(196,146,42,.3);
+  background:radial-gradient(circle,rgba(196,146,42,.1),transparent 70%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2rem;margin:0 auto 2rem;
+}
+.mission-h{font-family:'EB Garamond',serif;font-size:clamp(2rem,4.5vw,3.8rem);font-weight:700;line-height:1.08;margin-bottom:2rem}
+.mission-body{font-size:1.05rem;line-height:1.92;color:var(--ash);margin-bottom:2.5rem}
+.source-strip{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.src-tag{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);border:1px solid rgba(255,255,255,.08);padding:.32rem .7rem}
+
+/* ── FOOTER ── */
+footer{
+  background:var(--chamber);border-top:1px solid rgba(196,146,42,.15);
+  padding:3rem 2.5rem;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:2rem;
+}
+.footer-left{font-family:'Inconsolata',monospace;font-size:.52rem;color:var(--dust);line-height:1.9}
+.footer-center{text-align:center}
+.footer-center-seal{
+  width:56px;height:56px;border-radius:50%;border:1px solid rgba(196,146,42,.25);
+  background:radial-gradient(circle,rgba(196,146,42,.08),transparent 70%);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.3rem;margin:0 auto .5rem;
+}
+.footer-center-name{font-family:'EB Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--parchment)}
+.footer-center-sub{font-family:'Inconsolata',monospace;font-size:.48rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-dim);margin-top:.25rem}
+.footer-right{font-family:'Inconsolata',monospace;font-size:.52rem;color:var(--dust);text-align:right;line-height:1.9}
+.footer-right a{color:var(--crimson);text-decoration:none}
+
+/* ── MODAL ── */
+.modal-overlay{
+  position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.92);
+  display:flex;align-items:center;justify-content:center;padding:2rem;
+  opacity:0;pointer-events:none;transition:opacity .3s;backdrop-filter:blur(6px);
+}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{
+  background:var(--stone);border:1px solid rgba(196,146,42,.2);
+  max-width:700px;width:100%;padding:3rem;position:relative;
+  max-height:85vh;overflow-y:auto;
+}
+.modal-close{position:absolute;top:1.2rem;right:1.5rem;background:none;border:none;color:var(--ash);font-family:'Inconsolata',monospace;font-size:.85rem;letter-spacing:.08em;cursor:pointer;transition:color .2s;text-transform:uppercase}
+.modal-close:hover{color:var(--crimson)}
+.modal-tag{font-family:'Inconsolata',monospace;font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--crimson);margin-bottom:.7rem}
+.modal-title{font-family:'EB Garamond',serif;font-size:1.65rem;font-weight:700;margin-bottom:1.4rem;color:var(--parchment)}
+.modal-body{font-size:.92rem;line-height:1.88;color:var(--ash)}
+.modal-body p{margin-bottom:.9rem}
+.modal-source{margin-top:1.6rem;padding-top:1.1rem;border-top:1px solid rgba(255,255,255,.06);font-family:'Inconsolata',monospace;font-size:.48rem;color:var(--dust);letter-spacing:.07em;line-height:1.7}
+
+/* ── SCROLL ANIMATIONS ── */
+@keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){
+  .nav-links{display:none}
+  .stats-band{grid-template-columns:repeat(3,1fr)}
+  .intro-section{grid-template-columns:1fr;gap:3rem}
+  .intro-quote{position:static}
+  .bio-top{grid-template-columns:1fr;gap:2rem}
+  .vitals-grid{grid-template-columns:1fr 1fr}
+  .bio-chapters{grid-template-columns:1fr}
+  .video-grid{grid-template-columns:1fr}
+  .lineage-grid{grid-template-columns:1fr}
+  .royalties-intro{grid-template-columns:1fr;gap:2rem}
+  .royal-cards{grid-template-columns:1fr}
+  .bs-wrap{grid-template-columns:1fr;gap:2rem}
+  .robben-top{grid-template-columns:1fr;gap:2rem}
+  .fp-grid{grid-template-columns:1fr 1fr}
+  .prisoner-results{grid-template-columns:1fr}
+  .writings-grid{grid-template-columns:1fr}
+  .voices-grid{grid-template-columns:1fr}
+  .laws-top{grid-template-columns:1fr;gap:2rem}
+  .laws-grid{grid-template-columns:1fr}
+  .chapters-grid{grid-template-columns:1fr}
+  .timeline::before{left:1rem}
+  .tl-item{grid-template-columns:0 28px 1fr}
+  .tl-item:nth-child(odd) .tl-content{grid-column:3;text-align:left}
+  .tl-content{padding:0 0 0 1rem}
+  footer{grid-template-columns:1fr;text-align:center}
+  .footer-right{text-align:center}
+}
+</style>
 </head>
 <body>
- 
-<!-- ─── NAV ─── -->
+
+<!-- NAV -->
 <nav>
-  <div class="nav-logo">Remember · Onthou · Khumbula</div>
+  <div class="nav-identity">
+    <div class="nav-seal">◆</div>
+    <div class="nav-wordmark">
+      <div class="nav-title">Khotso Seatlholo Foundation</div>
+      <div class="nav-sub">South Africa's Living Archive · Est. 2019</div>
+    </div>
+  </div>
   <ul class="nav-links">
+    <li><a href="#biography">Khotso</a></li>
+    <li><a href="#lineage">Lineage</a></li>
+    <li><a href="#royalties">Royalties</a></li>
+    <li><a href="#robben">Robben Island</a></li>
     <li><a href="#timeline">Timeline</a></li>
-    <li><a href="#voices">Voices</a></li>
     <li><a href="#laws">The Laws</a></li>
-    <li><a href="#chapters">Chapters</a></li>
   </ul>
-  <a href="#why" class="nav-cta">Why This Exists</a>
+  <a href="#mission" class="nav-cta">Our Mission</a>
 </nav>
- 
-<!-- ─── HERO ─── -->
+
+<!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-bg"></div>
-  <div class="hero-year-strip"></div>
-  <div class="hero-years">
-    <span>1948</span>
-    <span>1960</span>
-    <span>1976</span>
-    <span>1990</span>
-    <span>1994</span>
-  </div>
-  <div style="position:relative;z-index:2;">
-    <p class="hero-eyebrow">South Africa's Living Archive</p>
-    <h1 class="hero-title">
-      They lived<br>through it.<br>
-      <em>We can't forget it.</em>
-    </h1>
-    <div class="hero-subtitle-row">
-      <div class="hero-divider"></div>
-      <p class="hero-subtitle">Apartheid lasted 46 years. There is no national public museum dedicated to it. This is an attempt to change that — one story at a time.</p>
-    </div>
+  <div class="hero-ornament"></div>
+  <div class="hero-vert">Khotso Sidney Seatlholo · 1958–2004 · Naledi High School · SSRC · SAYRCO · Robben Island · Barolong Boo Rapulana</div>
+  <div class="hero-bottom-rule"></div>
+  <div class="hero-inner">
+    <div class="hero-kicker">Khotso Seatlholo Foundation — South Africa's Living Archive</div>
+    <span class="hero-name-line">Khotso Sidney Seatlholo, 1958–2004</span>
+    <h1 class="hero-h">To Know<br>Your History<br>Is to Know<br><em>Yourself</em></h1>
+    <p class="hero-desc">A living archive of apartheid South Africa — its laws, its violence, its resistance, and the royal houses whose destinies were shaped by it. Presented by the Khotso Seatlholo Foundation. For every South African.</p>
     <div class="hero-actions">
-      <a href="#timeline" class="btn-primary">Enter the Archive</a>
-      <a href="#why" class="btn-ghost">Why this exists →</a>
+      <a href="#biography" class="btn-primary">Read His Story</a>
+      <a href="#robben" class="btn-ghost">Search the Robben Island Archive →</a>
     </div>
-  </div>
-  <div class="hero-scroll-hint">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
   </div>
 </section>
- 
-<!-- ─── STAT BAND ─── -->
-<div class="stat-band">
-  <div class="stat-item">
-    <div class="stat-number">46</div>
-    <div class="stat-label">Years of Legislated<br>Racial Oppression</div>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stat-item"><div class="stat-n">1976</div><div class="stat-l">Year of the<br>Soweto Uprising</div></div>
+  <div class="stat-item"><div class="stat-n">18</div><div class="stat-l">Khotso's Age When<br>He Led the SSRC</div></div>
+  <div class="stat-item"><div class="stat-n">15 yrs</div><div class="stat-l">Sentence Under<br>the Terrorism Act</div></div>
+  <div class="stat-item"><div class="stat-n">3,000+</div><div class="stat-l">Known Robben Island<br>Political Prisoners</div></div>
+  <div class="stat-item"><div class="stat-n">0</div><div class="stat-l">National Public<br>Apartheid Museums</div></div>
+</div>
+
+<!-- INTRO / MISSION STATEMENT -->
+<div class="intro-section" id="about">
+  <div class="intro-quote">
+    <div class="eyebrow">Why This Archive Exists</div>
+    <div class="large-quote">"Half a gram of poison is just as lethal as the whole gram. We refuse to swallow this education designed to make us slaves in the country of our birth."<cite>— Khotso Seatlholo, addressing Soweto high schools, 1976</cite></div>
+    <div class="large-quote">"To me, liberation is a noble cause."<cite>— Khotso Seatlholo, upon arrest, 1981</cite></div>
+    <div class="royal-badge">◆ &nbsp; Barolong Boo Rapulana · Mahikeng · North West Province</div>
   </div>
-  <div class="stat-item">
-    <div class="stat-number">3.5M</div>
-    <div class="stat-label">People Forcibly<br>Removed from Homes</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">1948</div>
-    <div class="stat-label">Year the National Party<br>Formally Imposed Apartheid</div>
-  </div>
-  <div class="stat-item">
-    <div class="stat-number">0</div>
-    <div class="stat-label">National Public<br>Apartheid Museums</div>
+  <div class="intro-text">
+    <div class="eyebrow">The Foundation</div>
+    <h2 class="section-h">A freedom without memory is a freedom half-understood</h2>
+    <div class="gold-rule"></div>
+    <p>South Africa has more World War Two memorials than it has apartheid memorials. A child born on Freedom Day in 1994 is raising children of their own. Those children know apartheid only as a word in a textbook — if that.</p>
+    <p>The Khotso Seatlholo Foundation was launched in Soweto in December 2019 by Tharollo Seatlholo, daughter of Khotso Sidney Seatlholo — student leader, political prisoner, philosopher of the liberation struggle, and the man Professor Mogobe Ramose called "the first economic freedom fighter."</p>
+    <p>This archive draws exclusively from public record, court documents, published scholarship, oral history collections, museum archives, and primary source testimony. It is non-partisan and non-commercial. It belongs to every South African.</p>
+    <p>The Foundation's scope is national. Khotso Seatlholo is its heart — but apartheid's reach was total, and its story must be told in full: from the royal houses of Mahikeng and KwaZulu-Natal to the cells of Robben Island, from the Terrorism Act trials to the long shadow that persists in South Africa today.</p>
   </div>
 </div>
- 
-<!-- ─── MISSION ─── -->
-<div class="mission">
-  <div class="mission-quote">
-    "The education I received was a form of control. When I read what was in our books, I understood — we were being prepared to serve, not to lead."
-    <cite>— Testimony, District Six Museum Oral History Archive</cite>
-  </div>
-  <div class="mission-text">
-    <p class="section-label">Why This Archive Exists</p>
-    <h2 class="section-title">A freedom without memory is a freedom half-understood.</h2>
-    <div class="section-body">
-      <p>South Africa's post-apartheid generation inherited a democracy. But the architecture of the system that preceded it — its laws, its violence, its logic — has been inadequately memorialised in public space.</p>
-      <p>This archive draws on court records, oral histories, museum collections, and public testimony to document what happened. Not as an act of blame — but as an act of honest witnessing.</p>
+
+<!-- BIOGRAPHY -->
+<section class="bio-section" id="biography">
+  <div class="bio-inner">
+    <div class="bio-top">
+      <div>
+        <div class="eyebrow">In Full</div>
+        <h2 class="section-h">Khotso Sidney Seatlholo<br><span style="font-size:.65em;font-weight:400;color:var(--ash);font-style:italic">5 November 1958 — February 2004</span></h2>
+        <div class="gold-rule"></div>
+      </div>
+      <p class="section-body">Student. Revolutionary. Prisoner. Philosopher. The second President of the SSRC. The first and last President of SAYRCO. An unsung architect of South African liberation — and a son of Barolong royal lineage.</p>
+    </div>
+    <div class="vitals-grid">
+      <div class="vital"><div class="vital-lbl">Born</div><div class="vital-val">5 November 1958<br>Moletsane, Soweto</div></div>
+      <div class="vital"><div class="vital-lbl">School</div><div class="vital-val">Naledi High School, Soweto</div></div>
+      <div class="vital"><div class="vital-lbl">SSRC Role</div><div class="vital-val">Deputy President (1976)<br>President (Aug–Dec 1976)</div></div>
+      <div class="vital"><div class="vital-lbl">In Exile</div><div class="vital-val">Botswana, 1978<br>Founded SAYRCO, 1979</div></div>
+      <div class="vital"><div class="vital-lbl">Arrested</div><div class="vital-val">March 1981 — Terrorism Act<br>Sentenced 15 years, 1982</div></div>
+      <div class="vital"><div class="vital-lbl">Imprisoned</div><div class="vital-val">Robben Island, 1982–1990<br>Released: 1990</div></div>
+    </div>
+    <div class="bio-chapters">
+      <div class="bio-ch">
+        <div class="bio-yr">1958–1975 · Origins</div>
+        <div class="bio-ch-title">A Revolutionary Consciousness, Born at Home</div>
+        <p class="bio-ch-text">Born 5 November 1958 in Moletsane, Soweto — a township built by the apartheid government to concentrate Black workers far from white economic centres. Raised by both parents in a household of dignified resistance: his father refused to patronise white businesses and confronted Afrikaners without hesitation. By 16, studying at Naledi High School, Khotso had found in the Black Consciousness Movement the political vocabulary for what he had been living since childhood.</p>
+      </div>
+      <div class="bio-ch">
+        <div class="bio-yr">1976 · June 16 and After</div>
+        <div class="bio-ch-title">The Achilles Heel — Co-Leading the Soweto Uprising</div>
+        <p class="bio-ch-text">At 17, Deputy President of the Soweto Students Representative Council alongside President Tsietsi Mashinini. Together, guided by Black Consciousness philosophy, they coordinated the march of 20,000 students on 16 June 1976. When police opened fire, the uprising spread nationally. When Mashinini fled in August, Seatlholo took the presidency — at 17 — and immediately elevated the SSRC beyond education grievances, linking students with parents and workers. His "Black Christmas" campaign urged all Black South Africans to boycott Christmas spending — a direct economic assault on the apartheid state.</p>
+        <div class="callout">In his 29 October 1976 press release, Seatlholo declared: "It was the Afrikaans question that made us stand together — but Afrikaans was only the Achilles Heel of the whole system of Bantu Education." — SAB WLD 6857/77</div>
+      </div>
+      <div class="bio-ch">
+        <div class="bio-yr">1978–1981 · Exile & SAYRCO</div>
+        <div class="bio-ch-title">Building an Armed Movement Under Black Consciousness</div>
+        <p class="bio-ch-text">Having survived being shot at in December 1976, Seatlholo was forced into exile in Botswana in 1978. In 1979, he and the exiled SSRC leadership founded SAYRCO — the South African Youth Revolutionary Council — a Black Consciousness-aligned armed liberation movement committed specifically to land restitution, not merely political franchise. He trained militarily with the Palestinian Liberation Organisation in Syria and Lebanon. SAYRCO's motto: "The people first. Then, only then, the individual."</p>
+        <div class="callout">Former Nigerian President Obasanjo, leading a Commonwealth delegation to visit Mandela on Robben Island, insisted on also meeting Seatlholo — recognising his international significance as a liberation leader.</div>
+      </div>
+      <div class="bio-ch">
+        <div class="bio-yr">1981–1990 · Robben Island</div>
+        <div class="bio-ch-title">Captured, Tried, Imprisoned — and Never Broken</div>
+        <p class="bio-ch-text">In March 1981, Seatlholo secretly re-entered South Africa on a SAYRCO recruitment mission. He was captured, charged under the Terrorism Act, and sentenced in March 1982 to 15 years imprisonment on Robben Island — the same island where Mandela had been held since 1964. He was 23 years old. On the island, he continued to think, write, and develop his political philosophy. He was released in 1990 — the same year Mandela walked free.</p>
+      </div>
+      <div class="bio-ch">
+        <div class="bio-yr">1990–2004 · The Long Disillusionment</div>
+        <div class="bio-ch-title">Free — But Watching a Dream Compromised</div>
+        <p class="bio-ch-text">Released into a South Africa in transition, Seatlholo watched the 1994 negotiated settlement with grief. He refused media interviews, calling annual June 16 requests the "cheapening" of the uprising. He remained in Soweto, among the 70% of its residents who remained poor. His daughter Tharollo, seven when he died in February 2004, recalled that he had told a friend: "I would be more valuable to my children dead than alive." Those words became her mandate to found the KSF in 2019.</p>
+        <div class="callout">Professor Mogobe Ramose, philosopher, described Seatlholo as "the FIRST economic freedom fighter" at the KSF Foundation Launch, Soweto, December 2019.</div>
+      </div>
+      <div class="bio-ch">
+        <div class="bio-yr">2019–Present · The Foundation</div>
+        <div class="bio-ch-title">Tharollo Seatlholo Keeps the Flame</div>
+        <p class="bio-ch-text">The Khotso Seatlholo Foundation was launched in Soweto in December 2019 — the brainchild of Tharollo Seatlholo, Khotso's daughter. The inaugural lecture was delivered by Professor Mogobe Ramose, who travelled from Belgium for the occasion. In 2025, a government announcement confirmed that a statue of Daniel Khotso Sidney Seatlholo would be erected at the Robben Island Ex-Political Prisoners' Reunion, alongside those of Nelson Mandela, Robert Sobukwe, and others — a long-overdue recognition of a man whose contribution had been systematically erased.</p>
+      </div>
     </div>
   </div>
-</div>
- 
-<!-- ─── TIMELINE ─── -->
+</section>
+
+<!-- VIDEOS -->
+<section class="video-section" id="videos">
+  <div class="eyebrow">On Record — Video Archive</div>
+  <h2 class="section-h">Hear the History in Their Own Voices</h2>
+  <div class="gold-rule"></div>
+  <p class="section-body">Primary source video testimony from the Khotso Seatlholo Foundation and related archival sources. These recordings are part of the Foundation's effort to preserve living memory.</p>
+  <div class="video-grid">
+    <div class="video-wrapper">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/l8qrnhRzAP0" title="Tharollo Seatlholo — Khotso Seatlholo Foundation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-caption">
+        <div class="video-tag">Foundation · Primary Testimony</div>
+        <div class="video-title">Tharollo Seatlholo — The Khotso Seatlholo Foundation</div>
+        <p class="video-desc">Tharollo Seatlholo, daughter of Khotso Sidney Seatlholo and founder of the KSF, speaks on the legacy of her father, the Foundation's mission, and why preserving this history is an act of resistance against forgetting. A primary source for understanding the Foundation's purpose.</p>
+      </div>
+    </div>
+    <div class="video-wrapper">
+      <div class="video-embed">
+        <iframe src="https://www.youtube.com/embed/ozpkOmKG41E" title="Khotso Seatlholo — Historical Archive" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      </div>
+      <div class="video-caption">
+        <div class="video-tag">Archival · Historical Record</div>
+        <div class="video-title">Khotso Seatlholo — Historical Archive Footage</div>
+        <p class="video-desc">Archival documentation of Khotso Seatlholo and the 1976 liberation movement. Essential historical record of the SSRC leadership, the Soweto Uprising's political context, and Seatlholo's role in coordinating what became the most significant student-led uprising in South African history.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LINEAGE -->
+<section class="lineage-section" id="lineage">
+  <div class="lineage-inner">
+    <div class="eyebrow">The Seatlholo Lineage</div>
+    <h2 class="section-h">Three Generations of Leadership —<br>From the Kgotla to the Nation</h2>
+    <div class="gold-rule"></div>
+    <p class="section-body">The Seatlholo family belongs to the Barolong Boo Rapulana — descended from King Morolong (c.1240) and the warrior King Tau (c.1660). From ancestral chieftaincy in Lotlhakane, near Mahikeng, to Robben Island, to the National House of Traditional Leaders.</p>
+    <div class="lineage-grid">
+      <div class="lc">
+        <div class="lc-era">Ancestral Lineage · Barolong Boo Rapulana</div>
+        <div class="lc-name">The Chiefs of Lotlhakane — Rapulana, Molekana, Makhowe, Matlaba</div>
+        <p class="lc-body">The Rapulana branch of the Barolong settled in Lotlhakane and Bodibe, near Mahikeng. Their chiefly line — Rapulana, Molekana, Makhowe, Matlaba, Shuduntlhe, Ramolekane — maintained traditional governance through colonial conquest, the Anglo-Boer War, the Union of South Africa, and the apartheid era. This is the royal bloodline into which the Seatlholo family was born.</p>
+        <div class="lc-src">Source: Barolong Clan History · Izithakazelo Archive · South African History Online</div>
+      </div>
+      <div class="lc">
+        <div class="lc-era">Student Leader & Political Prisoner · 1958–2004</div>
+        <div class="lc-name">Khotso Sidney Seatlholo — "The First Economic Freedom Fighter"</div>
+        <p class="lc-body">Born into Barolong Rapulana lineage, raised in Soweto, and forged in the fire of 1976. Deputy then President of the SSRC. Founder and President of SAYRCO. Convicted under the Terrorism Act. Sentenced to 15 years on Robben Island. Released 1990. Died February 2004. In 2025, a statue in his honour was confirmed for the Robben Island Ex-Political Prisoners' Reunion — alongside Mandela's. The recognition came 21 years after his death.</p>
+        <div class="lc-src">Source: SAHISTORY · SAHA Archive · Cambridge University Press (2023) · GCIS (2025)</div>
+      </div>
+      <div class="lc">
+        <div class="lc-era">Traditional Leader · Chairperson, NHTKL · Present</div>
+        <div class="lc-name">Kgosi Thabo Milton Seatlholo — Chief of the Nation</div>
+        <p class="lc-body">Senior Traditional Leader of the Barolong Boo Rapulana Traditional Community, Lotlhakane, Mahikeng. Former Deputy Chairperson of the National House of Traditional Leaders for seven years. Appointed Chairperson of the National House of Traditional and Khoi-San Leaders (NHTKL) in 2022 — the highest traditional authority body in democratic South Africa. His credentials include a BA in Political Leadership (UNISA) and B.Tech in Business Administration (UJ).</p>
+        <div class="lc-src">Source: South African Government (gov.za, 2022) · Mining Indaba · Taung Daily News</div>
+      </div>
+      <div class="lc">
+        <div class="lc-era">Community Advocacy · 2017</div>
+        <div class="lc-name">Kgosi Tebogo Seatlholo — Advocate for His People</div>
+        <p class="lc-body">Led the Barolong Boo Rapulana delegation in 2017 when the Lotlhakane Clinic was closed — a direct legacy of apartheid's deliberate under-investment in Black infrastructure. His advocacy with the North West MEC for Health secured commitment for a new clinic. A concrete example of how apartheid's material consequences demand active, ongoing resistance more than 30 years after 1994.</p>
+        <div class="lc-src">Source: South African Government (gov.za, October 2017)</div>
+      </div>
+      <div class="lc">
+        <div class="lc-era">Foundation · 2019–Present</div>
+        <div class="lc-name">Tharollo Seatlholo — Keeper of the Flame</div>
+        <p class="lc-body">Khotso's daughter and founder of the Khotso Seatlholo Foundation, launched Soweto, December 2019. Was seven years old when her father died. Described how she did not cry at his funeral — because she understood, at seven, that there was nothing left to live for in the condition he had been left in. Her resolve to found the KSF was born from that understanding. The Foundation exists to ensure his ideology is preserved, studied, and transmitted.</p>
+        <div class="lc-src">Source: Sowetan Live, December 2019</div>
+      </div>
+      <div class="lc">
+        <div class="lc-era">Academic Recognition · Cambridge University Press · 2023</div>
+        <div class="lc-name">Khotso Seatlholo in Published Scholarship</div>
+        <p class="lc-body">In 2023, Cambridge University Press published "Arming Black Consciousness: The Azanian Black Nationalist Tradition and South Africa's Armed Struggle" — opening with an examination of Khotso Seatlholo's motivations for leading the Soweto Uprising. The book centres the Black Consciousness movement as distinct from — and often suppressed by — mainstream ANC-centred liberation history. Seatlholo is named in the Nelson Mandela Foundation Archive.</p>
+        <div class="lc-src">Source: Cambridge University Press, African Studies Series · Nelson Mandela Foundation Archive</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROYALTIES & APARTHEID -->
+<section class="royalties-section" id="royalties">
+  <div class="royalties-inner">
+    <div class="royalties-intro">
+      <div>
+        <div class="eyebrow">The Crown Under Apartheid</div>
+        <h2 class="section-h">How Apartheid Used — and Broke —<br>South Africa's Royal Houses</h2>
+        <div class="gold-rule"></div>
+      </div>
+      <p class="section-body">Apartheid did not only legislate race. It deliberately manipulated traditional authority — using some royal houses as instruments of control, forcing others into exile or resistance. The full story of South African royalty under apartheid is a study in co-option, courage, and the enduring contradictions of the Bantustan system.</p>
+    </div>
+    <div class="pull-band">
+      <p class="pb-text">The apartheid government's strategy was calculated: create ten nominally "independent" homelands, install compliant leaders, and use the prestige of traditional authority to make subjugation look like self-determination. Where royalty resisted, it was crushed, exiled, or deposed. Where it collaborated, it was propped up by state funding and the security apparatus. The question of which royal houses chose which path is among the most morally complex chapters in South African history.</p>
+    </div>
+    <div class="royal-cards">
+      <div class="rc" onclick="openModal('r1')">
+        <div class="rc-top-bar" style="background:linear-gradient(90deg,rgba(196,146,42,.35),transparent)"></div>
+        <div class="rc-head">
+          <div class="rc-diamond">◆</div>
+          <div><div class="rc-nation">Barolong Boo Rapulana</div><div class="rc-region">Mahikeng · North West Province · Lotlhakane</div></div>
+          <div class="rc-badge badge-resist">Resistance</div>
+        </div>
+        <h3 class="rc-title">The Seatlholo Royal Line — From Chieftaincy to Robben Island</h3>
+        <p class="rc-body">Descended from King Morolong (c.1240) and King Tau (c.1660), the Seatlholo family produced in Khotso Seatlholo a liberation leader who took the spirit of Kgotla governance into the streets of Soweto. The current Kgosi Thabo Seatlholo chairs the National House of Traditional and Khoi-San Leaders.</p>
+        <div class="rc-more">Read Full Story →</div>
+      </div>
+      <div class="rc" onclick="openModal('r2')">
+        <div class="rc-top-bar" style="background:linear-gradient(90deg,rgba(158,28,21,.3),transparent)"></div>
+        <div class="rc-head">
+          <div class="rc-diamond">◆</div>
+          <div><div class="rc-nation">AmaZulu</div><div class="rc-region">KwaZulu-Natal · Nongoma</div></div>
+          <div class="rc-badge badge-complex">Contested</div>
+        </div>
+        <h3 class="rc-title">King Goodwill Zwelithini — Throne in the Shadow of the Bantustan</h3>
+        <p class="rc-body">Longest-reigning Zulu king, installed at 23 by the apartheid government into the KwaZulu Territorial Authority. His name was used by Buthelezi to build Inkatha. Three days before the 1994 elections, the Ingonyama Trust placed 32% of KwaZulu-Natal's land under his sole trusteeship.</p>
+        <div class="rc-more">Read Full Story →</div>
+      </div>
+      <div class="rc" onclick="openModal('r3')">
+        <div class="rc-top-bar" style="background:linear-gradient(90deg,rgba(26,51,38,.4),transparent)"></div>
+        <div class="rc-head">
+          <div class="rc-diamond">◆</div>
+          <div><div class="rc-nation">AbaThembu · AmaXhosa</div><div class="rc-region">Transkei · Eastern Cape</div></div>
+          <div class="rc-badge badge-split">Divided</div>
+        </div>
+        <h3 class="rc-title">Mandela, Matanzima & Sabata — One Royal House, Three Destinies</h3>
+        <p class="rc-body">The AbaThembu produced, in one generation: Nelson Mandela (imprisoned rather than collaborate), Kaiser Matanzima (the Transkei's apartheid-aligned president), and Sabata Dalindyebo (deposed, exiled to Zambia, died 1986 — for calling the Transkei passport "a useless piece of paper").</p>
+        <div class="rc-more">Read Full Story →</div>
+      </div>
+      <div class="rc" onclick="openModal('r4')">
+        <div class="rc-top-bar" style="background:linear-gradient(90deg,rgba(196,146,42,.2),transparent)"></div>
+        <div class="rc-head">
+          <div class="rc-diamond">◆</div>
+          <div><div class="rc-nation">BaPedi</div><div class="rc-region">Limpopo · Lebowa Homeland</div></div>
+          <div class="rc-badge badge-resist">Resistance</div>
+        </div>
+        <h3 class="rc-title">The Sekhukhune Legacy — A Nation That Never Stopped Fighting</h3>
+        <p class="rc-body">King Sekhukhune I resisted British annexation in 1876–77. Under apartheid, the BaPedi were assigned to Lebowa — which never accepted nominal independence. The 1986 Sekhukhune uprisings were among the most sustained in South Africa during the states of emergency.</p>
+        <div class="rc-more">Read Full Story →</div>
+      </div>
+      <div class="rc" onclick="openModal('r5')">
+        <div class="rc-top-bar" style="background:linear-gradient(90deg,rgba(158,28,21,.2),transparent)"></div>
+        <div class="rc-head">
+          <div class="rc-diamond">◆</div>
+          <div><div class="rc-nation">BaSotho ba Borwa</div><div class="rc-region">QwaQwa · Free State</div></div>
+          <div class="rc-badge badge-split">Nominal Rule</div>
+        </div>
+        <h3 class="rc-title">QwaQwa — The Smallest Homeland, Maximum Overcrowding</h3>
+        <p class="rc-body">655 square kilometres. Over 300,000 people. The most densely populated homeland in South Africa, sitting in the foothills of the Maluti mountains. Never declared "independent." Its legacy is visible in Maluti-a-Phofung Municipality today — among the most economically marginalised areas in the country.</p>
+        <div class="rc-more">Read Full Story →</div>
+      </div>
+      <div class="rc" onclick="openModal('r6')">
+        <div class="rc-top-bar" style="background:linear-gradient(90deg,rgba(122,100,48,.3),transparent)"></div>
+        <div class="rc-head">
+          <div class="rc-diamond">◆</div>
+          <div><div class="rc-nation">Barolong Boo Ratshidi</div><div class="rc-region">Mahikeng · Bophuthatswana</div></div>
+          <div class="rc-badge badge-split">Co-opted</div>
+        </div>
+        <h3 class="rc-title">Bophuthatswana — When an Ancient Capital Was Absorbed by a Homeland</h3>
+        <p class="rc-body">In 1980, Mahikeng — the historic Barolong royal capital, founded in the 19th century — was forcibly incorporated into Bophuthatswana under Lucas Mangope. The Barolong Boo Ratshidi lost their ancestral seat to a homeland they did not choose. Restored as Mahikeng, capital of North West Province, in 1994.</p>
+        <div class="rc-more">Read Full Story →</div>
+      </div>
+    </div>
+    <!-- Bantustan Reference -->
+    <div class="bs-wrap">
+      <div>
+        <div class="eyebrow">The Bantustan System</div>
+        <h3 class="bs-title">Ten "Homelands." Zero International Recognition. Millions Stripped of Citizenship.</h3>
+        <p class="bs-body">The Promotion of Bantu Self-Government Act (1959) created ten "homelands" — each assigned to a different Black ethnic group. The strategy was explicit: make Black South Africans "citizens" of these artificial states, stripping them of South African citizenship and the right to vote, live, or work freely in their own country.</p>
+        <p class="bs-body">Four were declared "independent": Transkei, Bophuthatswana, Venda, Ciskei. Not one was recognised by any country other than South Africa. All ten were reintegrated into South Africa on 27 April 1994 — Freedom Day.</p>
+      </div>
+      <div>
+        <div class="bs-table">
+          <div class="bs-row" style="background:rgba(196,146,42,.05)">
+            <div class="bsr-name" style="font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold-dim)">Homeland</div>
+            <div class="bsr-group" style="font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-dim)">People</div>
+            <div class="bsr-yr">Status</div>
+          </div>
+          <div class="bs-row"><div class="bsr-name">Transkei</div><div class="bsr-group">AmaXhosa</div><div class="bsr-yr">"Indep." 1976</div></div>
+          <div class="bs-row"><div class="bsr-name">Bophuthatswana</div><div class="bsr-group">Tswana · Barolong</div><div class="bsr-yr">"Indep." 1977</div></div>
+          <div class="bs-row"><div class="bsr-name">Venda</div><div class="bsr-group">VhaVenda</div><div class="bsr-yr">"Indep." 1979</div></div>
+          <div class="bs-row"><div class="bsr-name">Ciskei</div><div class="bsr-group">AmaXhosa</div><div class="bsr-yr">"Indep." 1981</div></div>
+          <div class="bs-row"><div class="bsr-name">KwaZulu</div><div class="bsr-group">AmaZulu</div><div class="bsr-yr">Self-governing</div></div>
+          <div class="bs-row"><div class="bsr-name">Lebowa</div><div class="bsr-group">BaPedi · BaSotho ba Leboa</div><div class="bsr-yr">Self-governing</div></div>
+          <div class="bs-row"><div class="bsr-name">Gazankulu</div><div class="bsr-group">Tsonga · Shangaan</div><div class="bsr-yr">Self-governing</div></div>
+          <div class="bs-row"><div class="bsr-name">QwaQwa</div><div class="bsr-group">BaSotho ba Borwa</div><div class="bsr-yr">Self-governing</div></div>
+          <div class="bs-row"><div class="bsr-name">KaNgwane</div><div class="bsr-group">Swazi</div><div class="bsr-yr">Self-governing</div></div>
+          <div class="bs-row"><div class="bsr-name">KwaNdebele</div><div class="bsr-group">AmaNdebele</div><div class="bsr-yr">Self-governing</div></div>
+        </div>
+        <div class="bs-foot">All ten homelands were reintegrated into South Africa on 27 April 1994. Not one was ever recognised by any country other than the Republic of South Africa. The land dispossession they encoded in law remains partially unresolved to this day.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROBBEN ISLAND ARCHIVE -->
+<section class="robben-section" id="robben">
+  <div class="robben-inner">
+    <div class="robben-top">
+      <div>
+        <div class="eyebrow">Robben Island Prisoner Archive</div>
+        <h2 class="section-h">The Island the World Called<br>a Symbol of Oppression</h2>
+        <div class="gold-rule"></div>
+        <p class="section-body">From 1961 to 1991, Robben Island held the political prisoners of apartheid South Africa — from Nelson Mandela to Khotso Seatlholo. Over 3,000 men were imprisoned here. Three of them — Mandela, Kgalema Motlanthe, and Jacob Zuma — became President. This archive documents those who were imprisoned, with primary source records where available.</p>
+      </div>
+      <div>
+        <p class="section-body" style="margin-bottom:1.2rem">The island is 6.9 kilometres off the coast of Bloubergstrand, Cape Town. It is a UNESCO World Heritage Site. Many of the tour guides are former prisoners. The limestone quarry, where prisoners were forced to work, is where Nelson Mandela's tear ducts were permanently damaged by glare reflected off the rock.</p>
+        <p class="section-body" style="font-style:italic;color:var(--mist)">"At the quarry, we worked with a pick and shovel, and then we would discuss history among ourselves." — Eddie Daniels, former Robben Island prisoner</p>
+      </div>
+    </div>
+
+    <!-- FEATURED: Jacob Gaonakala Seatlholo -->
+    <div class="featured-prisoner">
+      <div class="fp-header">
+        <div class="fp-seal">⚖</div>
+        <div class="fp-id">
+          <div class="fp-archive-num">TRC Archive · SAHA · Volume 5, Chapter 2 · Robben Island EPP Database</div>
+          <div class="fp-name">Jacob Gaonakala Seatlholo</div>
+          <div class="fp-subtitle">ANC Veteran · Robben Island Political Prisoner · TRC Recorded Victim</div>
+        </div>
+      </div>
+      <div class="fp-grid">
+        <div class="fp-fact"><div class="fp-fact-lbl">Arrested</div><div class="fp-fact-val">April 1976<br>Johannesburg</div></div>
+        <div class="fp-fact"><div class="fp-fact-lbl">Detained At</div><div class="fp-fact-val">John Vorster Square<br>90 Days</div></div>
+        <div class="fp-fact"><div class="fp-fact-lbl">Charges</div><div class="fp-fact-val">Terrorism Act</div></div>
+        <div class="fp-fact"><div class="fp-fact-lbl">Sentenced</div><div class="fp-fact-val">12 Years<br>Robben Island</div></div>
+      </div>
+      <div class="fp-testimony">
+        A veteran ANC member arrested in April 1976 in Johannesburg and detained for 90 days at John Vorster Square — the notorious Security Police headquarters where dozens of anti-apartheid activists were tortured, and where Steve Biko would die the following year. While in detention, Jacob Gaonakala Seatlholo was repeatedly beaten and subjected to electric shock torture. He was subsequently charged under the Terrorism Act and sentenced to 12 years' imprisonment on Robben Island.
+      </div>
+      <p style="font-size:.88rem;line-height:1.82;color:var(--ash);margin-bottom:.8rem">Jacob Gaonakala Seatlholo appears in the Robben Island Museum's Ex-Political Prisoner (EPP) Database alongside Daniel Khotso Sidney Seatlholo — the shared surname and shared island a testament to how completely the apartheid state's reach extended across connected communities. John Vorster Square (now the headquarters of the Johannesburg Central Police Station) was the primary site of torture under the Security Branch during the 1970s. At least 44 detainees died in detention at John Vorster Square during the apartheid era, in circumstances the security police attributed variously to suicide, slipping, or "fell from a window."</p>
+      <div class="fp-source">Primary Source: SABC-TRC Special Report Archive · SAHA (sabctrc.saha.org.za) · TRC Final Report Volume 5, Chapter 2 · Robben Island Museum EPP Database (robben-island.org.za)</div>
+    </div>
+
+    <!-- SEARCH -->
+    <div class="prisoner-search-wrap">
+      <div class="ps-label">Search the Robben Island Prisoner Archive</div>
+      <div class="ps-row">
+        <input class="ps-input" id="prisoner-search" type="text" placeholder="Search by name, organisation, or year…" oninput="searchPrisoners()" />
+        <button class="ps-btn" onclick="searchPrisoners()">Search Archive</button>
+      </div>
+      <div class="ps-filters">
+        <button class="ps-filter active" onclick="filterPrisoners('all',this)">All</button>
+        <button class="ps-filter" onclick="filterPrisoners('ANC',this)">ANC</button>
+        <button class="ps-filter" onclick="filterPrisoners('PAC',this)">PAC</button>
+        <button class="ps-filter" onclick="filterPrisoners('BCM',this)">Black Consciousness</button>
+        <button class="ps-filter" onclick="filterPrisoners('SAYRCO',this)">SAYRCO</button>
+      </div>
+    </div>
+    <div class="pr-count" id="pr-count">Showing all 14 records</div>
+    <div class="prisoner-results" id="prisoner-results"></div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
 <section class="timeline-section" id="timeline">
-  <div class="timeline-header">
-    <p class="section-label">Chronology</p>
-    <h2 class="section-title">The Architecture of Oppression</h2>
-    <p class="section-body">A system doesn't build itself overnight. Each year, another law. Another removal. Another silencing.</p>
+  <div class="tl-head">
+    <div class="eyebrow">Chronology</div>
+    <h2 class="section-h">The Architecture of Oppression<br><span style="font-size:.55em;font-weight:400;color:var(--ash);font-style:italic">And the Resistance That Refused to Break</span></h2>
   </div>
- 
   <div class="timeline">
- 
-    <div class="timeline-item">
-      <div class="timeline-content">
-        <span class="event-tag">Political Seizure</span>
-        <h3 class="event-title">The National Party Wins — and Apartheid Becomes Policy</h3>
-        <p class="event-body">The Afrikaner-led National Party wins the white-only general election on a platform of strict racial separation. Prime Minister D.F. Malan begins legislating a comprehensive system of racial classification and segregation.</p>
-        <div class="event-impact">Within two years, every South African would be assigned a racial category that would determine where they could live, work, travel, and learn.</div>
-      </div>
-      <div class="timeline-center">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year-badge">1948</div>
-      </div>
-      <div></div>
+    <div class="tl-item">
+      <div class="tl-content"><span class="tl-tag">National Party Seizure</span><h3 class="tl-title">Apartheid Becomes the Law of the Land</h3><p class="tl-body">D.F. Malan's National Party wins the white-only general election. Every South African will be assigned a racial classification — determining where they can live, work, and learn for the next 46 years.</p></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1948</div></div><div></div>
     </div>
- 
-    <div class="timeline-item">
+    <div class="tl-item">
       <div></div>
-      <div class="timeline-center">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year-badge">1950</div>
-      </div>
-      <div class="timeline-content">
-        <span class="event-tag">Population Control</span>
-        <h3 class="event-title">Population Registration Act & Group Areas Act</h3>
-        <p class="event-body">All South Africans are classified as White, Coloured, Indian, or Native (later Bantu). The Group Areas Act enforces residential segregation, designating specific zones for each race — forcing millions from mixed communities into segregated townships.</p>
-        <div class="event-impact">District Six, Sophiatown, and hundreds of other vibrant communities were bulldozed. Residents were trucked to barren townships miles from economic centres.</div>
-      </div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1950</div></div>
+      <div class="tl-content"><span class="tl-tag">Population Control</span><h3 class="tl-title">Population Registration Act & Group Areas Act</h3><p class="tl-body">All South Africans classified by race. The Group Areas Act forces millions from mixed communities into segregated townships. Over 3.5 million people are eventually removed. District Six, Sophiatown, and hundreds of other communities are bulldozed.</p></div>
     </div>
- 
-    <div class="timeline-item">
-      <div class="timeline-content">
-        <span class="event-tag">Education as Weapon</span>
-        <h3 class="event-title">Bantu Education Act — A System Designed to Limit</h3>
-        <p class="event-body">Minister Hendrik Verwoerd introduces the Bantu Education Act, removing Black schools from mission control and placing them under state control. The curriculum is explicitly designed to prepare Black children for manual labour, not academic or professional life.</p>
-        <div class="event-impact">Verwoerd in Parliament: "There is no place for [the Bantu] in the European community above the level of certain forms of labour." This was not policy dressed as education — it was subjugation dressed as policy.</div>
-      </div>
-      <div class="timeline-center">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year-badge">1953</div>
-      </div>
+    <div class="tl-item">
+      <div class="tl-content"><span class="tl-tag">Education as Weapon</span><h3 class="tl-title">Bantu Education Act — Designing Limitation</h3><p class="tl-body">Minister Verwoerd explicitly designs a curriculum to prepare Black children for manual labour. The law that Khotso Seatlholo would later call the disease of which Afrikaans was only "the Achilles Heel."</p><div class="tl-callout">"There is no place for the Bantu in the European community above certain forms of labour." — Hendrik Verwoerd, Parliament, 1953</div></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1953</div></div><div></div>
+    </div>
+    <div class="tl-item">
       <div></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1960</div></div>
+      <div class="tl-content"><span class="tl-tag">State Violence</span><h3 class="tl-title">Sharpeville Massacre — 69 Killed</h3><p class="tl-body">Peaceful protest against pass laws met with live fire. 69 killed — most shot in the back while fleeing. South Africa expelled from the Commonwealth. ANC and PAC banned. Mandela goes underground.</p></div>
     </div>
- 
-    <div class="timeline-item">
+    <div class="tl-item">
+      <div class="tl-content"><span class="tl-tag">Rivonia Trial</span><h3 class="tl-title">Mandela Sentenced to Life — Robben Island</h3><p class="tl-body">Mandela and nine ANC leaders convicted of sabotage. Sent to Robben Island. From the dock: "It is an ideal for which I am prepared to die." He will be held there for 18 years.</p></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1964</div></div><div></div>
+    </div>
+    <div class="tl-item">
       <div></div>
-      <div class="timeline-center">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year-badge">1960</div>
-      </div>
-      <div class="timeline-content">
-        <span class="event-tag">State Violence</span>
-        <h3 class="event-title">Sharpeville Massacre — 69 People Killed</h3>
-        <p class="event-body">On 21 March, thousands gather in Sharpeville to peacefully protest the Pass Laws — the system requiring Black South Africans to carry identity documents at all times. Police open fire on the crowd. 69 people are killed; most are shot in the back while fleeing.</p>
-        <div class="event-impact">The massacre triggers international outrage. South Africa is expelled from the Commonwealth in 1961. The ANC and PAC are banned. Nelson Mandela goes underground.</div>
-      </div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1976</div></div>
+      <div class="tl-content"><span class="tl-tag">The Soweto Uprising · Khotso Rises</span><h3 class="tl-title">June 16: 20,000 Students March</h3><p class="tl-body">Khotso Seatlholo, 17, co-leads the march. Police open fire. Hector Pieterson, 13, among the first killed. The uprising spreads nationwide. Khotso takes the SSRC presidency when Mashinini flees in August.</p><div class="tl-callout">June 16 is now National Youth Day. Khotso Seatlholo's central role has been systematically erased from mainstream commemoration.</div></div>
     </div>
- 
-    <div class="timeline-item">
-      <div class="timeline-content">
-        <span class="event-tag">The Rivonia Trial</span>
-        <h3 class="event-title">Nelson Mandela Sentenced to Life in Prison</h3>
-        <p class="event-body">Following the arrest of ANC leaders at Liliesleaf Farm in Rivonia, Mandela and nine others face charges of sabotage and conspiracy to overthrow the state. Rather than deny, Mandela uses the dock to make a moral statement that will echo globally for decades.</p>
-        <div class="event-impact">"I have cherished the ideal of a democratic and free society... It is an ideal for which I am prepared to die." — Nelson Mandela, Rivonia Trial, 20 April 1964.</div>
-      </div>
-      <div class="timeline-center">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year-badge">1964</div>
-      </div>
+    <div class="tl-item">
+      <div class="tl-content"><span class="tl-tag">Death in Custody</span><h3 class="tl-title">Steve Biko Dies at John Vorster Square</h3><p class="tl-body">Black Consciousness leader Steve Biko dies on 12 September after detention, assault, and denial of medical treatment. He is 30 years old. The inquest finds no one criminally liable. The truth emerges at the TRC, 20 years later.</p></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1977</div></div><div></div>
+    </div>
+    <div class="tl-item">
       <div></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1979</div></div>
+      <div class="tl-content"><span class="tl-tag">SAYRCO Founded</span><h3 class="tl-title">Seatlholo Builds a Liberation Army in Exile</h3><p class="tl-body">In Botswana, Seatlholo and the exiled SSRC leadership found the South African Youth Revolutionary Council — a Black Consciousness-aligned armed movement. Its mission: land restitution and Black economic sovereignty. Its motto: "The people first. Then, only then, the individual."</p></div>
     </div>
- 
-    <div class="timeline-item">
+    <div class="tl-item">
+      <div class="tl-content"><span class="tl-tag">Capture & Imprisonment</span><h3 class="tl-title">Seatlholo Sentenced to 15 Years on Robben Island</h3><p class="tl-body">Captured on a SAYRCO recruitment mission inside South Africa, March 1981. Sentenced under the Terrorism Act to 15 years on Robben Island, March 1982. He is 23 years old.</p></div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1982</div></div><div></div>
+    </div>
+    <div class="tl-item">
       <div></div>
-      <div class="timeline-center">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year-badge">1976</div>
-      </div>
-      <div class="timeline-content">
-        <span class="event-tag">Youth Uprising</span>
-        <h3 class="event-title">Soweto Uprising — Students Rise Against Afrikaans</h3>
-        <p class="event-body">On 16 June, thousands of Soweto schoolchildren march to protest the imposition of Afrikaans as the medium of instruction. Police respond with live ammunition. Hector Pieterson, 13, is among the first killed. The uprising spreads to townships across the country.</p>
-        <div class="event-impact">June 16 is now Youth Day in South Africa. The uprising marked a turning point — the world could no longer ignore apartheid's violence against its youngest victims.</div>
-      </div>
+      <div class="tl-mid"><div class="tl-dot"></div><div class="tl-yr">1990</div></div>
+      <div class="tl-content"><span class="tl-tag">Liberation Begins</span><h3 class="tl-title">Mandela Walks Free — Seatlholo Released</h3><p class="tl-body">F.W. de Klerk unbans the ANC and releases Mandela on 11 February. Seatlholo is released the same year. Both men walk free from apartheid's prisons — but into a South Africa whose economic structures remain entirely intact.</p></div>
     </div>
- 
-    <div class="timeline-item">
-      <div class="timeline-content">
-        <span class="event-tag">Death in Custody</span>
-        <h3 class="event-title">Steve Biko Dies in Police Custody</h3>
-        <p class="event-body">Black Consciousness leader Steve Biko is detained under Section 6 of the Terrorism Act, subjected to days of interrogation and assault by security police, and denied medical treatment. He dies on 12 September from brain damage. He is 30 years old. The police initially claim he died from a hunger strike.</p>
-        <div class="event-impact">The inquest finds no one criminally liable. The lie holds — for now. The truth emerges through the Truth and Reconciliation Commission, 20 years later.</div>
-      </div>
-      <div class="timeline-center">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year-badge">1977</div>
-      </div>
+    <div class="tl-item">
+      <div class="tl-content" style="position:relative"><span class="tl-tag">Democracy</span><h3 class="tl-title">First Democratic Election — 27 April 1994</h3><p class="tl-body">All South Africans vote for the first time. Mandela is elected President. Freedom Day is born. But Khotso Seatlholo — who had given his youth to this — remained in Soweto among the 70% still poor, writing that the terms of liberation had fallen catastrophically short of what the struggle had demanded.</p><div class="tl-callout">South Africa's Gini coefficient — measuring inequality — remains among the highest in the world. The spatial architecture of apartheid remains largely intact.</div></div>
+      <div class="tl-mid"><div class="tl-dot" style="background:var(--gold);box-shadow:0 0 0 3px rgba(196,146,42,.22)"></div><div class="tl-yr" style="color:var(--gold)">1994</div></div><div></div>
+    </div>
+    <div class="tl-item">
       <div></div>
+      <div class="tl-mid"><div class="tl-dot" style="background:var(--ash)"></div><div class="tl-yr" style="color:var(--ash)">2004</div></div>
+      <div class="tl-content"><span class="tl-tag">Death & Legacy</span><h3 class="tl-title">Khotso Seatlholo Dies — February 2004</h3><p class="tl-body">Khotso Sidney Seatlholo dies in February 2004, aged 45. His daughter Tharollo is seven years old. In 2019 she launches the Khotso Seatlholo Foundation. In 2025, a statue in his honour is confirmed for the Robben Island Ex-Political Prisoners' Reunion — alongside Mandela, Sobukwe, and Toivo ya Toivo.</p></div>
     </div>
- 
-    <div class="timeline-item">
-      <div></div>
-      <div class="timeline-center">
-        <div class="timeline-dot"></div>
-        <div class="timeline-year-badge">1990</div>
-      </div>
-      <div class="timeline-content">
-        <span class="event-tag">Turning Point</span>
-        <h3 class="event-title">F.W. de Klerk Unbans the ANC — Mandela Walks Free</h3>
-        <p class="event-body">On 2 February, President F.W. de Klerk announces the unbanning of the ANC, PAC, and South African Communist Party. Nine days later, Nelson Mandela walks out of Victor Verster Prison after 27 years — and speaks from the Cape Town City Hall to a crowd of hundreds of thousands.</p>
-        <div class="event-impact">The moment the world had waited decades for. But the work of building a new society was only beginning.</div>
-      </div>
-    </div>
- 
-    <div class="timeline-item">
-      <div class="timeline-content">
-        <span class="event-tag">Liberation</span>
-        <h3 class="event-title">First Democratic Elections — April 27, 1994</h3>
-        <p class="event-body">For the first time, all South Africans vote regardless of race. Queues stretch for kilometres. Nelson Mandela is elected President. The day becomes Freedom Day. The ANC wins with 62.5% of the vote.</p>
-        <div class="event-impact">Freedom Day is a public holiday. But the economic and social structures of apartheid — land inequality, educational disparity, spatial separation — persist in measurable ways to this day.</div>
-      </div>
-      <div class="timeline-center">
-        <div class="timeline-dot" style="background:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,0.25)"></div>
-        <div class="timeline-year-badge" style="color:var(--gold)">1994</div>
-      </div>
-      <div></div>
-    </div>
- 
   </div>
 </section>
- 
-<!-- ─── VOICES ─── -->
-<section class="voices" id="voices">
-  <p class="section-label">First-Person Testimony</p>
-  <h2 class="section-title">In Their Own Words</h2>
-  <p class="section-body">Drawn from oral history archives, published testimonies, and the record of the Truth and Reconciliation Commission.</p>
- 
-  <div class="voices-grid">
-    <div class="voice-card" onclick="openModal('voice1')">
-      <p class="voice-text">"When the bulldozers came, my mother sat on the step and refused to move. They built the road anyway. For thirty years she would not speak about it."</p>
-      <div class="voice-attribution">
-        <span class="voice-name">District Six Resident</span>
-        <span class="voice-context">District Six Museum Oral Archive · Cape Town</span>
+
+<!-- WRITINGS -->
+<section class="writings-section" id="writings">
+  <div class="writings-inner">
+    <div class="eyebrow">Published Writings</div>
+    <h2 class="section-h">Khotso Seatlholo — In His Own Words</h2>
+    <div class="gold-rule"></div>
+    <p class="section-body">Khotso Seatlholo wrote and spoke with clarity, precision, and moral force. These are extracts from his documented writings, press releases, and public addresses — sourced from public record and published scholarship.</p>
+    <div class="writings-grid">
+      <div class="wc" onclick="openModal('w1')">
+        <div class="wc-essay">Essay — "Acquisition of Education: An Obligation of Every Child and Every Society's Responsibility"</div>
+        <p class="wc-text">"With the introduction of Bantu Education came a huge clamour for a uniform system. But we have since established that Western formal education does not meet our domestic developmental needs."</p>
+        <div class="wc-ctx">Published essay · Culture Review Magazine · Black Opinion</div>
       </div>
-    </div>
-    <div class="voice-card" onclick="openModal('voice2')">
-      <p class="voice-text">"The pass book was my chain. I could not visit my own mother in the next town without the right stamp. You felt it in your chest — that you were not considered a full person."</p>
-      <div class="voice-attribution">
-        <span class="voice-name">Thabo M., Miner</span>
-        <span class="voice-context">South African History Archive · Johannesburg</span>
+      <div class="wc" onclick="openModal('w2')">
+        <div class="wc-essay">Essay — "The Struggle for Liberation Was About Land"</div>
+        <p class="wc-text">"The battles fought by the Black Power Movement aimed to reclaim land, rather than merely realising a non-racial government that would result in a proxy black government serving the same enemies we fought against."</p>
+        <div class="wc-ctx">Published essay · Culture Review Magazine</div>
       </div>
-    </div>
-    <div class="voice-card" onclick="openModal('voice3')">
-      <p class="voice-text">"June 16 was the day we became visible. We were children — but we understood that silence was the same as agreement. We could not agree."</p>
-      <div class="voice-attribution">
-        <span class="voice-name">Soweto Student, 1976</span>
-        <span class="voice-context">Hector Pieterson Museum Archive</span>
+      <div class="wc" onclick="openModal('w3')">
+        <div class="wc-essay">SSRC Press Release — 29 October 1976</div>
+        <p class="wc-text">"It was the Afrikaans question that made us stand together in one solidarity to voice our grievances. Afrikaans was only the Achilles Heel of the whole system of Bantu Education."</p>
+        <div class="wc-ctx">SAB WLD 6857/77, WRAB v. Santam · Gutenberg-e Historical Archive</div>
       </div>
-    </div>
-    <div class="voice-card" onclick="openModal('voice4')">
-      <p class="voice-text">"At the TRC, I listened to the man who killed my son describe it as if he were reading a weather report. And I was asked: do you forgive? The question felt like violence."</p>
-      <div class="voice-attribution">
-        <span class="voice-name">TRC Testimony, 1997</span>
-        <span class="voice-context">Truth & Reconciliation Commission Public Record</span>
-      </div>
-    </div>
-    <div class="voice-card" onclick="openModal('voice5')">
-      <p class="voice-text">"My textbooks said our people had no history before the Europeans came. I believed it until I was grown. The damage of that lie is not small."</p>
-      <div class="voice-attribution">
-        <span class="voice-name">Educator, Limpopo</span>
-        <span class="voice-context">SAHO Educational Project Interview</span>
-      </div>
-    </div>
-    <div class="voice-card" onclick="openModal('voice6')">
-      <p class="voice-text">"Robben Island was not only about suffering. We ran a university in there. We debated ideas. We refused to become what they made of us."</p>
-      <div class="voice-attribution">
-        <span class="voice-name">Former Political Prisoner</span>
-        <span class="voice-context">Robben Island Museum Testimony</span>
+      <div class="wc" onclick="openModal('w4')">
+        <div class="wc-essay">Public Address to Soweto High Schools — 1976</div>
+        <p class="wc-text">"Twenty years ago, our fathers said: 'half a loaf is better than no loaf'. But we say: 'half a gram of poison is just as lethal as the whole gram'. We refuse to swallow this education designed to make us slaves in the country of our birth."</p>
+        <div class="wc-ctx">Black Opinion · Centre for Civil Society · June 16 Commemorative Tribute</div>
       </div>
     </div>
   </div>
 </section>
- 
-<!-- ─── LAWS ─── -->
+
+<!-- VOICES -->
+<section class="voices-section" id="voices">
+  <div class="voices-inner">
+    <div class="eyebrow">First-Person Testimony</div>
+    <h2 class="section-h">The People Who Lived It</h2>
+    <div class="gold-rule"></div>
+    <p class="section-body">Drawn from oral history archives, the TRC public record, and published testimony. Click each card for full context.</p>
+    <div class="voices-grid">
+      <div class="vc" onclick="openModal('v1')"><p class="vc-q">"June 16 was the day we became visible. We were children — but we understood that silence was the same as agreement. We could not agree."</p><div class="vc-who">Soweto Student, 1976</div><div class="vc-src">Hector Pieterson Museum Archive · Johannesburg</div></div>
+      <div class="vc" onclick="openModal('v2')"><p class="vc-q">"When the bulldozers came, my mother sat on the step and refused to move. They built the road anyway. For thirty years she would not speak about it."</p><div class="vc-who">District Six Resident</div><div class="vc-src">District Six Museum Oral History Archive · Cape Town</div></div>
+      <div class="vc" onclick="openModal('v3')"><p class="vc-q">"The pass book was my chain. I could not visit my own mother in the next town without the right stamp. You felt it in your chest — that you were not considered a full person."</p><div class="vc-who">Thabo M. — Miner</div><div class="vc-src">South African History Archive · Johannesburg</div></div>
+      <div class="vc" onclick="openModal('v4')"><p class="vc-q">"At the TRC, I listened to the man who killed my son describe it as if reading a weather report. And I was asked: do you forgive? The question felt like violence."</p><div class="vc-who">TRC Testimony, 1997</div><div class="vc-src">Truth & Reconciliation Commission Public Record</div></div>
+      <div class="vc" onclick="openModal('v5')"><p class="vc-q">"My textbooks said our people had no history before the Europeans came. I believed it until I was grown. The damage of that lie is not small."</p><div class="vc-who">Educator — Limpopo</div><div class="vc-src">SAHO Educational Project Interview</div></div>
+      <div class="vc" onclick="openModal('v6')"><p class="vc-q">"Robben Island was not only about suffering. We ran a university in there. We debated ideas. We refused to become what they made of us."</p><div class="vc-who">Former Political Prisoner</div><div class="vc-src">Robben Island Museum Testimony</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- LAWS -->
 <section class="laws-section" id="laws">
   <div class="laws-inner">
-    <div class="laws-intro">
+    <div class="laws-top">
       <div>
-        <p class="section-label">The Legislative Architecture</p>
-        <h2 class="section-title">Apartheid Was Not Chaos. It Was Law.</h2>
+        <div class="eyebrow">The Legislative Architecture</div>
+        <h2 class="section-h">Apartheid Was Not Chaos.<br>It Was Law.</h2>
+        <div class="gold-rule"></div>
       </div>
-      <p class="section-body">Hundreds of pieces of legislation formalised racial hierarchy. These were not informal prejudices. They were Acts of Parliament — precise, deliberate, and enforced.</p>
+      <p class="section-body">Hundreds of Acts of Parliament formalised racial hierarchy. These were precise, deliberate, and enforced by the state. Understanding them is the first step to understanding how South Africa was built — and why its architecture persists.</p>
     </div>
     <div class="laws-grid">
-      <div class="law-card">
-        <div class="law-year">Act No. 30 of 1950</div>
-        <div class="law-name">Population Registration Act</div>
-        <div class="law-effect">Required every South African to be classified by race. The classification determined every aspect of a person's life — where they could live, who they could marry, what schools their children could attend. Classification disputes were decided by officials who would examine physical features and ask demeaning questions.</div>
-      </div>
-      <div class="law-card">
-        <div class="law-year">Act No. 41 of 1950</div>
-        <div class="law-name">Group Areas Act</div>
-        <div class="law-effect">Designated specific residential and business zones for each racial group. Non-white South Africans living in "white" areas were forcibly relocated — often to under-resourced townships far from employment. Over 3.5 million people were removed. Entire communities were erased.</div>
-      </div>
-      <div class="law-card">
-        <div class="law-year">Act No. 47 of 1953</div>
-        <div class="law-name">Bantu Education Act</div>
-        <div class="law-effect">Placed Black African education under direct state control, replacing mission school curricula with a system explicitly designed to limit aspirations. Funding per Black pupil was a fraction of funding per white pupil. The legacy of underfunded Black education remains visible in South Africa today.</div>
-      </div>
-      <div class="law-card">
-        <div class="law-year">Act No. 55 of 1949</div>
-        <div class="law-name">Prohibition of Mixed Marriages Act</div>
-        <div class="law-effect">Criminalised marriage between white South Africans and people of other races. The Immorality Amendment Act of 1950 extended this to prohibit any sexual relations across racial lines. Families were torn apart. People were prosecuted for love.</div>
-      </div>
-      <div class="law-card">
-        <div class="law-year">Pass Laws (Various)</div>
-        <div class="law-name">Pass Laws — "The Dompas"</div>
-        <div class="law-effect">Black South Africans were required to carry a "reference book" (the dompas — literally "dumb pass") at all times, containing their racial classification, employer details, and permission to be in particular areas. Failure to produce it meant arrest. Millions were arrested under pass law violations during apartheid.</div>
-      </div>
-      <div class="law-card">
-        <div class="law-year">Act No. 44 of 1950</div>
-        <div class="law-name">Suppression of Communism Act</div>
-        <div class="law-effect">Defined "communism" so broadly that it effectively criminalised any opposition to the government — trade union activism, journalism, legal advocacy, or protest. It was the primary tool used to detain, ban, and silence political opponents, including Nelson Mandela, Bram Fischer, and Walter Sisulu.</div>
-      </div>
+      <div class="law-card"><div class="law-act">Act No. 30 of 1950</div><div class="law-name">Population Registration Act</div><p class="law-text">Required every South African to be racially classified. The classification determined every aspect of life. Classification disputes were decided by officials who examined physical features and asked demeaning questions. It made apartheid operationally possible.</p></div>
+      <div class="law-card"><div class="law-act">Act No. 41 of 1950</div><div class="law-name">Group Areas Act</div><p class="law-text">Designated residential and business zones by race. Over 3.5 million people were forcibly removed. District Six, Sophiatown, and hundreds of communities were bulldozed. The spatial legacy is still visible in every South African city today.</p></div>
+      <div class="law-card"><div class="law-act">Act No. 47 of 1953</div><div class="law-name">Bantu Education Act</div><p class="law-text">The law that Khotso Seatlholo called the "whole system" — Afrikaans only its Achilles Heel. It placed Black education under direct state control, explicitly limiting aspiration. Its legacy runs through South Africa's education crisis today.</p></div>
+      <div class="law-card"><div class="law-act">Pass Laws — Various Acts</div><div class="law-name">The Dompas System</div><p class="law-text">Black South Africans were required to carry a reference book at all times. Over 17 million pass law arrests were made between 1948 and 1986. The 1960 Sharpeville Massacre was a direct protest against this system.</p></div>
+      <div class="law-card"><div class="law-act">Act No. 44 of 1950</div><div class="law-name">Suppression of Communism Act</div><p class="law-text">Defined "communism" so broadly it criminalised virtually all resistance — trade unionism, journalism, protest. The primary tool used to imprison Mandela. The Act under which Khotso Seatlholo was charged as a "Terrorist" — for organising students.</p></div>
+      <div class="law-card"><div class="law-act">Act No. 55 of 1949</div><div class="law-name">Prohibition of Mixed Marriages Act</div><p class="law-text">Criminalised marriage across racial lines. The Immorality Amendment Act extended this to all sexual relations. Families were torn apart. People were prosecuted for love. The state had legislated intimacy itself.</p></div>
     </div>
   </div>
 </section>
- 
-<!-- ─── DISTRICT SIX FEATURE ─── -->
-<section class="feature-section">
-  <div class="feature-card">
-    <div class="feature-visual">
-      <div class="feature-map-label">DISTRICT<br>SIX</div>
-      <div class="feature-map-sublabel">Cape Town · Demolished 1966–1982</div>
-    </div>
-    <div class="feature-text">
-      <p class="section-label">A Case Study in Erasure</p>
-      <h2 class="section-title" style="font-size:2rem;">A neighbourhood. Then rubble. Then memory.</h2>
-      <p class="section-body" style="max-width:100%">District Six was a vibrant, racially mixed inner-city community in Cape Town — home to freed slaves, merchants, artisans, immigrants, and workers since the 1860s.<br><br>
-      In 1966, the apartheid government declared it a "White Group Area." Over 60,000 residents were forcibly removed to the Cape Flats — a sandy, windswept area with no infrastructure, far from their jobs and schools.<br><br>
-      The houses were bulldozed. The streets were erased. And yet — the residents refused to forget. The District Six Museum was founded in 1994. Former residents return to its floor maps and trace with their fingers the streets where they were born.</p>
-      <div class="feature-stat-row">
-        <div class="feature-stat">
-          <div class="feature-stat-num">60,000+</div>
-          <div class="feature-stat-label">Residents Removed</div>
-        </div>
-        <div class="feature-stat">
-          <div class="feature-stat-num">16 yrs</div>
-          <div class="feature-stat-label">Duration of Demolition</div>
-        </div>
-        <div class="feature-stat">
-          <div class="feature-stat-num">1994</div>
-          <div class="feature-stat-label">Museum Founded</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
- 
-<!-- ─── CHAPTERS ─── -->
-<section class="chapters" id="chapters">
+
+<!-- CHAPTERS -->
+<section class="chapters-section" id="archive">
   <div class="chapters-inner">
-    <div class="chapters-header">
-      <div>
-        <p class="section-label">Further Reading</p>
-        <h2 class="section-title">Chapters of the Archive</h2>
-      </div>
-      <a href="#" class="btn-ghost" style="color:var(--red)">View All Chapters →</a>
-    </div>
+    <div class="eyebrow">Further Study</div>
+    <h2 class="section-h">Chapters of the Archive</h2>
+    <div class="gold-rule"></div>
+    <p class="section-body">Each chapter is a doorway into a deeper layer of South African history — from the roots of colonial dispossession to the unfinished work of economic liberation.</p>
     <div class="chapters-grid">
-      <a class="chapter-card" href="#">
-        <div class="chapter-number">01</div>
-        <span class="chapter-tag">Origins</span>
-        <div class="chapter-title">Before 1948: Segregation Without the Name</div>
-        <p class="chapter-desc">Colonial dispossession, the Glen Grey Act, and the pass system — apartheid formalised what had been building for over a century.</p>
-      </a>
-      <a class="chapter-card" href="#">
-        <div class="chapter-number">02</div>
-        <span class="chapter-tag">Resistance</span>
-        <div class="chapter-title">The Defiance Campaign and the Congress Alliance</div>
-        <p class="chapter-desc">From the ANC's founding in 1912 to the Defiance Campaign of 1952, the history of organised resistance against racial oppression.</p>
-      </a>
-      <a class="chapter-card" href="#">
-        <div class="chapter-number">03</div>
-        <span class="chapter-tag">Bantustan System</span>
-        <div class="chapter-title">Homeland Policy: Independence as Dispossession</div>
-        <p class="chapter-desc">Ten "homelands" created to strip Black South Africans of citizenship. Transkei, Bophuthatswana, Venda, Ciskei — recognised by no one but South Africa.</p>
-      </a>
-      <a class="chapter-card" href="#">
-        <div class="chapter-number">04</div>
-        <span class="chapter-tag">Women & Apartheid</span>
-        <div class="chapter-title">The 1956 Women's March — "You Strike a Woman, You Strike a Rock"</div>
-        <p class="chapter-desc">20,000 women marched to the Union Buildings to protest pass laws. Their courage and the anthem they sang became emblematic of the struggle.</p>
-      </a>
-      <a class="chapter-card" href="#">
-        <div class="chapter-number">05</div>
-        <span class="chapter-tag">Truth & Reconciliation</span>
-        <div class="chapter-title">The TRC: Bearing Witness to What Cannot Be Undone</div>
-        <p class="chapter-desc">Archbishop Desmond Tutu chaired a commission that heard over 20,000 testimonies. An experiment in restorative justice — with profound contradictions.</p>
-      </a>
-      <a class="chapter-card" href="#">
-        <div class="chapter-number">06</div>
-        <span class="chapter-tag">Long Shadow</span>
-        <div class="chapter-title">The Inheritance: What Apartheid Left Behind</div>
-        <p class="chapter-desc">Land inequality, the spatial legacy of townships, the wealth gap, underfunded schools. Apartheid's architecture did not disappear in 1994.</p>
-      </a>
+      <a class="chap" href="#"><div class="chap-n">01</div><span class="chap-tag">Origins</span><div class="chap-title">Before 1948: Segregation Without the Name</div><p class="chap-desc">Colonial dispossession, the Glen Grey Act, and the pass system — apartheid formalised what had been building for over a century.</p></a>
+      <a class="chap" href="#"><div class="chap-n">02</div><span class="chap-tag">Black Consciousness</span><div class="chap-title">Steve Biko and the Philosophy That Shaped Khotso</div><p class="chap-desc">Black Consciousness argued that the oppressor's most powerful weapon was the oppressed mind. Biko gave Seatlholo's generation a political language for their lived experience.</p></a>
+      <a class="chap" href="#"><div class="chap-n">03</div><span class="chap-tag">Women & the Struggle</span><div class="chap-title">The 1956 Women's March — "You Strike a Woman, You Strike a Rock"</div><p class="chap-desc">20,000 women marched to the Union Buildings against the pass laws. Their anthem, their courage, and their largely untold contribution to liberation.</p></a>
+      <a class="chap" href="#"><div class="chap-n">04</div><span class="chap-tag">SAYRCO & Armed Struggle</span><div class="chap-title">Why Khotso Seatlholo Chose Armed Resistance</div><p class="chap-desc">The formation of SAYRCO, military training under the PLO, and the Black Consciousness argument that non-violence had been rendered insufficient by the state's violence.</p></a>
+      <a class="chap" href="#"><div class="chap-n">05</div><span class="chap-tag">Truth & Reconciliation</span><div class="chap-title">The TRC: Bearing Witness — and Its Limits</div><p class="chap-desc">Archbishop Tutu chaired 20,000 testimonies. An experiment in restorative justice with profound contradictions — and with Khotso Seatlholo watching from Soweto, unconvinced.</p></a>
+      <a class="chap" href="#"><div class="chap-n">06</div><span class="chap-tag">Long Shadow</span><div class="chap-title">What Apartheid Left Behind — The Inheritance</div><p class="chap-desc">Land inequality, spatial planning, underfunded schools, the wealth gap. Apartheid's structures did not disappear in 1994. Understanding the inheritance is the work of every generation.</p></a>
     </div>
   </div>
 </section>
- 
-<!-- ─── WHY ─── -->
-<section class="why-section" id="why">
-  <p class="section-label">About This Archive</p>
-  <h2 class="why-title">History is not the past.<br><em>It is the ground we stand on.</em></h2>
-  <p class="why-body">
-    South Africa has more World War Two memorials than it has apartheid memorials. Many of the few apartheid sites that do exist are underfunded and deteriorating. A child born in 1994 — the year of liberation — is 31 years old today. They are raising children of their own, children for whom apartheid is not even a faint childhood memory but an abstraction entirely.
-    <br><br>
-    This archive is not academic. It is not affiliated with any political party. It exists to offer a clear, honest, and accessible account of what happened — drawn entirely from public record, museum collections, and testimony — because the memorialisation gap is not just a cultural oversight. It is a risk.
-  </p>
-  <div class="why-sources">
-    <span class="source-badge">District Six Museum</span>
-    <span class="source-badge">South African History Archive</span>
-    <span class="source-badge">Robben Island Museum</span>
-    <span class="source-badge">Hector Pieterson Museum</span>
-    <span class="source-badge">TRC Public Record</span>
-    <span class="source-badge">SAHO — sahistory.org.za</span>
-    <span class="source-badge">Apartheid Museum Jhb</span>
-    <span class="source-badge">Parliamentary Archive</span>
+
+<!-- MISSION -->
+<section class="mission-section" id="mission">
+  <div class="mission-inner">
+    <div class="mission-seal">◆</div>
+    <div class="eyebrow" style="justify-content:center;display:flex">The Khotso Seatlholo Foundation</div>
+    <h2 class="mission-h">A freedom without memory<br><em style="color:var(--gold)">is a freedom half-understood.</em></h2>
+    <p class="mission-body">South Africa has more World War Two memorials than it has apartheid memorials. Many of the few apartheid sites that exist are underfunded and deteriorating. A child born on Freedom Day in 1994 is a parent today. Their children know apartheid only as a word.<br><br>
+    The Khotso Seatlholo Foundation exists to ensure that the sacrifice of Khotso Sidney Seatlholo — and the millions whose suffering built the conditions for his courage — is not dissolved into annual ceremony and political appropriation. This archive draws only from public record, published scholarship, oral history collections, and primary source testimony. It is non-partisan and non-commercial. It belongs to every South African.<br><br>
+    In 2025, a statue of Daniel Khotso Sidney Seatlholo was confirmed for erection at the Robben Island Ex-Political Prisoners' Reunion — alongside Nelson Mandela, Robert Sobukwe, Autshumato Krotoa, and Andimba Toivo ya Toivo. The recognition came 21 years after his death.</p>
+    <div class="source-strip">
+      <span class="src-tag">SAHISTORY</span><span class="src-tag">SAHA Archive</span><span class="src-tag">TRC Public Record</span>
+      <span class="src-tag">Cambridge UP 2023</span><span class="src-tag">Black Opinion</span><span class="src-tag">District Six Museum</span>
+      <span class="src-tag">Robben Island Museum</span><span class="src-tag">Hector Pieterson Museum</span>
+      <span class="src-tag">Sowetan Live</span><span class="src-tag">Mail & Guardian</span><span class="src-tag">GCIS 2025</span><span class="src-tag">Nelson Mandela Foundation</span>
+    </div>
   </div>
 </section>
- 
-<!-- ─── FOOTER ─── -->
+
+<!-- FOOTER -->
 <footer>
   <div class="footer-left">
-    A public interest digital archive.<br>
-    All content drawn from public record and museum collections.<br>
-    Non-commercial. Non-partisan.
+    Khotso Seatlholo Foundation<br>
+    A public interest digital archive<br>
+    All content from public record · Non-commercial · Non-partisan<br>
+    Barolong Boo Rapulana · Mahikeng · South Africa
   </div>
-  <div class="footer-center">R · O · K</div>
+  <div class="footer-center">
+    <div class="footer-center-seal">◆</div>
+    <div class="footer-center-name">KSF</div>
+    <div class="footer-center-sub">Est. Soweto, 2019</div>
+  </div>
   <div class="footer-right">
     Built by <a href="https://businesshustle.co.za">Business Hustle</a><br>
     Cape Town, South Africa<br>
-    Remember · Onthou · Khumbula
+    Khotso Sidney Seatlholo · 1958–2004<br>
+    "The people first. Then, only then, the individual."
   </div>
 </footer>
- 
-<!-- ─── MODALS ─── -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal" id="modal-content">
-    <button class="modal-close" onclick="closeModalBtn()">✕</button>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕ Close</button>
     <div id="modal-inner"></div>
   </div>
 </div>
- 
+
 <script>
-  // ─── SCROLL ANIMATIONS ───
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
-  }, { threshold: 0.15 });
- 
-  document.querySelectorAll('.timeline-item').forEach(el => observer.observe(el));
- 
-  // ─── MODAL DATA ───
-  const modals = {
-    voice1: {
-      tag: 'District Six · Oral Testimony',
-      title: 'When the Bulldozers Came',
-      body: `<p>This testimony was collected by the District Six Museum as part of their ongoing oral history project, which has gathered accounts from former residents forcibly removed under the Group Areas Act.</p>
-<p>Between 1966 and 1982, the apartheid government bulldozed the homes of over 60,000 people in Cape Town's District Six — a racially mixed inner-city community declared a "White Group Area" under the Group Areas Act of 1950.</p>
-<p>Residents received notification and were transported to the Cape Flats — sandy, windswept land with no infrastructure, far from their places of work, their schools, their neighbours, and their sense of self.</p>
-<p>The District Six Museum, founded in 1994, maintains one of the most significant oral history collections in South Africa. Former residents return regularly to trace the outlines of their old streets on the museum's floor map — streets that no longer exist.</p>`,
-      source: 'Source: District Six Museum Oral History Archive, Cape Town'
-    },
-    voice2: {
-      tag: 'Pass Laws · Personal Testimony',
-      title: 'The Dompas: Carrying Your Own Subordination',
-      body: `<p>The pass book — known colloquially as the "dompas" (literally "dumb pass") — was required to be carried by all Black South African adults at all times under the Native Laws Amendment Act and related legislation.</p>
-<p>The book contained the holder's photograph, racial classification, employer details, residential area, and crucially, permission stamps authorising them to be in designated "white" areas. Without the correct stamps, a person could be arrested simply for being in a city.</p>
-<p>The South African History Archive records that over 17 million pass law arrests were made between 1948 and 1986, when the laws were finally repealed. That is an average of roughly 1,000 arrests per day, every day, for 38 years.</p>
-<p>The 1960 Sharpeville Massacre occurred during a peaceful protest against the pass laws. The ANC's campaign against the dompas was central to the liberation struggle.</p>`,
-      source: 'Source: South African History Archive; SAHO (sahistory.org.za)'
-    },
-    voice3: {
-      tag: 'Soweto Uprising · 1976',
-      title: 'June 16: The Day the Children Marched',
-      body: `<p>On 16 June 1976, an estimated 20,000 students from Soweto schools gathered to march in protest against a government directive requiring that Afrikaans be used as the medium of instruction in Black schools — alongside English — for mathematics, social studies, and other subjects.</p>
-<p>Afrikaans was not neutral. It was the language of the oppressor, the language in which apartheid laws were drafted and police orders barked. To be taught in it was experienced as a further act of domination.</p>
-<p>Police opened fire on the student march. Hector Pieterson, 13 years old, was among the first killed. The photograph of his body, carried by a friend, became one of the defining images of apartheid and was transmitted around the world.</p>
-<p>The uprising spread to townships across South Africa and continued for months. It marked a decisive shift in the international perception of apartheid — and the beginning of a new generation of resistance. June 16 is now National Youth Day.</p>`,
-      source: 'Source: Hector Pieterson Museum; South African History Archive'
-    },
-    voice4: {
-      tag: 'Truth & Reconciliation Commission · 1996–1998',
-      title: 'The TRC: Forgiveness and Its Limits',
-      body: `<p>The Truth and Reconciliation Commission was established by the Promotion of National Unity and Reconciliation Act of 1995. Chaired by Archbishop Desmond Tutu, it heard over 20,000 testimonies from victims and over 7,000 applications for amnesty from perpetrators.</p>
-<p>The Commission's mandate was broadly restorative: it offered amnesty to perpetrators who made full disclosure of politically motivated crimes — and asked victims to bear witness, often in the same room as those who had harmed them.</p>
-<p>The TRC has been praised internationally as a model of transitional justice. It has also been deeply criticised — for prioritising national reconciliation over individual justice, for the fact that most amnesty applicants were not prosecuted even after disclosure, and for the psychological burden it placed on survivors.</p>
-<p>Many victims felt the process compelled them toward a forgiveness they had not chosen. The question of what genuine reckoning with the past requires — individually and nationally — remains unresolved.</p>`,
-      source: 'Source: TRC Final Report (1998); Volume 1-5, South African Government Archive'
-    },
-    voice5: {
-      tag: 'Bantu Education · Long Shadow',
-      title: 'What They Put in the Textbooks',
-      body: `<p>The Bantu Education Act of 1953, introduced by Hendrik Verwoerd as Minister of Native Affairs, was explicit in its aims. In Parliament, Verwoerd stated that "there is no place for [the Bantu] in the European community above the level of certain forms of labour."</p>
-<p>The curriculum was redesigned accordingly: to limit scientific and academic aspiration, to present African history as beginning with European contact, and to position Black students as future manual labourers rather than professionals, leaders, or thinkers.</p>
-<p>Funding per Black pupil in the early 1950s was approximately one-tenth of funding per white pupil. By the 1970s, the ratio had widened further.</p>
-<p>The consequences of Bantu Education are not historical abstractions. South Africa's current education crisis — the persistent performance gaps, the infrastructure deficits, the teacher training shortfalls — is directly traceable to four decades of deliberately underfunded, deliberately limited schooling for Black South Africans.</p>`,
-      source: 'Source: SAHO Education Archive; South African Schools Act Review Commission'
-    },
-    voice6: {
-      tag: 'Robben Island · Political Prisoner',
-      title: 'The University of Robben Island',
-      body: `<p>Nelson Mandela was held on Robben Island for 18 of his 27 years in prison. Walter Sisulu, Govan Mbeki, Ahmed Kathrada, and hundreds of other political prisoners were held there across the apartheid years.</p>
-<p>The island was designed as isolation. Instead, it became a site of extraordinary intellectual and political formation. Prisoners organised informal study groups — teaching each other, debating theory, maintaining the coherence of a movement under some of the most repressive conditions imaginable.</p>
-<p>The phrase "University of Robben Island" was used by the prisoners themselves to describe this process. It was not romanticisation. It was an assertion that the apartheid state had failed: that it could imprison the body but not the mind, could enforce silence but not consent.</p>
-<p>The Robben Island Museum, established in 1997, is now a UNESCO World Heritage Site. Former political prisoners serve as guides. The island where the state intended erasure has become one of South Africa's most powerful sites of memory.</p>`,
-      source: 'Source: Robben Island Museum; Mandela: Long Walk to Freedom (1994)'
-    }
-  };
- 
-  function openModal(id) {
-    const data = modals[id];
-    if (!data) return;
-    document.getElementById('modal-inner').innerHTML = `
-      <div class="modal-tag">${data.tag}</div>
-      <h2 class="modal-title">${data.title}</h2>
-      <div class="modal-body">${data.body}</div>
-      <div class="modal-source">${data.source}</div>
-    `;
-    document.getElementById('modal-overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
+// ── SCROLL ANIMATIONS ──
+const io = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:.1});
+document.querySelectorAll('.tl-item').forEach(el=>io.observe(el));
+
+// ── PRISONER DATABASE ──
+const prisoners = [
+  {name:'Jacob Gaonakala Seatlholo',org:'ANC',year:'1976–1988',sentence:'12 years',charge:'Terrorism Act',excerpt:'Veteran ANC member. Arrested April 1976, Johannesburg. Detained 90 days at John Vorster Square. Subjected to repeated beating and electric shock torture. Sentenced to 12 years on Robben Island.',source:'TRC Archive · SAHA · Robben Island EPP Database',featured:true},
+  {name:'Daniel Khotso Sidney Seatlholo',org:'SAYRCO',year:'1982–1990',sentence:'15 years',charge:'Terrorism Act',excerpt:'President of the SSRC (1976) and founder-President of SAYRCO. Led the Soweto Uprising at age 17. Captured on a SAYRCO recruitment mission, 1981. Sentenced to 15 years. Released 1990. Statue confirmed at Robben Island Ex-Political Prisoners\' Reunion, 2025.',source:'SAHISTORY · SAHA · Cambridge UP 2023 · GCIS 2025'},
+  {name:'Nelson Rolihlahla Mandela',org:'ANC',year:'1964–1982',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'ANC leader and MK commander. Convicted at the Rivonia Trial 1964. Held on Robben Island for 18 of his 27 years. Transferred to Pollsmoor 1982. Released February 1990. First democratically elected President of South Africa, 1994.',source:'Robben Island Museum · Long Walk to Freedom (1994)'},
+  {name:'Walter Max Ulyate Sisulu',org:'ANC',year:'1964–1989',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'ANC Secretary-General, convicted alongside Mandela at the Rivonia Trial. Held on Robben Island until 1989. Mentored younger prisoners including Tokyo Sexwale and Kgalema Motlanthe. Released October 1989.',source:'SAHISTORY · Robben Island Museum'},
+  {name:'Ahmed Mohamed Kathrada',org:'ANC',year:'1964–1989',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'Only Indian among the Rivonia trialists. Held on Robben Island until 1989. Known for his wit and resilience. On the day of his arrival, was given long trousers while Govan Mbeki received short trousers — race-based even in prison clothes.',source:'SAHISTORY · Google Arts & Culture · Robben Island Museum'},
+  {name:'Robert Mangaliso Sobukwe',org:'PAC',year:'1960–1969',sentence:'Special (Indefinite)',charge:'Sobukwe Clause',excerpt:'Founder of the Pan Africanist Congress. Held in singular isolation — not in the main prison — because the government considered him too dangerous for contact with other prisoners. The "Sobukwe Clause" was passed specifically to detain him without additional charges.',source:'South Africa Overcoming Apartheid · SAHISTORY'},
+  {name:'Govan Archibald Mbeki',org:'ANC',year:'1964–1987',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'Father of President Thabo Mbeki. Convicted at Rivonia. Held on Robben Island for 23 years. His prison writings were later published as "Learning from Robben Island." Released by P.W. Botha in 1987.',source:'Foreign Affairs Book Review · SAHISTORY'},
+  {name:'Kgalema Petrus Motlanthe',org:'ANC',year:'1977–1987',sentence:'10 years',charge:'Terrorism Act',excerpt:'Future President of South Africa (2008–2009). Imprisoned on Robben Island for ANC underground activity. Later became ANC Secretary-General and Deputy President under Thabo Mbeki. Elected President upon Mbeki\'s resignation in 2008.',source:'Robben Island Museum · Google Arts & Culture'},
+  {name:'Mosima Gabriel "Tokyo" Sexwale',org:'ANC',year:'1977–1990',sentence:'18 years',charge:'Terrorism Act',excerpt:'Convicted for underground ANC military activity. Imprisoned alongside Mandela on Robben Island. Became Premier of Gauteng after the 1994 elections and later Minister of Human Settlements.',source:'Google Arts & Culture · Robben Island Museum'},
+  {name:'Jacob Gedleyihlekisa Zuma',org:'ANC',year:'1963–1973',sentence:'10 years',charge:'Conspiracy to overthrow government',excerpt:'Future President of South Africa (2009–2018). Arrested in 1962 near Zeerust with 45 ANC recruits. Sentenced to 10 years on Robben Island, where he served as a football referee in the Makana F.A. — the prisoners\' own football association.',source:'Robben Island Wikipedia · Jacob Zuma Wikipedia'},
+  {name:'Neville Edward Alexander',org:'Non-Aligned',year:'1964–1974',sentence:'10 years',charge:'Sabotage',excerpt:'Scholar, author, and anti-apartheid activist. Imprisoned on Robben Island for 10 years. Used his imprisonment to teach fellow prisoners. Later became one of South Africa\'s most important thinkers on language policy and decolonisation.',source:'Robben Island Wikipedia · SAHISTORY'},
+  {name:'Mac Maharaj (Sathyandranath Ragunanan)',org:'ANC',year:'1964–1976',sentence:'12 years',charge:'Sabotage · ANC underground',excerpt:'MK operative and ANC strategist. Smuggled Mandela\'s autobiography manuscript out of Robben Island in 1976 — hidden in the suitcase lining on his release. The manuscript was published as "Long Walk to Freedom" in 1994.',source:'Robben Island Wikipedia · SAHISTORY'},
+  {name:'Joe "Moss" Seremane',org:'PAC',year:'1963–1975',sentence:'12 years',charge:'PAC activities',excerpt:'Later became Chairperson of the Democratic Alliance. His brother Timothy Seremane was killed under ANC custody during the liberation struggle — a source of ongoing grief and political complexity. Seremane\'s life embodies the contradictions of the transition.',source:'South Africa Overcoming Apartheid · SAHISTORY'},
+  {name:'Andimba Toivo ya Toivo',org:'SWAPO',year:'1968–1984',sentence:'20 years',charge:'Terrorism Act',excerpt:'Co-founder of SWAPO and leader of Namibian independence. Held on Robben Island for 20 years as a Namibian political prisoner under South African jurisdiction. Released 1984. First Labour Minister of independent Namibia. A statue in his honour confirmed at the Robben Island Ex-Political Prisoners\' Reunion alongside Seatlholo.',source:'Robben Island Museum · GCIS 2025'}
+];
+
+let currentFilter = 'all';
+
+function renderPrisoners(list) {
+  const container = document.getElementById('prisoner-results');
+  const count = document.getElementById('pr-count');
+  if (!list.length) {
+    container.innerHTML = '<div class="pr-no-results">No records found matching your search. Try a different name or organisation.</div>';
+    count.textContent = '0 records found';
+    return;
   }
- 
-  function closeModal(e) {
-    if (e.target === document.getElementById('modal-overlay')) {
-      document.getElementById('modal-overlay').classList.remove('open');
-      document.body.style.overflow = '';
-    }
-  }
- 
-  function closeModalBtn() {
-    document.getElementById('modal-overlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
- 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeModalBtn();
-  });
+  count.textContent = `Showing ${list.length} record${list.length !== 1 ? 's' : ''}`;
+  container.innerHTML = list.map(p => `
+    <div class="pr-card" onclick="openPrisonerModal(${prisoners.indexOf(p)})">
+      <div class="pr-org">${p.org}${p.featured ? ' · ★ Featured Record' : ''}</div>
+      <div class="pr-name">${p.name}</div>
+      <div class="pr-meta">${p.year} · ${p.sentence} · ${p.charge}</div>
+      <p class="pr-excerpt">${p.excerpt.substring(0, 120)}…</p>
+    </div>
+  `).join('');
+}
+
+function searchPrisoners() {
+  const q = document.getElementById('prisoner-search').value.toLowerCase();
+  let list = currentFilter === 'all' ? prisoners : prisoners.filter(p => p.org === currentFilter);
+  if (q) list = list.filter(p =>
+    p.name.toLowerCase().includes(q) ||
+    p.org.toLowerCase().includes(q) ||
+    p.excerpt.toLowerCase().includes(q) ||
+    p.year.includes(q)
+  );
+  renderPrisoners(list);
+}
+
+function filterPrisoners(org, btn) {
+  currentFilter = org;
+  document.querySelectorAll('.ps-filter').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('prisoner-search').value = '';
+  const list = org === 'all' ? prisoners : prisoners.filter(p => p.org === org);
+  renderPrisoners(list);
+}
+
+renderPrisoners(prisoners);
+
+function openPrisonerModal(idx) {
+  const p = prisoners[idx];
+  document.getElementById('modal-inner').innerHTML = `
+    <div class="modal-tag">Robben Island Archive · ${p.org}</div>
+    <h2 class="modal-title">${p.name}</h2>
+    <div class="modal-body">
+      <p><strong style="color:var(--parchment)">Period imprisoned:</strong> ${p.year} &nbsp;·&nbsp; <strong style="color:var(--parchment)">Sentence:</strong> ${p.sentence} &nbsp;·&nbsp; <strong style="color:var(--parchment)">Charge:</strong> ${p.charge}</p>
+      <p>${p.excerpt}</p>
+    </div>
+    <div class="modal-source">Sources: ${p.source}</div>
+  `;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+// ── CONTENT MODALS ──
+const modals = {
+  r1:{tag:'Barolong Boo Rapulana · Royal Lineage',title:'The Seatlholo Royal Line — From the Kgotla to Robben Island',body:`<p>The Seatlholo family belongs to the Barolong Boo Rapulana — one of four clans descended from King Tau (c.1660), whose sons Ratlou, Tshidi, Seleka, and Rapulana gave their names to the branches of the Barolong nation. The Rapulana settled at Lotlhakane and Bodibe, near Mahikeng.</p><p>Khotso Seatlholo, born into this lineage and raised in Moletsane, Soweto, carried the Seatlholo name from the Kgotla into the liberation struggle. At 17, he co-led 20,000 students. At 23, he was imprisoned on Robben Island. He never recanted.</p><p>Today, Kgosi Thabo Milton Seatlholo chairs the National House of Traditional and Khoi-San Leaders — the highest traditional authority body in South Africa. In 2017, Kgosi Tebogo Seatlholo led the community campaign to restore the Lotlhakane Clinic — closed due to apartheid-era construction failures. The Seatlholo line from the kgotla to the national stage is unbroken.</p>`,source:'Barolong Clan History · South African Government · South African History Online · Mining Indaba'},
+  r2:{tag:'AmaZulu · KwaZulu-Natal',title:'King Goodwill Zwelithini — Throne in the Shadow of the Bantustan',body:`<p>Goodwill Zwelithini kaBhekuzulu (1948–2021) was the longest-reigning Zulu king on record. He assumed the throne at 20 in 1968 at the height of apartheid. The apartheid government installed him into the newly created KwaZulu Territorial Authority under the 1959 Promotion of Bantu Self-Government Act.</p><p>His relative Mangosuthu Buthelezi used the king's royal prestige to build Inkatha from 1975. The relationship between the king, Inkatha, and the apartheid security apparatus became deeply violent — Inkatha received weapons from the South African Police, confirmed at the TRC. Thousands were killed in KwaZulu-Natal in the late 1980s and early 1990s in what amounted to a third party in the liberation conflict.</p><p>Three days before the 1994 elections, the Ingonyama Trust Act was signed — placing 32% of KwaZulu-Natal's land under Zwelithini as sole trustee. It was the last act of the apartheid parliament. The Trust's subsequent imposition of rent on people who had lived on that land for generations remains deeply contested.</p>`,source:'SAHISTORY · The Conversation (2021) · Africa Is a Country · News24'},
+  r3:{tag:'AbaThembu · AmaXhosa · Eastern Cape',title:'One Royal House, Three Destinies — Mandela, Matanzima & Sabata',body:`<p>The AbaThembu royal house of the Eastern Cape produced, in one generation, one of history's most extraordinary triptychs. All three men attended Fort Hare University. All three came from the same Thembu royal lineage. All three were asked the same question: how do you lead your people under apartheid?</p><p><strong style="color:var(--parchment)">Nelson Mandela</strong> — born of Thembu nobility — chose liberation. He rejected Matanzima's repeated offers to exchange his imprisonment for exile to the Transkei, understanding that acceptance would legitimise the Bantustan system internationally. 27 years in prison.</p><p><strong style="color:var(--parchment)">Kaiser Matanzima</strong> — Mandela's nephew by law and custom — persuaded the Transkei chiefs to accept the Bantu Authorities Act in 1955. He became first Chief Minister, then President of the "independent" Transkei. Mandela called him "a sell-out in the proper sense of the word."</p><p><strong style="color:var(--parchment)">Sabata Dalindyebo</strong> — the legitimate Thembu king — chose resistance. He called the Transkei passport "a useless piece of paper." He was arrested by armoured cars, convicted of "violating the dignity" of Matanzima, stripped of his crown, and forced into exile in Zambia where he died in 1986. Matanzima had his body stolen and buried unofficially to prevent a public funeral.</p>`,source:'SAHISTORY · Mail & Guardian (1989) · Transkei Wikipedia · Dalindyebo genealogy records'},
+  r4:{tag:'BaPedi · Limpopo',title:'The Sekhukhune Legacy — A Nation That Never Stopped Fighting',body:`<p>The BaPedi of what is now Limpopo Province have a recorded history of resistance to external conquest stretching back centuries. King Sekhukhune I successfully repelled British forces in the first Sekhukhune War of 1876–1877. Only a combined British-Boer assault in 1879, during the Anglo-Zulu War period, finally broke his kingdom.</p><p>Under apartheid, the BaPedi were assigned to Lebowa — declared self-governing in 1972. Crucially, Lebowa under Chief Minister Cedric Phatudi never accepted nominal independence — a quiet but historically significant act of resistance within the Bantustan framework itself.</p><p>The spirit of Sekhukhune's resistance persisted into the 1980s. The uprisings in the Sekhukhune region during P.W. Botha's states of emergency were among the most sustained in the country. Youth and civic organisations maintained active resistance networks throughout, connected to the UDF umbrella.</p>`,source:'SAHISTORY · Encyclopedia of African History · South African National Archives'},
+  r5:{tag:'BaSotho ba Borwa · QwaQwa · Free State',title:'QwaQwa — The Smallest Homeland, Maximum Overcrowding',body:`<p>QwaQwa — meaning "whiter than white" in Sesotho, a reference to its snow-capped Maluti mountains — was designated as the homeland for South Basotho people in 1974. It covered approximately 655 square kilometres in the Drakensberg foothills. At its peak, over 300,000 people were crammed into this tiny territory.</p><p>QwaQwa was never declared "independent." It remained self-governing under Chief Minister T.K. Mopeli. Its geographic isolation and total lack of industrial or agricultural resource base made it entirely dependent on migrant labour remittances from men working in Free State mines and farms.</p><p>The homelands policy required Black South Africans to be "citizens" of these territories — making them foreigners in the industrial cities where they actually worked and lived. For QwaQwa's residents, this meant their identity as South Africans was legislated away by fiat. QwaQwa was reintegrated in 1994 into what is now the Maluti-a-Phofung Local Municipality — among the most economically marginalised areas in South Africa today.</p>`,source:'SAHISTORY · SAHO Bantustans · South African National Archives'},
+  r6:{tag:'Barolong Boo Ratshidi · Mahikeng · Bophuthatswana',title:'Bophuthatswana — When an Ancient Capital Was Absorbed',body:`<p>Mahikeng — "the place of rocks" — was founded by the Barolong Boo Ratshidi in the early 19th century on the Molopo River. It became the capital of the Bechuanaland Protectorate from 1885. The site of the famous 217-day Siege of Mafeking during the Anglo-Boer War.</p><p>In 1977, Bophuthatswana was declared "independent" — a patchwork of seven non-contiguous pieces of land scattered across three provinces. In 1980, Mahikeng — the ancient Barolong royal capital — was forcibly incorporated. The Barolong Boo Ratshidi lost their ancestral seat to a homeland administered by Lucas Mangope, a president installed and protected by Pretoria.</p><p>In March 1994, Bophuthatswana collapsed dramatically. Mangope's attempt to resist reintegration ended when his own civil servants and police rose against him. South African Defence Force troops restored order. Bophuthatswana ceased to exist on 27 April 1994. In 2010, the town's name was officially restored to Mahikeng — the Barolong name, reclaimed.</p>`,source:'SAHISTORY · Mafikeng Wikipedia · Barolong Clan History · South African Government Archive'},
+  w1:{tag:'Essay — Education',title:'Acquisition of Education: An Obligation of Every Child',body:`<p>One of Seatlholo's most significant published essays addresses what education is for — and whether the systems that replaced Bantu Education have truly served Black South Africans.</p><p>He argues that both Bantu Education and its Western formal successor fail to address the domestic developmental needs of South Africa's Black majority. This analysis, written decades before #FeesMustFall, predicted the 2015–2017 student uprisings with remarkable prescience. Replacing one European-designed system with another, Seatlholo wrote, was not liberation — it was a change of administrator.</p>`,source:'Cited in: Culture Review Magazine · Black Opinion'},
+  w2:{tag:'Essay — Land & Liberation',title:'The Struggle for Liberation Was About Land',body:`<p>Perhaps the most politically significant of Seatlholo's published writings. He makes explicit what the mainstream liberation narrative has consistently suppressed: that the 1976 uprising and SAYRCO were never about a non-racial democratic government as an end in itself.</p><p>For Seatlholo, the question was always land — who owned it, who had been dispossessed, and whether a democratic settlement that left 80% of South Africa's land in the hands of a racial minority could be called liberation at all. Professor Mogobe Ramose called him "the FIRST economic freedom fighter" — a description this essay makes entirely credible.</p>`,source:'Cited in: Culture Review Magazine · KSF Foundation Launch, December 2019'},
+  w3:{tag:'Primary Source — SSRC Press Release, 29 October 1976',title:'The Achilles Heel Statement',body:`<p>This press release — issued as Seatlholo took over the SSRC presidency at 17 — is one of the most important primary source documents of the 1976 uprising. It is held in the South African National Archive (SAB WLD 6857/77) and was cited in Helena Pohlandt-McCormick's Gutenberg-e digital history.</p><p>The statement is significant because it explicitly repositions Afrikaans not as the root cause but as the "Achilles Heel" — revealing the political sophistication of a teenager who understood that a tactical grievance was a window into a structural argument. This reframing defines the entire ideology of the uprising.</p>`,source:'SAB WLD 6857/77, WRAB v. Santam · Gutenberg-e · Pohlandt-McCormick, "I Saw a Nightmare"'},
+  w4:{tag:'Public Address — Soweto, 1976',title:'Half a Gram of Poison',body:`<p>Delivered at mass meetings across Soweto high schools, this address contains Seatlholo's most rhetorically powerful statement. In a single sentence — "half a gram of poison is just as lethal as the whole gram" — he reframes his parents' generation's pragmatic accommodation of Bantu Education as slow poisoning, and refuses, on behalf of his generation, to consume any portion of it.</p><p>This speech is cited by historians as direct evidence that June 16 was not a spontaneous reaction to a curriculum change — but the culmination of a coherent, sophisticated political analysis being transmitted to thousands of young people across Soweto in the weeks before the march.</p>`,source:'Black Opinion · Centre for Civil Society · June 16 Commemorative Tribute'},
+  v1:{tag:'Testimony — Soweto Uprising',title:'June 16: The Day the Children Chose Visibility',body:`<p>On 16 June 1976, an estimated 20,000 students marched in Soweto against the imposition of Afrikaans as medium of instruction. But as Seatlholo made clear in his October 1976 press release, Afrikaans was the surface. Beneath it was a systematic attempt to keep Black children permanently subordinated.</p><p>Police opened fire. Hector Pieterson, 13, was among the first killed. Sam Nzima's photograph of Hector's body — carried by Mbuyisa Makhubo, with his sister Antoinette running alongside — became one of the defining images of apartheid and was transmitted around the world. An estimated 700 people were killed in the months of uprising that followed.</p>`,source:'Hector Pieterson Museum Archive · South African History Online'},
+  v2:{tag:'Testimony — District Six',title:'The Bulldozers and the Memory That Outlasted Them',body:`<p>Between 1966 and 1982, the apartheid government declared District Six in Cape Town a "White Group Area" and demolished the homes of over 60,000 residents. The District Six Museum, founded in 1994, collects oral testimonies from former residents — many of whom return to trace the outlines of demolished streets on the museum's famous floor map.</p><p>The act of memory is itself resistance. The government demolished the houses. It could not demolish the knowledge of what had stood there.</p>`,source:'District Six Museum Oral History Archive · districtsimuseum.org.za'},
+  v3:{tag:'Pass Laws — Testimony',title:'The Dompas: A Country That Required You to Prove Your Existence',body:`<p>The dompas was required to be carried by every Black South African adult at all times. Without the correct permission stamps, you could be arrested simply for being in a city. The South African History Archive records over 17 million pass law arrests between 1948 and 1986 — approximately 1,000 per day, every day, for 38 years.</p><p>The spatial arrangement enforced by the dompas — Black workers commuting long distances from townships to serve the white economy — persists in the urban geography of every South African city today.</p>`,source:'SAHA · South African History Archive · TRC Final Report Volume 1'},
+  v4:{tag:'TRC — Testimony',title:'The TRC: Forgiveness and Its Limits',body:`<p>The Truth and Reconciliation Commission heard over 20,000 testimonies between 1996 and 1998. Perpetrators who made full disclosure received amnesty. Victims were invited — implicitly or explicitly — to forgive. Most perpetrators who received amnesty were never prosecuted despite their confessions. Victims received little material reparation.</p><p>Khotso Seatlholo was deeply critical of the 1994 settlement of which the TRC was a part. His essays articulate a position that a political settlement which left the economy intact was not liberation in the full sense of the word.</p>`,source:'TRC Final Report (1998) · South African Government Archive'},
+  v5:{tag:'Bantu Education — Testimony',title:'What Was Left Out of the Books',body:`<p>The Bantu Education Act did not merely under-fund Black schools — it deliberately crafted a curriculum that omitted Black history, presented Africa as beginning with European contact, and oriented Black students toward manual labour rather than professional life. The result was a systematic assault on historical consciousness.</p><p>Seatlholo's essay on education addresses this: replacing Bantu Education with Western formal education did not solve the underlying problem of whose history, whose knowledge system, and whose values the curriculum centred. The Barolong Boo Rapulana trace their lineage to King Morolong (c.1240). This is not in most South African school curricula.</p>`,source:'SAHO Educational Project · Khotso Seatlholo, "Acquisition of Education" essay'},
+  v6:{tag:'Robben Island — Testimony',title:'The University of Robben Island',body:`<p>Robben Island was designed as total isolation. The prisoners refused the role of victims. They organised study groups, debated political theory, maintained the coherence of their movements under conditions of extreme repression. The phrase "University of Robben Island" — used by the prisoners themselves — was an assertion that the apartheid state had failed: you can imprison the body but not the mind.</p><p>Khotso Seatlholo arrived on Robben Island in 1982. Jacob Gaonakala Seatlholo — veteran ANC member — preceded him there, having been sentenced in the immediate aftermath of the 1976 uprising. Both Seatlholo names appear in the Robben Island Museum's EPP Database.</p>`,source:'Robben Island Museum · SAHA Archive · South African History Online'}
+};
+
+function openModal(id){
+  const d = modals[id];
+  if(!d) return;
+  document.getElementById('modal-inner').innerHTML = `<div class="modal-tag">${d.tag}</div><h2 class="modal-title">${d.title}</h2><div class="modal-body">${d.body}</div><div class="modal-source">Sources: ${d.source}</div>`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  document.getElementById('modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
 </script>
 </body>
 </html>
