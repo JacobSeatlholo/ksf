@@ -192,14 +192,36 @@ nav{
 
 /* ── VIDEO SECTION ── */
 .video-section{padding:6rem 2.5rem;max-width:1280px;margin:0 auto}
-.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-top:3.5rem}
-.video-wrapper{display:flex;flex-direction:column;gap:1rem}
-.video-embed{position:relative;width:100%;padding-bottom:56.25%;background:var(--chamber);border:1px solid rgba(196,146,42,.15);overflow:hidden}
-.video-embed iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
-.video-caption{padding:.8rem 0}
-.video-tag{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:.4rem}
-.video-title{font-family:'EB Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--parchment);margin-bottom:.4rem}
-.video-desc{font-size:.85rem;line-height:1.75;color:var(--ash)}
+.video-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem;margin-top:0}
+.video-wrapper{display:flex;flex-direction:column;gap:1.2rem}
+/* Player shell — 16:9 */
+.video-player{position:relative;width:100%;padding-bottom:56.25%;background:var(--chamber);border:1px solid rgba(196,146,42,.2);overflow:hidden}
+/* Thumbnail */
+.vp-thumb{position:absolute;inset:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.vp-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .4s ease,filter .4s ease;filter:brightness(.72) sepia(.18)}
+.vp-thumb:hover .vp-img{transform:scale(1.04);filter:brightness(.55) sepia(.28)}
+.vp-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.1) 0%,rgba(0,0,0,.55) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.9rem;z-index:2;transition:background .3s}
+.vp-thumb:hover .vp-overlay{background:linear-gradient(180deg,rgba(0,0,0,.2) 0%,rgba(0,0,0,.72) 100%)}
+.vp-play-btn{width:68px;height:68px;border-radius:50%;background:rgba(158,28,21,.88);border:2px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;color:#fff;box-shadow:0 4px 28px rgba(0,0,0,.55);transition:transform .22s,background .22s,box-shadow .22s;padding-left:4px}
+.vp-thumb:hover .vp-play-btn{transform:scale(1.14);background:var(--crimson);box-shadow:0 8px 36px rgba(158,28,21,.55)}
+.vp-overlay-text{text-align:center}
+.vp-overlay-tag{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-pale);margin-bottom:.3rem}
+.vp-overlay-title{font-family:'EB Garamond',serif;font-size:1rem;font-style:italic;color:rgba(255,255,255,.82)}
+.vp-duration-badge{position:absolute;bottom:.7rem;right:.8rem;z-index:3;font-family:'Inconsolata',monospace;font-size:.46rem;letter-spacing:.12em;text-transform:uppercase;background:rgba(0,0,0,.8);color:var(--gold-pale);padding:.22rem .6rem;border:1px solid rgba(196,146,42,.2)}
+/* Live iframe */
+.vp-frame{position:absolute;inset:0}
+.vp-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:none}
+/* Caption */
+.video-caption{padding:.4rem 0}
+.video-tag{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--crimson);margin-bottom:.35rem}
+.video-title{font-family:'EB Garamond',serif;font-size:1.1rem;font-weight:700;color:var(--parchment);margin-bottom:.5rem;line-height:1.3}
+.video-desc{font-size:.87rem;line-height:1.75;color:var(--ash);margin-bottom:1rem}
+.video-links{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap}
+.vlink-play{background:var(--crimson);color:var(--cream);border:none;padding:.52rem 1.3rem;font-family:'Inconsolata',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap}
+.vlink-play:hover{background:var(--crimson-dark)}
+.vlink-yt{display:inline-flex;align-items:center;font-family:'Inconsolata',monospace;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);text-decoration:none;border:1px solid rgba(255,255,255,.12);padding:.5rem 1rem;transition:all .2s;white-space:nowrap}
+.vlink-yt:hover{color:var(--parchment);border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.04)}
+
 
 /* ── FAMILY LINEAGE ── */
 .lineage-section{background:var(--vault);padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)}
@@ -306,6 +328,8 @@ nav{
 .pr-name{font-family:'EB Garamond',serif;font-size:1rem;font-weight:700;color:var(--parchment);margin-bottom:.3rem}
 .pr-meta{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.08em;color:var(--ash);margin-bottom:.6rem}
 .pr-excerpt{font-size:.82rem;line-height:1.7;color:var(--ash)}
+.pr-card--ksf{border-top:2px solid var(--gold)!important;background:rgba(196,146,42,.04)!important}
+.pr-card--ksf:hover{background:rgba(196,146,42,.08)!important}
 .pr-no-results{padding:3rem;text-align:center;color:var(--dust);font-style:italic;background:var(--vault);font-size:.95rem}
 .pr-count{font-family:'Inconsolata',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--ash);margin-bottom:.8rem}
 
@@ -367,7 +391,8 @@ nav{
 .mission-h{font-family:'EB Garamond',serif;font-size:clamp(2rem,4.5vw,3.8rem);font-weight:700;line-height:1.08;margin-bottom:2rem}
 .mission-body{font-size:1.05rem;line-height:1.92;color:var(--ash);margin-bottom:2.5rem}
 .source-strip{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
-.src-tag{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);border:1px solid rgba(255,255,255,.08);padding:.32rem .7rem}
+.src-tag{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);border:1px solid rgba(255,255,255,.08);padding:.32rem .7rem;text-decoration:none;transition:all .2s;display:inline-block}
+.src-tag:hover{color:var(--gold-pale);border-color:rgba(196,146,42,.3);background:var(--gold-wash)}
 
 /* ── FOOTER ── */
 footer{
@@ -409,6 +434,60 @@ footer{
 
 /* ── SCROLL ANIMATIONS ── */
 @keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── LAW LOOKUP TOOL ── */
+.law-quick-btn{
+  font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.1em;
+  text-transform:uppercase;padding:.3rem .7rem;
+  background:transparent;border:1px solid rgba(255,255,255,.1);
+  color:var(--ash);cursor:pointer;transition:all .2s;
+}
+.law-quick-btn:hover{background:var(--gold-wash);border-color:rgba(196,146,42,.35);color:var(--gold-pale)}
+.law-result-header{
+  padding:1.5rem 2rem;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;
+}
+.law-result-meta{display:flex;flex-direction:column;gap:.3rem}
+.law-result-act{font-family:'Inconsolata',monospace;font-size:.52rem;letter-spacing:.14em;text-transform:uppercase;color:var(--crimson)}
+.law-result-name{font-family:'EB Garamond',serif;font-size:1.35rem;font-weight:700;color:var(--parchment);line-height:1.2}
+.law-result-body{padding:1.5rem 2rem;font-size:.95rem;line-height:1.88;color:var(--ash)}
+.law-result-body h4{font-family:'EB Garamond',serif;font-size:1.05rem;font-weight:700;color:var(--parchment);margin:1.2rem 0 .4rem}
+.law-result-body p{margin-bottom:.8rem}
+.law-result-source{padding:1rem 2rem;border-top:1px solid rgba(255,255,255,.06);font-family:'Inconsolata',monospace;font-size:.48rem;letter-spacing:.08em;color:var(--dust);line-height:1.7}
+.law-index-card{
+  background:var(--vault);padding:1.2rem 1.5rem;cursor:pointer;transition:background .25s;
+}
+.law-index-card:hover{background:var(--stone)}
+.lic-act{font-family:'Inconsolata',monospace;font-size:.47rem;letter-spacing:.12em;color:var(--crimson);margin-bottom:.3rem}
+.lic-name{font-family:'EB Garamond',serif;font-size:.95rem;font-weight:700;color:var(--parchment);margin-bottom:.3rem;line-height:1.25}
+.lic-year{font-family:'Inconsolata',monospace;font-size:.47rem;letter-spacing:.08em;color:var(--ash)}
+.law-error{padding:2rem;color:var(--crimson);font-style:italic;font-size:.95rem;border-left:3px solid var(--crimson)}
+@keyframes typingDot{0%,80%,100%{opacity:.3;transform:scale(.8)}40%{opacity:1;transform:scale(1)}}
+
+/* ── EXPANDABLE CHAPTERS ── */
+.chap{cursor:pointer}
+.chap-expand-hint{
+  font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--crimson);margin-top:1rem;
+  transition:color .2s;
+}
+.chap.open .chap-expand-hint{color:var(--ash)}
+.chap-body{
+  margin-top:1.5rem;padding-top:1.5rem;
+  border-top:1px solid rgba(255,255,255,.07);
+  font-size:.88rem;line-height:1.85;color:var(--ash);
+}
+.chap-body p{margin-bottom:.9rem}
+.chap-body p:last-of-type{margin-bottom:0}
+.chap-body strong{color:var(--parchment)}
+.chap-source{
+  margin-top:1.2rem;padding-top:.8rem;
+  border-top:1px solid rgba(255,255,255,.06);
+  font-family:'Inconsolata',monospace;font-size:.47rem;letter-spacing:.08em;
+  color:var(--dust);line-height:1.7;
+}
+.chap.open{background:var(--stone)}
 
 /* ── RESPONSIVE ── */
 @media(max-width:960px){
@@ -453,12 +532,13 @@ footer{
     </div>
   </div>
   <ul class="nav-links">
+    <li><a href="#law-lookup" style="color:var(--gold)">Law Lookup ↗</a></li>
     <li><a href="#biography">Khotso</a></li>
     <li><a href="#lineage">Lineage</a></li>
     <li><a href="#royalties">Royalties</a></li>
     <li><a href="#robben">Robben Island</a></li>
     <li><a href="#timeline">Timeline</a></li>
-    <li><a href="#laws">The Laws</a></li>
+    <li><a href="#archive">Archive</a></li>
   </ul>
   <a href="#mission" class="nav-cta">Our Mission</a>
 </nav>
@@ -571,28 +651,110 @@ footer{
   <div class="eyebrow">On Record — Video Archive</div>
   <h2 class="section-h">Hear the History in Their Own Voices</h2>
   <div class="gold-rule"></div>
-  <p class="section-body">Primary source video testimony from the Khotso Seatlholo Foundation and related archival sources. These recordings are part of the Foundation's effort to preserve living memory.</p>
+  <p class="section-body" style="margin-bottom:2.5rem">Primary source video testimony from the Khotso Seatlholo Foundation and related archival sources. Click any thumbnail to play, or open directly on YouTube.</p>
+
   <div class="video-grid">
+
+    <!-- VIDEO 1 -->
     <div class="video-wrapper">
-      <div class="video-embed">
-        <iframe src="https://www.youtube.com/embed/l8qrnhRzAP0" title="Tharollo Seatlholo — Khotso Seatlholo Foundation" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      <div class="video-player" id="vp1">
+        <!-- Thumbnail state -->
+        <div class="vp-thumb" id="vt1" onclick="playVideo('vp1','vt1','vi1','l8qrnhRzAP0')">
+          <img
+            src="https://img.youtube.com/vi/l8qrnhRzAP0/maxresdefault.jpg"
+            onerror="this.src='https://img.youtube.com/vi/l8qrnhRzAP0/hqdefault.jpg'"
+            alt="Tharollo Seatlholo — Khotso Seatlholo Foundation"
+            class="vp-img"
+          />
+          <div class="vp-overlay">
+            <div class="vp-play-btn">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <polygon points="5,3 19,12 5,21" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="vp-overlay-text">
+              <div class="vp-overlay-tag">Foundation · Primary Testimony</div>
+              <div class="vp-overlay-title">Click to Play</div>
+            </div>
+          </div>
+          <div class="vp-duration-badge">KSF Archive</div>
+        </div>
+        <!-- Iframe (hidden until play) -->
+        <div class="vp-frame" id="vi1" style="display:none">
+          <iframe
+            src=""
+            data-src="https://www.youtube.com/embed/l8qrnhRzAP0?autoplay=1&rel=0&modestbranding=1"
+            title="Tharollo Seatlholo — Khotso Seatlholo Foundation"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
       </div>
+      <!-- Caption + links -->
       <div class="video-caption">
         <div class="video-tag">Foundation · Primary Testimony</div>
         <div class="video-title">Tharollo Seatlholo — The Khotso Seatlholo Foundation</div>
-        <p class="video-desc">Tharollo Seatlholo, daughter of Khotso Sidney Seatlholo and founder of the KSF, speaks on the legacy of her father, the Foundation's mission, and why preserving this history is an act of resistance against forgetting. A primary source for understanding the Foundation's purpose.</p>
+        <p class="video-desc">Tharollo Seatlholo, daughter of Khotso Sidney Seatlholo and founder of the KSF, speaks on the legacy of her father, the Foundation's mission, and why preserving this history is an act of resistance against forgetting.</p>
+        <div class="video-links">
+          <button class="vlink-play" onclick="playVideo('vp1','vt1','vi1','l8qrnhRzAP0')">▶ Play Video</button>
+          <a class="vlink-yt" href="https://www.youtube.com/watch?v=l8qrnhRzAP0" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;flex-shrink:0"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
       </div>
     </div>
+
+    <!-- VIDEO 2 -->
     <div class="video-wrapper">
-      <div class="video-embed">
-        <iframe src="https://www.youtube.com/embed/ozpkOmKG41E" title="Khotso Seatlholo — Historical Archive" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+      <div class="video-player" id="vp2">
+        <!-- Thumbnail state -->
+        <div class="vp-thumb" id="vt2" onclick="playVideo('vp2','vt2','vi2','ozpkOmKG41E')">
+          <img
+            src="https://img.youtube.com/vi/ozpkOmKG41E/maxresdefault.jpg"
+            onerror="this.src='https://img.youtube.com/vi/ozpkOmKG41E/hqdefault.jpg'"
+            alt="Khotso Seatlholo — Historical Archive"
+            class="vp-img"
+          />
+          <div class="vp-overlay">
+            <div class="vp-play-btn">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+                <polygon points="5,3 19,12 5,21" fill="currentColor"/>
+              </svg>
+            </div>
+            <div class="vp-overlay-text">
+              <div class="vp-overlay-tag">Archival · Historical Record</div>
+              <div class="vp-overlay-title">Click to Play</div>
+            </div>
+          </div>
+          <div class="vp-duration-badge">Historical Footage</div>
+        </div>
+        <!-- Iframe (hidden until play) -->
+        <div class="vp-frame" id="vi2" style="display:none">
+          <iframe
+            src=""
+            data-src="https://www.youtube.com/embed/ozpkOmKG41E?autoplay=1&rel=0&modestbranding=1"
+            title="Khotso Seatlholo — Historical Archive"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+          ></iframe>
+        </div>
       </div>
+      <!-- Caption + links -->
       <div class="video-caption">
         <div class="video-tag">Archival · Historical Record</div>
         <div class="video-title">Khotso Seatlholo — Historical Archive Footage</div>
-        <p class="video-desc">Archival documentation of Khotso Seatlholo and the 1976 liberation movement. Essential historical record of the SSRC leadership, the Soweto Uprising's political context, and Seatlholo's role in coordinating what became the most significant student-led uprising in South African history.</p>
+        <p class="video-desc">Archival documentation of Khotso Seatlholo and the 1976 liberation movement. Essential historical record of the SSRC leadership, the Soweto Uprising's political context, and Seatlholo's role as co-leader of what became South Africa's most significant student uprising.</p>
+        <div class="video-links">
+          <button class="vlink-play" onclick="playVideo('vp2','vt2','vi2','ozpkOmKG41E')">▶ Play Video</button>
+          <a class="vlink-yt" href="https://www.youtube.com/watch?v=ozpkOmKG41E" target="_blank" rel="noopener">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" style="margin-right:5px;flex-shrink:0"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+            Watch on YouTube
+          </a>
+        </div>
       </div>
     </div>
+
   </div>
 </section>
 
@@ -763,38 +925,44 @@ footer{
   <div class="robben-inner">
     <div class="robben-top">
       <div>
-        <div class="eyebrow">Robben Island Prisoner Archive</div>
-        <h2 class="section-h">The Island the World Called<br>a Symbol of Oppression</h2>
+        <div class="eyebrow">Robben Island — Khotso Seatlholo's Island</div>
+        <h2 class="section-h">Sentenced to 15 Years.<br>He Never Broke.</h2>
         <div class="gold-rule"></div>
-        <p class="section-body">From 1961 to 1991, Robben Island held the political prisoners of apartheid South Africa — from Nelson Mandela to Khotso Seatlholo. Over 3,000 men were imprisoned here. Three of them — Mandela, Kgalema Motlanthe, and Jacob Zuma — became President. This archive documents those who were imprisoned, with primary source records where available.</p>
+        <p class="section-body">In March 1982, Khotso Sidney Seatlholo was sent to Robben Island — the same island that held Nelson Mandela. He was 23 years old. He had led 20,000 students. He had built an armed liberation movement in exile. He had trained militarily under the PLO. The apartheid state sentenced him to 15 years under the Terrorism Act — for organising students, for loving his country, for refusing to accept half a loaf.</p>
       </div>
       <div>
-        <p class="section-body" style="margin-bottom:1.2rem">The island is 6.9 kilometres off the coast of Bloubergstrand, Cape Town. It is a UNESCO World Heritage Site. Many of the tour guides are former prisoners. The limestone quarry, where prisoners were forced to work, is where Nelson Mandela's tear ducts were permanently damaged by glare reflected off the rock.</p>
-        <p class="section-body" style="font-style:italic;color:var(--mist)">"At the quarry, we worked with a pick and shovel, and then we would discuss history among ourselves." — Eddie Daniels, former Robben Island prisoner</p>
+        <p class="section-body" style="margin-bottom:1.2rem">From 1961 to 1991, Robben Island held over 3,000 political prisoners — South Africa's most determined freedom fighters. Three former inmates became President. The island is now a UNESCO World Heritage Site. Former prisoners serve as its guides. The archive below documents those who were imprisoned alongside Khotso — each one a name that must not be forgotten.</p>
+        <p class="section-body" style="font-style:italic;color:var(--mist)">"To me, liberation is a noble cause." — Khotso Seatlholo, upon his arrest, 1981</p>
       </div>
     </div>
 
-    <!-- FEATURED: Jacob Gaonakala Seatlholo -->
+    <!-- FEATURED: Khotso Seatlholo on Robben Island -->
     <div class="featured-prisoner">
       <div class="fp-header">
-        <div class="fp-seal">⚖</div>
+        <div class="fp-seal">◆</div>
         <div class="fp-id">
-          <div class="fp-archive-num">TRC Archive · SAHA · Volume 5, Chapter 2 · Robben Island EPP Database</div>
-          <div class="fp-name">Jacob Gaonakala Seatlholo</div>
-          <div class="fp-subtitle">ANC Veteran · Robben Island Political Prisoner · TRC Recorded Victim</div>
+          <div class="fp-archive-num">Robben Island EPP Database · SAHA · Nelson Mandela Foundation Archive · Cambridge University Press (2023)</div>
+          <div class="fp-name">Daniel Khotso Sidney Seatlholo</div>
+          <div class="fp-subtitle">President, SSRC (1976) · Founder-President, SAYRCO · Robben Island Political Prisoner, 1982–1990</div>
         </div>
       </div>
       <div class="fp-grid">
-        <div class="fp-fact"><div class="fp-fact-lbl">Arrested</div><div class="fp-fact-val">April 1976<br>Johannesburg</div></div>
-        <div class="fp-fact"><div class="fp-fact-lbl">Detained At</div><div class="fp-fact-val">John Vorster Square<br>90 Days</div></div>
-        <div class="fp-fact"><div class="fp-fact-lbl">Charges</div><div class="fp-fact-val">Terrorism Act</div></div>
-        <div class="fp-fact"><div class="fp-fact-lbl">Sentenced</div><div class="fp-fact-val">12 Years<br>Robben Island</div></div>
+        <div class="fp-fact"><div class="fp-fact-lbl">Captured</div><div class="fp-fact-val">March 1981<br>SAYRCO mission, SA</div></div>
+        <div class="fp-fact"><div class="fp-fact-lbl">Charged Under</div><div class="fp-fact-val">Terrorism Act<br>+ Membership, Banned Org</div></div>
+        <div class="fp-fact"><div class="fp-fact-lbl">Sentenced</div><div class="fp-fact-val">15 Years<br>March 1982</div></div>
+        <div class="fp-fact"><div class="fp-fact-lbl">Released</div><div class="fp-fact-val">1990<br>Same year as Mandela</div></div>
       </div>
       <div class="fp-testimony">
-        A veteran ANC member arrested in April 1976 in Johannesburg and detained for 90 days at John Vorster Square — the notorious Security Police headquarters where dozens of anti-apartheid activists were tortured, and where Steve Biko would die the following year. While in detention, Jacob Gaonakala Seatlholo was repeatedly beaten and subjected to electric shock torture. He was subsequently charged under the Terrorism Act and sentenced to 12 years' imprisonment on Robben Island.
+        Khotso Seatlholo arrived on Robben Island in 1982 at the age of 23 — eight years after leading the Soweto Uprising that had made him one of the most wanted student leaders in South Africa. He had survived two assassination attempts by the Security Police. He had spent four years in exile in Botswana. He had trained militarily with the Palestinian Liberation Organisation. He had built SAYRCO from nothing into an internationally recognised liberation force. On the island, surrounded by men who had dedicated their lives to the same cause — Mandela, Sisulu, Mbeki — he continued to develop his political philosophy. He refused to recant. When a Commonwealth delegation led by Nigerian President Obasanjo visited Mandela in the mid-1980s, they insisted on also meeting Seatlholo — recognising his standing as a freedom fighter of global significance.
       </div>
-      <p style="font-size:.88rem;line-height:1.82;color:var(--ash);margin-bottom:.8rem">Jacob Gaonakala Seatlholo appears in the Robben Island Museum's Ex-Political Prisoner (EPP) Database alongside Daniel Khotso Sidney Seatlholo — the shared surname and shared island a testament to how completely the apartheid state's reach extended across connected communities. John Vorster Square (now the headquarters of the Johannesburg Central Police Station) was the primary site of torture under the Security Branch during the 1970s. At least 44 detainees died in detention at John Vorster Square during the apartheid era, in circumstances the security police attributed variously to suicide, slipping, or "fell from a window."</p>
-      <div class="fp-source">Primary Source: SABC-TRC Special Report Archive · SAHA (sabctrc.saha.org.za) · TRC Final Report Volume 5, Chapter 2 · Robben Island Museum EPP Database (robben-island.org.za)</div>
+      <p style="font-size:.88rem;line-height:1.82;color:var(--ash);margin-bottom:.8rem">In 2025, the South African government confirmed that a statue of Daniel Khotso Sidney Seatlholo would be erected at the Robben Island Ex-Political Prisoners' Reunion — alongside statues of Nelson Mandela, Robert Sobukwe, Autshumato Krotoa, and Andimba Toivo ya Toivo. The recognition came 21 years after his death and 43 years after his imprisonment. It is incomplete. The Khotso Seatlholo Foundation was founded precisely because official recognition comes too late and too quietly for a man whose contribution has been systematically marginalised from the liberation narrative.</p>
+      <div class="fp-source">Sources: Robben Island Museum EPP Database · SAHA Archive · Cambridge University Press, <em>Arming Black Consciousness</em> (2023) · GCIS (2025) · Nelson Mandela Foundation Archive · Black Opinion · South African History Online</div>
+    </div>
+
+    <!-- Archive note on Jacob Gaonakala Seatlholo -->
+    <div style="background:var(--vault);border:1px solid rgba(255,255,255,.06);padding:1.5rem 2rem;margin-bottom:2rem;display:flex;gap:1.5rem;align-items:flex-start">
+      <div style="font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim);white-space:nowrap;padding-top:.2rem">Archive Note</div>
+      <p style="font-size:.88rem;line-height:1.82;color:var(--ash)">The Robben Island Museum's Ex-Political Prisoner database also records <strong style="color:var(--parchment)">Jacob Gaonakala Seatlholo</strong> — a veteran ANC member arrested in April 1976, detained for 90 days at John Vorster Square where he was subjected to electric shock torture and repeated beatings, then sentenced to 12 years on Robben Island under the Terrorism Act. The shared surname, the shared island, and the shared Act under which both were convicted speak to how completely the apartheid state's violence extended across communities connected by name, blood, and conviction. Jacob Gaonakala Seatlholo's record is held in TRC Final Report Volume 5, Chapter 2, and the SAHA Archive.</p>
     </div>
 
     <!-- SEARCH -->
@@ -959,15 +1127,174 @@ footer{
     <div class="eyebrow">Further Study</div>
     <h2 class="section-h">Chapters of the Archive</h2>
     <div class="gold-rule"></div>
-    <p class="section-body">Each chapter is a doorway into a deeper layer of South African history — from the roots of colonial dispossession to the unfinished work of economic liberation.</p>
-    <div class="chapters-grid">
-      <a class="chap" href="#"><div class="chap-n">01</div><span class="chap-tag">Origins</span><div class="chap-title">Before 1948: Segregation Without the Name</div><p class="chap-desc">Colonial dispossession, the Glen Grey Act, and the pass system — apartheid formalised what had been building for over a century.</p></a>
-      <a class="chap" href="#"><div class="chap-n">02</div><span class="chap-tag">Black Consciousness</span><div class="chap-title">Steve Biko and the Philosophy That Shaped Khotso</div><p class="chap-desc">Black Consciousness argued that the oppressor's most powerful weapon was the oppressed mind. Biko gave Seatlholo's generation a political language for their lived experience.</p></a>
-      <a class="chap" href="#"><div class="chap-n">03</div><span class="chap-tag">Women & the Struggle</span><div class="chap-title">The 1956 Women's March — "You Strike a Woman, You Strike a Rock"</div><p class="chap-desc">20,000 women marched to the Union Buildings against the pass laws. Their anthem, their courage, and their largely untold contribution to liberation.</p></a>
-      <a class="chap" href="#"><div class="chap-n">04</div><span class="chap-tag">SAYRCO & Armed Struggle</span><div class="chap-title">Why Khotso Seatlholo Chose Armed Resistance</div><p class="chap-desc">The formation of SAYRCO, military training under the PLO, and the Black Consciousness argument that non-violence had been rendered insufficient by the state's violence.</p></a>
-      <a class="chap" href="#"><div class="chap-n">05</div><span class="chap-tag">Truth & Reconciliation</span><div class="chap-title">The TRC: Bearing Witness — and Its Limits</div><p class="chap-desc">Archbishop Tutu chaired 20,000 testimonies. An experiment in restorative justice with profound contradictions — and with Khotso Seatlholo watching from Soweto, unconvinced.</p></a>
-      <a class="chap" href="#"><div class="chap-n">06</div><span class="chap-tag">Long Shadow</span><div class="chap-title">What Apartheid Left Behind — The Inheritance</div><p class="chap-desc">Land inequality, spatial planning, underfunded schools, the wealth gap. Apartheid's structures did not disappear in 1994. Understanding the inheritance is the work of every generation.</p></a>
+    <p class="section-body" style="margin-bottom:2.5rem">Click any chapter to read the full record. Each one is a doorway into a deeper layer of South African history — sourced from public record and published scholarship.</p>
+    <div class="chapters-grid" id="chapters-grid">
+
+      <div class="chap" onclick="toggleChapter(this,'ch1')">
+        <div class="chap-n">01</div>
+        <span class="chap-tag">Origins</span>
+        <div class="chap-title">Before 1948: Segregation Without the Name</div>
+        <p class="chap-desc">Colonial dispossession, the Glen Grey Act, and the pass system — apartheid formalised what had been building for over a century.</p>
+        <div class="chap-expand-hint">Read Chapter →</div>
+        <div class="chap-body" id="ch1" style="display:none">
+          <p>Apartheid did not begin on the day the National Party won the 1948 election. It formalised, systematised, and legislated what had been accumulating since the first Dutch settlers arrived at the Cape in 1652 — a century-long project of dispossession, forced labour, and racial hierarchy.</p>
+          <p>The Glen Grey Act of 1894, introduced by Cecil John Rhodes as Prime Minister of the Cape Colony, was among the first laws to use land restriction as a mechanism for controlling Black labour. It limited Black African ownership of land in the Glen Grey district, imposed a "labour tax" on those who did not work for white employers, and created an early blueprint for the pass system.</p>
+          <p>The Native Land Act of 1913 — passed three years after the formation of the Union of South Africa — was perhaps the single most devastating piece of pre-apartheid legislation. It restricted Black South Africans from owning or renting land outside of designated "reserves," which constituted approximately 7% of South Africa's total land area. The Act dispossessed millions overnight. Solomon Plaatje, the ANC's founding Secretary-General and South Africa's first Black novelist, documented its human consequences in his 1916 book <em>Native Life in South Africa</em>: "Awaking on Friday morning, June 20, 1913, the South African native found himself, not actually a slave, but a pariah in the land of his birth."</p>
+          <p>By the time the National Party came to power in 1948, the infrastructure of racial domination — the pass system, labour reserves, separate residential areas — was already well established. What apartheid added was total legislative coherence, bureaucratic precision, and an explicit ideological framework. The 1950 Population Registration Act gave every South African a racial classification. The rest followed from there.</p>
+          <p><strong>Legacy:</strong> The 1913 Native Land Act is frequently cited by contemporary land reform advocates as the original act of dispossession. The current distribution of land ownership in South Africa — where the majority of productive agricultural land remains in the hands of a racial minority — traces directly to that Act and the Bantu Authorities system it spawned.</p>
+          <div class="chap-source">Sources: Solomon Plaatje, <em>Native Life in South Africa</em> (1916) · SAHISTORY · South African Native Land Act (1913) · Glen Grey Act (1894) · South African History Archive</div>
+        </div>
+      </div>
+
+      <div class="chap" onclick="toggleChapter(this,'ch2')">
+        <div class="chap-n">02</div>
+        <span class="chap-tag">Black Consciousness</span>
+        <div class="chap-title">Steve Biko and the Philosophy That Shaped Khotso</div>
+        <p class="chap-desc">Black Consciousness argued that the oppressor's most powerful weapon was the oppressed mind. Biko gave Seatlholo's generation a political language for their lived experience.</p>
+        <div class="chap-expand-hint">Read Chapter →</div>
+        <div class="chap-body" id="ch2" style="display:none">
+          <p>The Black Consciousness Movement (BCM) emerged in the late 1960s from South African university campuses — at a moment when the liberation movements were in exile, their leaders imprisoned, and the internal resistance movement had been effectively suppressed. Its primary philosopher was Bantu Stephen Biko, a medical student at the University of Natal Non-European Section (later the University of KwaZulu-Natal).</p>
+          <p>Biko's central argument was deceptively simple: apartheid's most effective weapon was not the police baton or the prison cell, but the psychological colonisation of Black minds. The system had taught Black South Africans to see themselves through the oppressor's eyes — to internalise inferiority, to seek white approval, to dream in the oppressor's language. Black liberation, Biko argued, could not be achieved by integration into white institutions. It required the psychological emancipation of Black people first.</p>
+          <p>"The most potent weapon in the hands of the oppressor is the mind of the oppressed." This line — Biko's most famous — became the philosophical foundation of the 1976 generation's politics. When Khotso Seatlholo addressed mass meetings at Soweto's high schools in 1976, he was translating BCM theory into direct action. His rejection of Bantu Education — not merely as inadequate schooling, but as a system of deliberate psychological diminishment — was BCM analysis applied to the streets.</p>
+          <p>Biko founded the South African Students Organisation (SASO) in 1968 and the Black People's Convention in 1972. He was banned in 1973, restricting him to King William's Town. He died in custody on 12 September 1977 — beaten by Security Police, denied medical care for five days, and driven naked in a Land Rover to Pretoria while suffering fatal brain injuries. He was 30 years old. An inquest found no one criminally liable.</p>
+          <p>The Black Consciousness Movement was banned on 19 October 1977 — six weeks after Biko's death. SAYRCO, founded by Khotso Seatlholo in 1979, was explicitly grounded in BCM philosophy and maintained BCM's ideological independence from both the ANC and PAC.</p>
+          <div class="chap-source">Sources: Steve Biko, <em>I Write What I Like</em> (1978) · Donald Woods, <em>Biko</em> (1978) · SAHISTORY · Cambridge University Press, <em>Arming Black Consciousness</em> (2023)</div>
+        </div>
+      </div>
+
+      <div class="chap" onclick="toggleChapter(this,'ch3')">
+        <div class="chap-n">03</div>
+        <span class="chap-tag">Women &amp; the Struggle</span>
+        <div class="chap-title">The 1956 Women's March — "You Strike a Woman, You Strike a Rock"</div>
+        <p class="chap-desc">20,000 women marched to the Union Buildings against the pass laws. Their anthem, their courage, and their largely untold contribution to liberation.</p>
+        <div class="chap-expand-hint">Read Chapter →</div>
+        <div class="chap-body" id="ch3" style="display:none">
+          <p>On 9 August 1956, approximately 20,000 women from across South Africa — Black, white, Coloured, and Indian — converged on the Union Buildings in Pretoria to protest the extension of the pass laws to women. They came from as far as the Northern Cape and the Eastern Cape, many having travelled overnight in crowded buses and trucks. They stood in silence for thirty minutes and then sang: <em>"Wathint' abafazi, wathint' imbokodo, uzokufa"</em> — "You strike a woman, you strike a rock, you will die."</p>
+          <p>The march was organised by the Federation of South African Women (FEDSAW) and the ANC Women's League, led by figures including Lilian Ngoyi, Helen Joseph, Rahima Moosa, and Sophie Williams. Each woman placed a petition at the office of Prime Minister J.G. Strijdom — a petition signed by over 100,000 women — protesting the requirement that they carry pass books.</p>
+          <p>The courage of this march stands in contrast with the historical marginalisation of women in official liberation narratives. The same structures of racism that governed apartheid also operated within the liberation movements themselves. Women were asked to subordinate their feminist demands to the broader anti-apartheid struggle — a subordination that many accepted tactically but that left its own legacy of unequal representation in post-apartheid South Africa.</p>
+          <p>Lilian Ngoyi was one of the first women to be banned under the Suppression of Communism Act. Winnie Madikizela-Mandela was repeatedly detained, tortured, and subjected to house arrest over three decades. Albertina Sisulu was banned for 18 years. The women of the liberation struggle endured apartheid's violence while also navigating the patriarchal structures of their own movements.</p>
+          <p>August 9 is now National Women's Day in South Africa. The march's anthem remains one of the most recognised in South African political culture. The debt owed to these women by every South African remains largely unpaid in any material sense.</p>
+          <div class="chap-source">Sources: SAHISTORY · Federation of South African Women Archive · Albertina Sisulu Foundation · South African Government: Women's Day proclamation</div>
+        </div>
+      </div>
+
+      <div class="chap" onclick="toggleChapter(this,'ch4')">
+        <div class="chap-n">04</div>
+        <span class="chap-tag">SAYRCO &amp; Armed Struggle</span>
+        <div class="chap-title">Why Khotso Seatlholo Chose Armed Resistance</div>
+        <p class="chap-desc">The formation of SAYRCO, military training under the PLO, and the Black Consciousness argument that non-violence had been rendered insufficient by the state's violence.</p>
+        <div class="chap-expand-hint">Read Chapter →</div>
+        <div class="chap-body" id="ch4" style="display:none">
+          <p>The question of armed struggle was not one the liberation movement came to easily. The ANC formally committed to non-violence from its founding in 1912 through the Sharpeville Massacre of 1960. It was only after the massacre — in which 69 people were shot dead by police while peacefully protesting — that the ANC's armed wing, Umkhonto we Sizwe (MK), was formed in 1961. The PAC's armed wing, Poqo, followed shortly after.</p>
+          <p>For the 1976 generation, the calculus was different. They had grown up watching non-violent resistance met with live ammunition. They had watched the international community respond to Sharpeville with expressions of concern and limited sanctions — but apartheid continued. Khotso Seatlholo's decision to form SAYRCO was not made in anger. It was made in analysis.</p>
+          <p>In exile in Botswana from 1978, Seatlholo and the SSRC leadership dissolved the Council and began planning a new formation that would be militarily capable, ideologically independent of both the ANC and PAC, and explicitly grounded in the Black Consciousness principle that liberation must be won by Black people for Black people. SAYRCO was formally launched in 1979.</p>
+          <p>Seatlholo underwent military training in Syria and Lebanon under the auspices of the Palestinian Liberation Organisation (PLO) — a Cold War-era solidarity network that connected liberation movements across the Global South. SAYRCO received funding from West African governments, particularly Nigeria under General Obasanjo. Its members trained in multiple countries.</p>
+          <p>The movement's focus, as Seatlholo made clear in his writing, was always land: not the right to vote in a system that left existing economic structures intact, but the physical restitution of land to its dispossessed owners. In this, SAYRCO was twenty years ahead of the political discourse that would dominate post-2010 South African politics.</p>
+          <p>SAYRCO effectively ended when Seatlholo was captured on Robben Island in 1982. It remains the least documented of South Africa's major liberation organisations — in part, scholars have argued, because its critique of the ANC has made it inconvenient to the post-1994 official memory of the liberation struggle.</p>
+          <div class="chap-source">Sources: Cambridge University Press, <em>Arming Black Consciousness</em> (2023) · SAHISTORY: SAYRCO · Black Opinion · South African History Archive</div>
+        </div>
+      </div>
+
+      <div class="chap" onclick="toggleChapter(this,'ch5')">
+        <div class="chap-n">05</div>
+        <span class="chap-tag">Truth &amp; Reconciliation</span>
+        <div class="chap-title">The TRC: Bearing Witness — and Its Limits</div>
+        <p class="chap-desc">Archbishop Tutu chaired 20,000 testimonies. An experiment in restorative justice with profound contradictions — and with Khotso Seatlholo watching from Soweto, unconvinced.</p>
+        <div class="chap-expand-hint">Read Chapter →</div>
+        <div class="chap-body" id="ch5" style="display:none">
+          <p>The Truth and Reconciliation Commission was established by the Promotion of National Unity and Reconciliation Act of 1995. Its mandate was to provide as complete a picture as possible of gross human rights violations committed between 1960 and 1994, to restore the human dignity of victims, and to grant amnesty to perpetrators who made full and honest disclosure of politically motivated crimes.</p>
+          <p>Chaired by Archbishop Desmond Tutu, the TRC held public hearings across the country from 1996 to 1998, receiving over 21,000 statements from victims and over 7,000 applications for amnesty. Its five-volume final report, published in 1998 (with a sixth volume added in 2003), remains the most comprehensive official account of apartheid's human rights violations.</p>
+          <p>The TRC has been internationally praised as a model of transitional justice — a framework for societies emerging from systematic violence to acknowledge the past without descending into cycles of retributive prosecution. Its architects drew on the concept of ubuntu — the Nguni philosophical principle that a person is a person through other persons — as a framework for collective healing over individual punishment.</p>
+          <p>It has also been profoundly criticised. Most perpetrators who received amnesty were never prosecuted, even after detailed public confessions of murder, torture, and disappearances. Many victims and families received no material reparation beyond a one-time payment of R30,000 — which was not paid until years after the Commission concluded. The TRC's mandate explicitly excluded structural economic injustices — land dispossession, wealth inequality, the legacy of Bantu Education — as outside its remit.</p>
+          <p>Khotso Seatlholo watched the TRC from Soweto and was not persuaded that it constituted genuine reckoning. His essays from the post-1994 period articulate the position that a process which exposed the truth of individual crimes while leaving the economic architecture of apartheid intact was not reconciliation — it was settlement. The question of what genuine justice requires in South Africa remains open.</p>
+          <div class="chap-source">Sources: TRC Final Report, Volumes 1–6 (1998–2003) · Archbishop Desmond Tutu, <em>No Future Without Forgiveness</em> (1999) · Antjie Krog, <em>Country of My Skull</em> (1998) · SAHISTORY</div>
+        </div>
+      </div>
+
+      <div class="chap" onclick="toggleChapter(this,'ch6')">
+        <div class="chap-n">06</div>
+        <span class="chap-tag">Long Shadow</span>
+        <div class="chap-title">What Apartheid Left Behind — The Inheritance</div>
+        <p class="chap-desc">Land inequality, spatial planning, underfunded schools, the wealth gap. Apartheid's structures did not disappear in 1994. Understanding the inheritance is the work of every generation.</p>
+        <div class="chap-expand-hint">Read Chapter →</div>
+        <div class="chap-body" id="ch6" style="display:none">
+          <p>South Africa has one of the highest Gini coefficients — the standard measure of income inequality — in the world. This is not a coincidence or a failure of post-apartheid governance alone. It is the direct and measurable consequence of 46 years of legislative racial hierarchy, which concentrated land ownership, capital, educational access, and economic infrastructure in the hands of a racial minority.</p>
+          <p><strong>Land:</strong> The 1913 Native Land Act and the Bantu Authorities system restricted Black South Africans to approximately 13% of South Africa's total land area. After 30 years of democracy, land redistribution has proceeded slowly and remains deeply contested. The majority of productive agricultural land in South Africa remains in white ownership — a fact that directly correlates with persistent rural poverty.</p>
+          <p><strong>Spatial Planning:</strong> Every South African city was physically redesigned under apartheid to place Black residential areas far from economic centres, connected to them only by expensive, time-consuming commutes. The spatial legacy — townships on the periphery, informal settlements without infrastructure, long commutes for low-wage workers — is visible in every South African metropolitan area and cannot be undone without deliberate, sustained investment.</p>
+          <p><strong>Education:</strong> Bantu Education's four decades of deliberate under-investment in Black schooling created a generational deficit in teacher training, school infrastructure, and educational outcomes that a single cohort of democratic schooling cannot repair. South Africa's basic education performance metrics — particularly in mathematics and reading — consistently rank among the lowest in sub-Saharan Africa for a country of its relative wealth.</p>
+          <p><strong>Wealth:</strong> Apartheid's economic system was explicitly designed to accumulate capital in white hands through cheap Black labour, restricted competition, and legislated exclusion from skilled professions. The Black Economic Empowerment policies introduced post-1994 have created a Black middle class and a small number of very wealthy Black individuals — but have not significantly altered the aggregate racial distribution of wealth.</p>
+          <p>Khotso Seatlholo foresaw all of this. His writing from the 1990s and early 2000s argues that a political settlement which left these structures intact was not liberation — it was the management of oppression by different hands. Whether he was right, and what genuine liberation would require, are the defining political questions of contemporary South Africa.</p>
+          <div class="chap-source">Sources: World Bank Gini Data · Statistics South Africa · SAHO · Department of Rural Development and Land Reform · Khotso Seatlholo, "The Struggle for Liberation Was About Land" · KSF Foundation, 2019</div>
+        </div>
+      </div>
+
     </div>
+  </div>
+</section>
+
+<!-- LAW LOOKUP TOOL -->
+<section id="law-lookup" style="background:var(--chamber);padding:5rem 2.5rem;border-top:3px solid var(--gold)">
+  <div style="max-width:1280px;margin:0 auto">
+
+    <!-- Header -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:end;margin-bottom:3rem">
+      <div>
+        <div class="eyebrow">Public Tool — Apartheid Law Lookup</div>
+        <h2 class="section-h" style="margin-bottom:.8rem">Search Any Apartheid Law.<br>Get a Plain-Language Explanation.</h2>
+        <div class="gold-rule"></div>
+        <p style="font-size:.95rem;line-height:1.8;color:var(--ash)">Apartheid was built on hundreds of Acts of Parliament. This tool lets any South African search the legislative archive and receive a clear, sourced explanation of what each law did, who it affected, and what its legacy is today. Powered by AI — grounded in public record.</p>
+      </div>
+      <div style="background:var(--vault);border:1px solid rgba(196,146,42,.15);padding:1.5rem">
+        <div style="font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-dim);margin-bottom:.8rem">How to use this tool</div>
+        <p style="font-size:.85rem;line-height:1.75;color:var(--ash)">Type the name of any apartheid-era law, Act number, or keyword — like "pass laws", "Bantu Education", or "Group Areas Act 1950" — and the tool will retrieve the legislation and explain it in plain language, including its human impact and present-day legacy.</p>
+        <div style="margin-top:1rem;display:flex;flex-wrap:wrap;gap:.5rem">
+          <button class="law-quick-btn" onclick="quickLookup('Population Registration Act')">Population Registration Act</button>
+          <button class="law-quick-btn" onclick="quickLookup('Group Areas Act')">Group Areas Act</button>
+          <button class="law-quick-btn" onclick="quickLookup('Terrorism Act')">Terrorism Act</button>
+          <button class="law-quick-btn" onclick="quickLookup('Bantu Education Act')">Bantu Education Act</button>
+          <button class="law-quick-btn" onclick="quickLookup('Suppression of Communism Act')">Suppression of Communism</button>
+          <button class="law-quick-btn" onclick="quickLookup('Pass Laws dompas')">Pass Laws / Dompas</button>
+          <button class="law-quick-btn" onclick="quickLookup('Promotion of Bantu Self-Government Act 1959')">Bantu Self-Government Act</button>
+          <button class="law-quick-btn" onclick="quickLookup('Immorality Act')">Immorality Act</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Search bar -->
+    <div style="display:flex;gap:.8rem;margin-bottom:1.5rem">
+      <input
+        id="law-search-input"
+        type="text"
+        placeholder="Search by law name, Act number, year, or keyword…"
+        style="flex:1;background:var(--vault);border:1px solid rgba(255,255,255,.12);color:var(--parchment);padding:.85rem 1.2rem;font-family:'EB Garamond',serif;font-size:1.05rem;outline:none;transition:border-color .2s"
+        onfocus="this.style.borderColor='rgba(196,146,42,.5)'"
+        onblur="this.style.borderColor='rgba(255,255,255,.12)'"
+        onkeydown="if(event.key==='Enter')lookupLaw()"
+      />
+      <button onclick="lookupLaw()" style="background:var(--crimson);color:var(--cream);border:none;padding:.85rem 2rem;font-family:'Inconsolata',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;white-space:nowrap;transition:background .2s" onmouseover="this.style.background='var(--crimson-dark)'" onmouseout="this.style.background='var(--crimson)'">Look Up Law</button>
+    </div>
+
+    <!-- Result panel -->
+    <div id="law-result" style="display:none">
+      <div id="law-result-inner" style="background:var(--vault);border:1px solid rgba(196,146,42,.2);border-left:4px solid var(--gold)"></div>
+    </div>
+
+    <!-- Loading state -->
+    <div id="law-loading" style="display:none;padding:3rem;text-align:center">
+      <div style="display:inline-flex;gap:6px;align-items:center;margin-bottom:.8rem">
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--gold);animation:typingDot 1.2s ease infinite;display:inline-block"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--gold);animation:typingDot 1.2s ease .2s infinite;display:inline-block"></span>
+        <span style="width:8px;height:8px;border-radius:50%;background:var(--gold);animation:typingDot 1.2s ease .4s infinite;display:inline-block"></span>
+      </div>
+      <div style="font-family:'Inconsolata',monospace;font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gold-dim)">Searching the legislative archive…</div>
+    </div>
+
+    <!-- Browse index -->
+    <div id="law-browse" style="margin-top:2.5rem">
+      <div style="font-family:'Inconsolata',monospace;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);margin-bottom:1.2rem;border-bottom:1px solid rgba(255,255,255,.06);padding-bottom:.8rem">Browse the Full Legislative Index — Click Any Law to Read its Record</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.04)" id="law-index"></div>
+    </div>
+
   </div>
 </section>
 
@@ -981,10 +1308,18 @@ footer{
     The Khotso Seatlholo Foundation exists to ensure that the sacrifice of Khotso Sidney Seatlholo — and the millions whose suffering built the conditions for his courage — is not dissolved into annual ceremony and political appropriation. This archive draws only from public record, published scholarship, oral history collections, and primary source testimony. It is non-partisan and non-commercial. It belongs to every South African.<br><br>
     In 2025, a statue of Daniel Khotso Sidney Seatlholo was confirmed for erection at the Robben Island Ex-Political Prisoners' Reunion — alongside Nelson Mandela, Robert Sobukwe, Autshumato Krotoa, and Andimba Toivo ya Toivo. The recognition came 21 years after his death.</p>
     <div class="source-strip">
-      <span class="src-tag">SAHISTORY</span><span class="src-tag">SAHA Archive</span><span class="src-tag">TRC Public Record</span>
-      <span class="src-tag">Cambridge UP 2023</span><span class="src-tag">Black Opinion</span><span class="src-tag">District Six Museum</span>
-      <span class="src-tag">Robben Island Museum</span><span class="src-tag">Hector Pieterson Museum</span>
-      <span class="src-tag">Sowetan Live</span><span class="src-tag">Mail & Guardian</span><span class="src-tag">GCIS 2025</span><span class="src-tag">Nelson Mandela Foundation</span>
+      <a class="src-tag" href="https://sahistory.org.za" target="_blank" rel="noopener">SAHISTORY ↗</a>
+      <a class="src-tag" href="https://www.saha.org.za" target="_blank" rel="noopener">SAHA Archive ↗</a>
+      <a class="src-tag" href="https://sabctrc.saha.org.za" target="_blank" rel="noopener">TRC Public Record ↗</a>
+      <a class="src-tag" href="https://www.cambridge.org/core/books/arming-black-consciousness/3CA911964D737992944EAC13E4E9FEFC" target="_blank" rel="noopener">Cambridge UP 2023 ↗</a>
+      <a class="src-tag" href="https://blackopinion.co.za" target="_blank" rel="noopener">Black Opinion ↗</a>
+      <a class="src-tag" href="https://www.districtsix.co.za" target="_blank" rel="noopener">District Six Museum ↗</a>
+      <a class="src-tag" href="https://www.robben-island.org.za" target="_blank" rel="noopener">Robben Island Museum ↗</a>
+      <a class="src-tag" href="https://hectorpietersonmuseum.com" target="_blank" rel="noopener">Hector Pieterson Museum ↗</a>
+      <a class="src-tag" href="https://www.sowetanlive.co.za" target="_blank" rel="noopener">Sowetan Live ↗</a>
+      <a class="src-tag" href="https://mg.co.za" target="_blank" rel="noopener">Mail &amp; Guardian ↗</a>
+      <a class="src-tag" href="https://www.gcis.gov.za" target="_blank" rel="noopener">GCIS 2025 ↗</a>
+      <a class="src-tag" href="https://archive.nelsonmandela.org/index.php/seatlholo-khotso" target="_blank" rel="noopener">Nelson Mandela Foundation Archive ↗</a>
     </div>
   </div>
 </section>
@@ -1019,26 +1354,205 @@ footer{
 </div>
 
 <script>
-// ── SCROLL ANIMATIONS ──
+// ── VIDEO PLAYER ──
+function playVideo(playerId, thumbId, frameId, videoId) {
+  const thumb = document.getElementById(thumbId);
+  const frame = document.getElementById(frameId);
+  if (!thumb || !frame) return;
+  const iframe = frame.querySelector('iframe');
+  if (iframe && iframe.getAttribute('data-src')) {
+    iframe.src = iframe.getAttribute('data-src');
+  }
+  thumb.style.display = 'none';
+  frame.style.display = 'block';
+}
+
+// ── CHAPTER TOGGLES ──
+function toggleChapter(el, id) {
+  const body = document.getElementById(id);
+  const isOpen = el.classList.contains('open');
+  // Close all open chapters
+  document.querySelectorAll('.chap.open').forEach(c => {
+    c.classList.remove('open');
+    const b = c.querySelector('.chap-body');
+    if (b) b.style.display = 'none';
+    const h = c.querySelector('.chap-expand-hint');
+    if (h) h.textContent = 'Read Chapter →';
+  });
+  if (!isOpen) {
+    el.classList.add('open');
+    body.style.display = 'block';
+    const hint = el.querySelector('.chap-expand-hint');
+    if (hint) hint.textContent = 'Collapse ↑';
+    // Smooth scroll to chapter
+    setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+  }
+}
+
+// ── LAW LOOKUP TOOL ──
+const lawIndex = [
+  {act:'Act No. 30 of 1950',name:'Population Registration Act',year:'1950',keyword:'population registration race classification',summary:'Required every South African to be classified as White, Coloured, Indian, or Native (later Bantu). This classification determined every aspect of life — where you could live, who you could marry, what schools your children could attend, what work you could do. Classification disputes were decided by officials using physical examination and demeaning questioning. It made every other apartheid law operationally possible.',impact:'Every South African born between 1950 and 1991 was assigned a racial classification at birth. Families were torn apart when siblings were classified differently. The Population Registration Act was repealed in 1991 — but its classifications continued to determine land ownership, school placement, and economic opportunity for decades after.',legacy:'South Africa\'s current affirmative action legislation (the Employment Equity Act and Broad-Based Black Economic Empowerment Act) uses racial categories that trace directly to the Population Registration Act — making it simultaneously a tool of remediation and a continuation of race-based governance.'},
+  {act:'Act No. 41 of 1950',name:'Group Areas Act',year:'1950',keyword:'group areas forced removal residential segregation',summary:'Designated specific residential and business zones for each racial group across every South African town and city. Non-white South Africans living in areas declared "White" were forcibly relocated — usually to under-resourced townships far from employment centres, schools, and social infrastructure.',impact:'Over 3.5 million people were forcibly removed from their homes under the Group Areas Act. District Six in Cape Town (60,000 residents), Sophiatown in Johannesburg (tens of thousands), and hundreds of other vibrant, mixed communities across the country were razed. The houses were demolished; the land was redistributed to white residents.',legacy:'The spatial consequences of the Group Areas Act are visible in every South African city today. Townships on the periphery, long commutes for low-wage workers, and the physical distance between where Black South Africans live and where economic activity happens are all direct products of this Act.'},
+  {act:'Act No. 47 of 1953',name:'Bantu Education Act',year:'1953',keyword:'bantu education schools curriculum Black',summary:'Placed Black African schools under direct state control, replacing mission school curricula with a system explicitly designed to prepare Black children for manual labour. Minister Verwoerd stated in Parliament: "There is no place for the Bantu in the European community above certain forms of labour." Funding per Black pupil was a fraction of funding per white pupil — a gap that widened over the following decades.',impact:'The law that Khotso Seatlholo called "the whole system" — of which Afrikaans as medium of instruction was only "the Achilles Heel." It is what 20,000 Soweto students marched against on June 16, 1976. It deliberately deprived two generations of Black South Africans of the educational foundation required to compete for skilled employment.',legacy:'South Africa\'s current education crisis — the reading and mathematics performance deficits, teacher training gaps, crumbling school infrastructure — is a direct consequence of four decades of deliberately underfunded and deliberately limited Black schooling.'},
+  {act:'Act No. 55 of 1949',name:'Prohibition of Mixed Marriages Act',year:'1949',keyword:'mixed marriages interracial marriage',summary:'Criminalised marriage between white South Africans and people of other racial classifications. The Immorality Amendment Act of 1950 extended the prohibition to all sexual relations across racial lines. Both laws were enforced by the Security Police through surveillance, informants, and dawn raids.',impact:'Couples were prosecuted, publicly shamed, and imprisoned for relationships that occurred across the colour line. Families were torn apart — including cases where one parent was reclassified and the other was not, instantly rendering their children legally illegitimate.',legacy:'Both Acts were repealed in 1985. The broader social attitudes they encoded — about miscegenation, racial purity, and the dangers of racial mixing — persisted in South African communities long after the laws were removed from the books.'},
+  {act:'Pass Laws — Various Acts',name:'Pass Laws (Dompas System)',year:'1923–1986',keyword:'pass laws dompas reference book pass book',summary:'A system of laws requiring Black South African adults to carry a "reference book" (the dompas — literally "dumb pass") at all times. The book contained racial classification, employer details, residential area, and crucially, permission stamps authorising the holder to be in a particular area. Without the correct stamps, any Black adult could be arrested simply for being in a city.',impact:'Over 17 million pass law arrests were made between 1948 and 1986 — approximately 1,000 per day, every day, for 38 years. The 1960 Sharpeville Massacre occurred during a peaceful protest against the pass laws. The system controlled the movement of an entire population and channelled Black labour into white economic zones while denying Black workers the right to settle permanently near their places of work.',legacy:'The pass laws were abolished in 1986 after sustained international pressure and domestic resistance. But the spatial arrangement they enforced — Black workers commuting long distances from townships to serve the white economy — was physically encoded into every South African city\'s infrastructure and persists today.'},
+  {act:'Act No. 44 of 1950',name:'Suppression of Communism Act',year:'1950',keyword:'communism terrorism suppression banned',summary:'Defined "communism" so broadly that it criminalised virtually any form of opposition to the apartheid government — trade union activism, journalism, legal advocacy, protest, or even the expression of opinions that the government considered dangerous. Any organisation or person could be "listed" under this Act and effectively banned from public life.',impact:'Used to ban the ANC, PAC, South African Communist Party, and hundreds of other organisations. Used to imprison Nelson Mandela, Walter Sisulu, Govan Mbeki, and the Rivonia trialists. Used to charge Khotso Seatlholo as a "terrorist" for organising students. Used to prosecute Steve Biko\'s Black Consciousness colleagues. The Terrorism Act of 1967, which replaced and extended it, was the instrument under which Jacob Gaonakala Seatlholo and Daniel Khotso Sidney Seatlholo were both imprisoned on Robben Island.',legacy:'The concept of "naming and listing" individuals as threats to the state — which the Act made possible without judicial review — anticipated surveillance mechanisms that have since become globally controversial in different contexts.'},
+  {act:'Act No. 59 of 1959',name:'Promotion of Bantu Self-Government Act',year:'1959',keyword:'bantustan homeland self government separate development',summary:'Created the legislative framework for the ten "homelands" — nominally self-governing territories assigned to different Black ethnic groups, which the government intended to eventually declare "independent." The Act stripped Black South Africans of their South African citizenship, declaring them citizens of these artificial states instead.',impact:'Ten homelands were established. Four were declared "independent" (Transkei 1976, Bophuthatswana 1977, Venda 1979, Ciskei 1981). Not one was recognised by any country other than South Africa. Millions of Black South Africans were made stateless in the country of their birth — foreigners who required work permits to be in South African cities. Traditional leaders, including Zulu, Xhosa, Tswana, and Sotho royalty, were placed at the heads of these structures, dividing the liberation movement and creating compliant local administrations.',legacy:'The homelands were reintegrated into South Africa on 27 April 1994. The land dispossession they encoded — and the infrastructure deficits of the areas they administered — remain among the most persistent consequences of apartheid in contemporary South Africa.'},
+  {act:'Act No. 83 of 1967',name:'Terrorism Act',year:'1967',keyword:'terrorism act security police detention',summary:'Replaced the Suppression of Communism Act with a broader instrument of state repression. Defined "terrorism" in terms broad enough to include virtually any action that might "embarrass" the government. Provided for indefinite detention without trial, without access to lawyers, and without any requirement to charge the detained person with a crime. Detainees held under Section 6 of the Act had no rights whatsoever.',impact:'Hundreds of anti-apartheid activists were detained under Section 6 of the Terrorism Act, often for months without charge. Torture — including electric shock, suffocation, sleep deprivation, and beating — was systematically practised at John Vorster Square (Security Police headquarters in Johannesburg) and at other detention facilities across the country. Steve Biko died in detention under this Act in 1977. Jacob Gaonakala Seatlholo was charged under this Act after 90 days of detention and torture at John Vorster Square. Daniel Khotso Sidney Seatlholo was sentenced to 15 years under it.',legacy:'The Truth and Reconciliation Commission documented hundreds of cases of torture and death in detention under the Terrorism Act. Many perpetrators received amnesty without prosecution. Some cases remain formally unresolved.'},
+  {act:'Act No. 36 of 1966',name:'Group Areas Act Amendment — Forced Removals',year:'1966',keyword:'district six forced removal Cape Town',summary:'Extended and accelerated the forced removal provisions of the original Group Areas Act. District Six in Cape Town was declared a White Group Area under this amendment framework in 1966. The removal of over 60,000 residents and the demolition of one of South Africa\'s most vibrant urban communities began in that year and continued until 1982.',impact:'District Six had been a racially mixed inner-city community since the 1860s — home to freed slaves, merchants, artisans, immigrants, and workers of every background. Its declaration as a White Group Area was not driven by genuine residential demand but by ideology. The houses were demolished. Former residents were trucked to the Cape Flats — sandy, windswept land with no infrastructure, far from their places of work and their sense of self.',legacy:'The District Six Museum, founded in 1994 in the former Methodist church that was one of the only buildings left standing, maintains an oral history archive of former residents. Many return to trace the outlines of demolished streets on the museum\'s famous floor map. Restitution of some land to former residents has been partial and slow.'},
+  {act:'Native Land Act No. 27 of 1913',name:'Natives Land Act',year:'1913',keyword:'land 1913 native land act dispossession',summary:'Perhaps the single most consequential piece of legislation in South African history. Restricted Black Africans from owning, renting, or purchasing land outside of designated "Native Reserves" — which constituted approximately 7% (later expanded to 13% under apartheid) of South Africa\'s total land area. The Act dispossessed millions of Black South Africans of land they had farmed, lived on, or owned in the space of a single night.',impact:'Solomon Plaatje, the ANC\'s founding Secretary-General, documented the Act\'s immediate human consequences in <em>Native Life in South Africa</em> (1916): "Awaking on Friday morning, June 20, 1913, the South African native found himself, not actually a slave, but a pariah in the land of his birth." Thousands of sharecroppers were evicted overnight. Entire communities lost their livelihoods and their homes in one legislative stroke.',legacy:'The 1913 Native Land Act is the foundational act of South African land dispossession. The current distribution of land ownership — where productive agricultural land remains disproportionately in white ownership — traces directly to this Act. It is the central reference point of contemporary South African land reform debates.'},
+  {act:'Act No. 68 of 1951',name:'Separate Amenities Act (Reservation of Separate Amenities Act)',year:'1953',keyword:'separate amenities signs facilities public',summary:'Required all public facilities — parks, beaches, restaurants, trains, bus stops, post office queues, hospital entrances, toilets, libraries, cinemas — to be racially segregated. The Act explicitly stated that separate facilities need not be equal. "Whites Only" and "Non-Europeans Only" signs appeared on every public surface in South Africa.',impact:'The physical experience of daily life under apartheid was defined by these signs. To drink from the wrong water fountain, sit in the wrong section of a park, or enter the wrong door of a building was a criminal offence. The psychological impact of this constant, ubiquitous, and deliberately humiliating system of spatial exclusion on an entire population cannot be overstated.',legacy:'The Act was repealed in 1990. Many of the spaces it segregated — particularly in coastal areas — remained de facto segregated long after repeal due to economic inequality determining who could access them. The beaches and parks of Cape Town\'s Atlantic Seaboard, for instance, remain inaccessible to the majority of Cape Town\'s Black residents not because of law but because of poverty.'},
+  {act:'Act No. 9 of 1953',name:'Public Safety Act — States of Emergency',year:'1953',keyword:'state of emergency emergency powers detention',summary:'Empowered the government to declare states of emergency and rule by decree in areas where it determined that ordinary law was insufficient to maintain order. Under states of emergency, the government could detain anyone without charge, ban all meetings and publications, and deploy the army against civilians. States of emergency were declared in 1960 (after Sharpeville), in 1985 (nationwide), and again in 1986–1990.',impact:'The 1985–1990 states of emergency were the most sustained period of emergency rule in South African history. Thousands of people — including children — were detained without trial. The Press was censored. Funerals were restricted. Footage of security force violence was banned. International media were expelled. The emergency rule intensified rather than suppressed resistance, leading ultimately to the negotiated settlement of 1990–1994.',legacy:'The legal infrastructure of the states of emergency — particularly the powers of detention without trial and press restriction — informed subsequent debates about emergency powers in democratic South Africa, including debates around COVID-19 regulations and protest suppression.'}
+];
+
+// Render law index browse grid
+function renderLawIndex() {
+  const container = document.getElementById('law-index');
+  if (!container) return;
+  container.innerHTML = lawIndex.map((law, i) => `
+    <div class="law-index-card" onclick="lookupByIndex(${i})">
+      <div class="lic-act">${law.act}</div>
+      <div class="lic-name">${law.name}</div>
+      <div class="lic-year">${law.year}</div>
+    </div>
+  `).join('');
+}
+renderLawIndex();
+
+function lookupByIndex(i) {
+  const law = lawIndex[i];
+  showLawResult(law);
+  document.getElementById('law-lookup').scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+function quickLookup(term) {
+  document.getElementById('law-search-input').value = term;
+  lookupLaw();
+}
+
+async function lookupLaw() {
+  const query = document.getElementById('law-search-input').value.trim();
+  if (!query) return;
+
+  const resultPanel = document.getElementById('law-result');
+  const loading = document.getElementById('law-loading');
+
+  // First check local index for an exact or close match
+  const q = query.toLowerCase();
+  const localMatch = lawIndex.find(l =>
+    l.name.toLowerCase().includes(q) ||
+    l.keyword.toLowerCase().includes(q) ||
+    l.act.toLowerCase().includes(q) ||
+    q.includes(l.name.toLowerCase().split(' ').slice(0,2).join(' ').toLowerCase())
+  );
+
+  if (localMatch) {
+    showLawResult(localMatch);
+    return;
+  }
+
+  // Otherwise call Claude API
+  resultPanel.style.display = 'none';
+  loading.style.display = 'block';
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 1000,
+        system: `You are the Khotso Seatlholo Foundation's legislative archive assistant. You provide factual, sourced, plain-language explanations of apartheid-era South African laws and legislation. 
+
+Respond ONLY with a JSON object (no markdown, no backticks) with exactly these fields:
+{
+  "act": "Official Act number and year, e.g. 'Act No. XX of YYYY' or 'Various Acts' if a system",
+  "name": "Official name of the law or system",
+  "year": "Year enacted or period active",
+  "summary": "2-3 paragraph plain-language explanation of what this law did, who passed it, and why",
+  "impact": "1-2 paragraphs on its immediate human impact — who it affected and how",
+  "legacy": "1 paragraph on its present-day legacy in South Africa",
+  "source": "Key sources: relevant Acts, historians, institutions"
+}
+
+If the query does not relate to an apartheid-era South African law, respond with:
+{"error": "This tool covers apartheid-era South African legislation only. Please search for a specific law, Act, or legal system from South Africa between 1948 and 1994."}`,
+        messages: [{role: 'user', content: `Explain this apartheid law or legal system: "${query}"`}]
+      })
+    });
+
+    const data = await response.json();
+    loading.style.display = 'none';
+
+    const text = data.content?.[0]?.text || '';
+    let parsed;
+    try {
+      parsed = JSON.parse(text.replace(/```json|```/g, '').trim());
+    } catch {
+      parsed = {error: 'Could not parse the archive response. Please try a more specific law name.'};
+    }
+
+    if (parsed.error) {
+      resultPanel.style.display = 'block';
+      document.getElementById('law-result-inner').innerHTML = `<div class="law-error">${parsed.error}</div>`;
+    } else {
+      showLawResult(parsed);
+    }
+
+  } catch (err) {
+    loading.style.display = 'none';
+    resultPanel.style.display = 'block';
+    document.getElementById('law-result-inner').innerHTML = `<div class="law-error">Unable to reach the archive at this time. Please try searching from the index below, or try again shortly.</div>`;
+  }
+}
+
+function showLawResult(law) {
+  const resultPanel = document.getElementById('law-result');
+  const loading = document.getElementById('law-loading');
+  loading.style.display = 'none';
+  resultPanel.style.display = 'block';
+
+  document.getElementById('law-result-inner').innerHTML = `
+    <div class="law-result-header">
+      <div class="law-result-meta">
+        <div class="law-result-act">${law.act} · ${law.year}</div>
+        <div class="law-result-name">${law.name}</div>
+      </div>
+      <button onclick="document.getElementById('law-result').style.display='none'" style="background:none;border:1px solid rgba(255,255,255,.1);color:var(--ash);padding:.3rem .7rem;font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;flex-shrink:0">✕ Close</button>
+    </div>
+    <div class="law-result-body">
+      <h4>What This Law Did</h4>
+      <p>${law.summary.replace(/\n/g,'</p><p>')}</p>
+      <h4>Human Impact</h4>
+      <p>${law.impact.replace(/\n/g,'</p><p>')}</p>
+      <h4>Legacy Today</h4>
+      <p>${law.legacy.replace(/\n/g,'</p><p>')}</p>
+    </div>
+    <div class="law-result-source">Sources: ${law.source || 'South African Parliamentary Archive · SAHISTORY · South African History Archive (SAHA)'}</div>
+  `;
+
+  resultPanel.scrollIntoView({behavior:'smooth', block:'nearest'});
+}
+
 const io = new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('vis')}),{threshold:.1});
 document.querySelectorAll('.tl-item').forEach(el=>io.observe(el));
 
 // ── PRISONER DATABASE ──
 const prisoners = [
-  {name:'Jacob Gaonakala Seatlholo',org:'ANC',year:'1976–1988',sentence:'12 years',charge:'Terrorism Act',excerpt:'Veteran ANC member. Arrested April 1976, Johannesburg. Detained 90 days at John Vorster Square. Subjected to repeated beating and electric shock torture. Sentenced to 12 years on Robben Island.',source:'TRC Archive · SAHA · Robben Island EPP Database',featured:true},
-  {name:'Daniel Khotso Sidney Seatlholo',org:'SAYRCO',year:'1982–1990',sentence:'15 years',charge:'Terrorism Act',excerpt:'President of the SSRC (1976) and founder-President of SAYRCO. Led the Soweto Uprising at age 17. Captured on a SAYRCO recruitment mission, 1981. Sentenced to 15 years. Released 1990. Statue confirmed at Robben Island Ex-Political Prisoners\' Reunion, 2025.',source:'SAHISTORY · SAHA · Cambridge UP 2023 · GCIS 2025'},
-  {name:'Nelson Rolihlahla Mandela',org:'ANC',year:'1964–1982',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'ANC leader and MK commander. Convicted at the Rivonia Trial 1964. Held on Robben Island for 18 of his 27 years. Transferred to Pollsmoor 1982. Released February 1990. First democratically elected President of South Africa, 1994.',source:'Robben Island Museum · Long Walk to Freedom (1994)'},
-  {name:'Walter Max Ulyate Sisulu',org:'ANC',year:'1964–1989',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'ANC Secretary-General, convicted alongside Mandela at the Rivonia Trial. Held on Robben Island until 1989. Mentored younger prisoners including Tokyo Sexwale and Kgalema Motlanthe. Released October 1989.',source:'SAHISTORY · Robben Island Museum'},
-  {name:'Ahmed Mohamed Kathrada',org:'ANC',year:'1964–1989',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'Only Indian among the Rivonia trialists. Held on Robben Island until 1989. Known for his wit and resilience. On the day of his arrival, was given long trousers while Govan Mbeki received short trousers — race-based even in prison clothes.',source:'SAHISTORY · Google Arts & Culture · Robben Island Museum'},
-  {name:'Robert Mangaliso Sobukwe',org:'PAC',year:'1960–1969',sentence:'Special (Indefinite)',charge:'Sobukwe Clause',excerpt:'Founder of the Pan Africanist Congress. Held in singular isolation — not in the main prison — because the government considered him too dangerous for contact with other prisoners. The "Sobukwe Clause" was passed specifically to detain him without additional charges.',source:'South Africa Overcoming Apartheid · SAHISTORY'},
-  {name:'Govan Archibald Mbeki',org:'ANC',year:'1964–1987',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'Father of President Thabo Mbeki. Convicted at Rivonia. Held on Robben Island for 23 years. His prison writings were later published as "Learning from Robben Island." Released by P.W. Botha in 1987.',source:'Foreign Affairs Book Review · SAHISTORY'},
-  {name:'Kgalema Petrus Motlanthe',org:'ANC',year:'1977–1987',sentence:'10 years',charge:'Terrorism Act',excerpt:'Future President of South Africa (2008–2009). Imprisoned on Robben Island for ANC underground activity. Later became ANC Secretary-General and Deputy President under Thabo Mbeki. Elected President upon Mbeki\'s resignation in 2008.',source:'Robben Island Museum · Google Arts & Culture'},
-  {name:'Mosima Gabriel "Tokyo" Sexwale',org:'ANC',year:'1977–1990',sentence:'18 years',charge:'Terrorism Act',excerpt:'Convicted for underground ANC military activity. Imprisoned alongside Mandela on Robben Island. Became Premier of Gauteng after the 1994 elections and later Minister of Human Settlements.',source:'Google Arts & Culture · Robben Island Museum'},
-  {name:'Jacob Gedleyihlekisa Zuma',org:'ANC',year:'1963–1973',sentence:'10 years',charge:'Conspiracy to overthrow government',excerpt:'Future President of South Africa (2009–2018). Arrested in 1962 near Zeerust with 45 ANC recruits. Sentenced to 10 years on Robben Island, where he served as a football referee in the Makana F.A. — the prisoners\' own football association.',source:'Robben Island Wikipedia · Jacob Zuma Wikipedia'},
-  {name:'Neville Edward Alexander',org:'Non-Aligned',year:'1964–1974',sentence:'10 years',charge:'Sabotage',excerpt:'Scholar, author, and anti-apartheid activist. Imprisoned on Robben Island for 10 years. Used his imprisonment to teach fellow prisoners. Later became one of South Africa\'s most important thinkers on language policy and decolonisation.',source:'Robben Island Wikipedia · SAHISTORY'},
-  {name:'Mac Maharaj (Sathyandranath Ragunanan)',org:'ANC',year:'1964–1976',sentence:'12 years',charge:'Sabotage · ANC underground',excerpt:'MK operative and ANC strategist. Smuggled Mandela\'s autobiography manuscript out of Robben Island in 1976 — hidden in the suitcase lining on his release. The manuscript was published as "Long Walk to Freedom" in 1994.',source:'Robben Island Wikipedia · SAHISTORY'},
-  {name:'Joe "Moss" Seremane',org:'PAC',year:'1963–1975',sentence:'12 years',charge:'PAC activities',excerpt:'Later became Chairperson of the Democratic Alliance. His brother Timothy Seremane was killed under ANC custody during the liberation struggle — a source of ongoing grief and political complexity. Seremane\'s life embodies the contradictions of the transition.',source:'South Africa Overcoming Apartheid · SAHISTORY'},
-  {name:'Andimba Toivo ya Toivo',org:'SWAPO',year:'1968–1984',sentence:'20 years',charge:'Terrorism Act',excerpt:'Co-founder of SWAPO and leader of Namibian independence. Held on Robben Island for 20 years as a Namibian political prisoner under South African jurisdiction. Released 1984. First Labour Minister of independent Namibia. A statue in his honour confirmed at the Robben Island Ex-Political Prisoners\' Reunion alongside Seatlholo.',source:'Robben Island Museum · GCIS 2025'}
+  {name:'Daniel Khotso Sidney Seatlholo',org:'SAYRCO',year:'1982–1990',sentence:'15 years',charge:'Terrorism Act',excerpt:'President of the SSRC (1976) and founder-President of SAYRCO. Led the Soweto Uprising at 17. Survived two assassination attempts. Built an armed liberation movement in exile. Captured on a SAYRCO recruitment mission in March 1981. Sentenced to 15 years. General Obasanjo demanded to see him personally during a Robben Island visit. Released 1990. Statue confirmed for Robben Island Ex-Political Prisoners\' Reunion, 2025.',source:'SAHISTORY · SAHA · Cambridge UP 2023 · GCIS 2025 · Nelson Mandela Foundation Archive',featured:true},
+  {name:'Nelson Rolihlahla Mandela',org:'ANC',year:'1964–1982',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'ANC leader and MK commander. Convicted at the Rivonia Trial 1964. Held on Robben Island for 18 of his 27 years in prison. Transferred to Pollsmoor 1982. Released 11 February 1990. First democratically elected President of South Africa, 1994.',source:'Robben Island Museum · Long Walk to Freedom (1994)'},
+  {name:'Walter Max Ulyate Sisulu',org:'ANC',year:'1964–1989',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'ANC Secretary-General. Convicted alongside Mandela at Rivonia. Held for 25 years. Mentored younger prisoners including Tokyo Sexwale and Kgalema Motlanthe. Released October 1989.',source:'SAHISTORY · Robben Island Museum'},
+  {name:'Ahmed Mohamed Kathrada',org:'ANC',year:'1964–1989',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'Only Indian among the Rivonia trialists. Known for his wit and resilience. On arrival, was given long trousers while Govan Mbeki received short trousers — race-based discrimination enforced even in prison uniforms.',source:'SAHISTORY · Google Arts & Culture · Robben Island Museum'},
+  {name:'Robert Mangaliso Sobukwe',org:'PAC',year:'1960–1969',sentence:'Special (Indefinite)',charge:'Sobukwe Clause',excerpt:'Founder of the Pan Africanist Congress. Held in singular isolation — not in the main prison — because the government considered him too dangerous for contact with other prisoners. A special law was passed solely to detain him indefinitely without further charges.',source:'South Africa Overcoming Apartheid · SAHISTORY'},
+  {name:'Govan Archibald Mbeki',org:'ANC',year:'1964–1987',sentence:'Life',charge:'Sabotage · Rivonia Trial',excerpt:'Father of President Thabo Mbeki. Convicted at Rivonia. Held for 23 years. His prison writings were published as "Learning from Robben Island." Released by P.W. Botha in 1987.',source:'Foreign Affairs Book Review · SAHISTORY'},
+  {name:'Kgalema Petrus Motlanthe',org:'ANC',year:'1977–1987',sentence:'10 years',charge:'Terrorism Act',excerpt:'Future President of South Africa (2008–2009). Imprisoned for ANC underground activity. Later became ANC Secretary-General and Deputy President. Elected President upon Thabo Mbeki\'s resignation in 2008.',source:'Robben Island Museum · Google Arts & Culture'},
+  {name:'Mosima Gabriel "Tokyo" Sexwale',org:'ANC',year:'1977–1990',sentence:'18 years',charge:'Terrorism Act',excerpt:'Convicted for underground ANC military activity. Became Premier of Gauteng after the 1994 elections and later Minister of Human Settlements under President Zuma.',source:'Google Arts & Culture · Robben Island Museum'},
+  {name:'Jacob Gedleyihlekisa Zuma',org:'ANC',year:'1963–1973',sentence:'10 years',charge:'Conspiracy to overthrow government',excerpt:'Future President of South Africa (2009–2018). Arrested in 1962 near Zeerust with 45 ANC recruits. On Robben Island, served as referee in the Makana F.A. — the prisoners\' own football association.',source:'Robben Island Wikipedia · Jacob Zuma Wikipedia'},
+  {name:'Neville Edward Alexander',org:'Non-Aligned',year:'1964–1974',sentence:'10 years',charge:'Sabotage',excerpt:'Scholar and anti-apartheid activist. Used his imprisonment to teach fellow prisoners. Later became one of South Africa\'s most important thinkers on language policy and decolonisation.',source:'Robben Island Wikipedia · SAHISTORY'},
+  {name:'Mac Maharaj (Sathyandranath Ragunanan)',org:'ANC',year:'1964–1976',sentence:'12 years',charge:'Sabotage · ANC underground',excerpt:'MK operative and ANC strategist. Smuggled Mandela\'s autobiography manuscript out of Robben Island in 1976 — hidden in his suitcase lining on release. The manuscript was published as "Long Walk to Freedom" in 1994.',source:'Robben Island Wikipedia · SAHISTORY'},
+  {name:'Jacob Gaonakala Seatlholo',org:'ANC',year:'1976–1988',sentence:'12 years',charge:'Terrorism Act',excerpt:'Veteran ANC member. Arrested April 1976, Johannesburg. Detained 90 days at John Vorster Square where he was subjected to repeated beatings and electric shock torture. Sentenced to 12 years on Robben Island. His name appears in the EPP Database alongside Khotso Seatlholo — the shared surname and shared island a record of how far the apartheid state\'s violence reached.',source:'TRC Final Report Volume 5, Chapter 2 · SAHA · Robben Island EPP Database'},
+  {name:'Joe "Moss" Seremane',org:'PAC',year:'1963–1975',sentence:'12 years',charge:'PAC activities',excerpt:'Later became Chairperson of the Democratic Alliance. His brother Timothy Seremane was killed under ANC custody during the liberation struggle — a source of ongoing grief and political complexity that Seremane has spoken about publicly.',source:'South Africa Overcoming Apartheid · SAHISTORY'},
+  {name:'Andimba Toivo ya Toivo',org:'SWAPO',year:'1968–1984',sentence:'20 years',charge:'Terrorism Act',excerpt:'Co-founder of SWAPO and Namibian independence leader. Held on Robben Island for 20 years as a Namibian political prisoner under South African jurisdiction. Released 1984. First Labour Minister of independent Namibia. A statue in his honour confirmed at the Robben Island Ex-Political Prisoners\' Reunion alongside Seatlholo.',source:'Robben Island Museum · GCIS 2025'}
 ];
 
 let currentFilter = 'all';
@@ -1053,11 +1567,11 @@ function renderPrisoners(list) {
   }
   count.textContent = `Showing ${list.length} record${list.length !== 1 ? 's' : ''}`;
   container.innerHTML = list.map(p => `
-    <div class="pr-card" onclick="openPrisonerModal(${prisoners.indexOf(p)})">
-      <div class="pr-org">${p.org}${p.featured ? ' · ★ Featured Record' : ''}</div>
+    <div class="pr-card${p.featured ? ' pr-card--ksf' : ''}" onclick="openPrisonerModal(${prisoners.indexOf(p)})">
+      <div class="pr-org">${p.org}${p.featured ? ' · Foundation Subject' : ''}</div>
       <div class="pr-name">${p.name}</div>
       <div class="pr-meta">${p.year} · ${p.sentence} · ${p.charge}</div>
-      <p class="pr-excerpt">${p.excerpt.substring(0, 120)}…</p>
+      <p class="pr-excerpt">${p.excerpt.substring(0, 130)}…</p>
     </div>
   `).join('');
 }
