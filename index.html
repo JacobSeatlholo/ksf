@@ -429,7 +429,67 @@ nav{
 .src-tag{font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ash);border:1px solid rgba(255,255,255,.08);padding:.32rem .7rem;text-decoration:none;transition:all .2s;display:inline-block}
 .src-tag:hover{color:var(--gold-pale);border-color:rgba(196,146,42,.3);background:var(--gold-wash)}
 
-/* ── FOOTER ── */
+/* ── THAROLLO ESSAYS ── */
+.ts-essay{
+  background:var(--vault);
+  border:1px solid rgba(255,255,255,.06);
+  border-left:3px solid var(--crimson);
+  margin-bottom:1.5px;
+  cursor:pointer;
+  transition:background .3s, border-left-color .3s;
+}
+.ts-essay:hover{background:var(--stone)}
+.ts-essay.open{
+  border-left-color:var(--gold);
+  background:var(--stone);
+}
+.ts-essay-head{
+  padding:2rem 2.5rem;
+  display:flex;align-items:flex-start;justify-content:space-between;gap:2rem;
+}
+.ts-essay-meta{flex:1}
+.ts-tag{
+  font-family:'Inconsolata',monospace;font-size:.5rem;letter-spacing:.16em;
+  text-transform:uppercase;color:var(--crimson);margin-bottom:.6rem;
+}
+.ts-title{
+  font-family:'EB Garamond',serif;font-size:1.25rem;font-weight:700;
+  color:var(--parchment);margin-bottom:.8rem;line-height:1.3;
+}
+.ts-desc{
+  font-size:.9rem;line-height:1.8;color:var(--ash);max-width:780px;
+  font-style:italic;
+}
+.ts-read-hint{
+  font-family:'Inconsolata',monospace;font-size:.52rem;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--crimson);flex-shrink:0;
+  padding-top:.3rem;white-space:nowrap;transition:color .2s;
+}
+.ts-essay.open .ts-read-hint{color:var(--ash)}
+.ts-body{
+  padding:0 2.5rem 2.5rem;
+  border-top:1px solid rgba(255,255,255,.06);
+  font-size:.95rem;line-height:1.92;color:var(--aged);
+}
+.ts-body p{margin-bottom:1.1rem}
+.ts-body p:last-of-type{margin-bottom:0}
+.ts-body em{font-style:italic;color:var(--parchment)}
+.ts-divider{
+  height:1px;background:rgba(255,255,255,.06);
+  margin:2rem 0;
+}
+.ts-coda-head{
+  font-family:'EB Garamond',serif;font-size:1.1rem;font-weight:700;
+  color:var(--gold);margin-bottom:1rem;letter-spacing:.04em;
+}
+.ts-source{
+  margin-top:1.8rem;padding-top:1rem;
+  border-top:1px solid rgba(255,255,255,.06);
+  font-family:'Inconsolata',monospace;font-size:.48rem;letter-spacing:.1em;
+  color:var(--dust);
+}
+
+
 footer{background:var(--chamber);border-top:1px solid rgba(196,146,42,.2)}
 .footer-top{max-width:1280px;margin:0 auto;padding:4rem 2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem}
 .footer-brand{display:flex;gap:1.5rem;align-items:flex-start}
@@ -582,7 +642,8 @@ footer{background:var(--chamber);border-top:1px solid rgba(196,146,42,.2)}
     <li><a href="#royalties">Royalties</a></li>
     <li><a href="#robben">Robben Island</a></li>
     <li><a href="#timeline">Timeline</a></li>
-    <li><a href="#archive">Archive</a></li>
+    <li><a href="#writings">Khotso's Writings</a></li>
+    <li><a href="#tharollo-essays">Tharollo's Essays</a></li>
     <li><a href="#artistic-takeover" style="color:var(--gold)">2026 Takeover</a></li>
   </ul>
   <a href="#artistic-takeover" class="nav-cta">50th Commemoration</a>
@@ -1095,6 +1156,93 @@ footer{background:var(--chamber);border-top:1px solid rgba(196,146,42,.2)}
   </div>
 </section>
 
+<!-- THAROLLO ESSAYS -->
+<section id="tharollo-essays" style="background:var(--ink);padding:6rem 2.5rem;border-top:1px solid rgba(255,255,255,.04)">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="eyebrow">Published Essays — Tharollo Seatlholo</div>
+    <h2 class="section-h">The Institute's Intellectual Project</h2>
+    <div class="gold-rule"></div>
+    <p class="section-body" style="margin-bottom:3rem">Tharollo Seatlholo — founder of the Khotso Seatlholo Institute, researcher, writer and archivist — publishes on the intersections of African history, the arts, and political economy. These essays form part of the Institute's intellectual project: transforming memory into critical action. Originally published on Substack. Click any essay to read in full.</p>
+
+    <!-- Essay 1 -->
+    <div class="ts-essay" id="tse1" onclick="toggleEssay('tse1','tse1-body','tse1-hint')">
+      <div class="ts-essay-head">
+        <div class="ts-essay-meta">
+          <div class="ts-tag">Essay I — On the ANC & Land</div>
+          <h3 class="ts-title">Mandela's Legacy: Landlessness as the Penalty for Native Inclusion in the Refurbished Union of South Africa</h3>
+          <p class="ts-desc">Slovo Mamphaga's artwork <em>Mandela's Legacy</em> serves as the departure point for a historical reading of the ANC from its origins in 1912 as the SANNC — a Black elite organisation shaped by missionary education and assimilation — through to the 1994 settlement. The essay argues that the settlement was not betrayal but fidelity to the ANC's founding principles, and examines how that logic consigned the native majority to landlessness under Black representation.</p>
+        </div>
+        <div class="ts-read-hint" id="tse1-hint">Read Essay →</div>
+      </div>
+      <div class="ts-body" id="tse1-body" style="display:none">
+        <p>Slovo Mamphaga's artwork <em>Mandela's Legacy</em> reminds us that there was never a nation to build without the restoration of native land — only an injustice to preserve for white settlers. This offering does not seek to shock its inter-actors but to reflect the lived reality of natives amidst the romanticisation of Mandela and his so-called anti-Apartheid struggle. As a truthful reflection of the socio-political condition, Mamphaga urges us to question whether the legacy was deliberate and voluntary.</p>
+        <p>A historical reading of the ANC makes clear that the 1994 settlement was not betrayal, but a fidelity to its founding principles and mission. The ANC began in 1912 as the South African National Native Congress (SANNC), formed by Black elites shaped through missionary education and assimilation into British liberal culture. These elites were descendants of those freed after the abolition of slavery in 1830 in the Natal and Cape colonies. Its formation came in the shadow of the Union of South Africa, created in 1910 under British administration, which recognised only Dutch and British settlers as citizens. This Union of Settlers was itself the aftermath of the Anglo-Boer Wars of the late 1800s. In 1902, the two settler groups signed a peace treaty and began negotiating how they would divide the invaded land. Among their disputes was Britain's earlier establishment of 'liberated' regions for natives following the abolition of slavery. This provoked Dutch settlers to such an extent that they embarked on the Great Trek, self-convinced that natives were their God-given slaves and that native land was a gift from the heavens.</p>
+        <p>The members of the SANNC sought to preserve their 'privilege' under Cecil John Rhodes's declaration of 'equal rights for all civilised men.' They struggled to conceive how they could exist without concessions from white power, fearing that they would be reduced to the social status and horrifying experiences of their fellow natives. By naming their organisation the South African National Native Congress, Black-elitist leaders such as John Dube, Pixley ka Seme and Sol Plaatje conceded to the misnaming of their native land as 'South Africa.' They resisted the Union by petitioning Britain against their exclusion by white colonists in "South Africa," declaring Britain as their "mother country" and labelling themselves as "loyal subjects" of the British Crown.</p>
+        <p>A secondary reason for the formation of the SANNC was to unite natives who had been waging wars against invaders in fragmented groups across different regions. Yet, despite calling themselves the Native Congress, their reality stood in opposition to the broader population who were confined to 'native-only' reserves. This already signalled a foreign and superior logic over those they claimed to unite — resonating more with settlers than with their own people and foreshadowing the priorities their organisation would embrace. In 1923, the SANNC renamed itself the African National Congress (ANC). Yet, due to its prioritisation of Black elitism and a superior logic over the broader native population, the ANC experienced significant decline because it was never mass-centred.</p>
+        <p>The absence of a mass base became increasingly evident when compared to growing establishments such as the Indian Trade Unions, founded in 1917, and the Industrial and Commercial Workers' Union of Africa (ICU), established in 1919. Concerned with the ANC's lack of relevance, the Youth League — led by Anton Lembede, A.P. Mda and Nelson Mandela — proposed a Program of Action to mobilise the masses through civil disobedience, boycotts and protests, with a firm refusal of collaborations. They sought to abolish the Native Representative Council and establish African Nationalism as the ANC's guiding ideology. However, when the program was presented to then-ANC President Alfred Bitini Xuma, he dismissed it as 'reckless.' This rejection led the Youth League to characterise their elders as 'elitist.'</p>
+        <p>As the ANC declined, Africans, Coloureds, and Indians formed the Non-European Unity Movement in 1943 to oppose segregation, creating a mass organisation that challenged the ANC's elitist character. A year after Apartheid was instituted in 1948, an Indian trader in Durban brutally murdered an African boy by throwing him from the top floor of his shop. In response, natives sought justice through an attack that left fifty Indians dead. The ANC denounced the retaliation as "barbaric" — a stance that revealed its admiration for Mahatma Gandhi, despite his racism and open contempt for African life. As Ashwin Desai's <em>The South African Gandhi</em> demonstrates, Gandhi collaborated with white settlers and the British Empire, reinforcing their dominion over natives. To preserve their loyalty to racists, the ANC offered to mediate the controversy between Africans and Indians, confirming that their organisation was never formed to represent nor defend natives. In 2021, Indian racism toward Africans was once again exposed by the Phoenix massacre in KwaZulu-Natal. With history repeating itself, the ANC failed to seek justice on behalf of natives. Rather than the African National Congress, a more fitting name should be the anti-African National Congress due to its historical and continued defence of others over its own.</p>
+        <p>When the Apartheid state banned the white liberal Communist Party of South Africa under the Suppression of Communism Act of 1950, white liberals turned to the ANC, seeking refuge and ideological influence. As an organisation that had long decentred Africans, the ANC welcomed them despite its Youth League's rejection of collaboration. The Communist Party deliberately forged an alliance by claiming 'refuge' to suppress the rise of exclusive African Nationalism. By 1975, white settler Joe Slovo expelled the "Gang of Eight" — exiled ANC members under Tennyson Makiwane, representing a faction committed to exclusive African Nationalism. They resisted the ANC's growing concessions to white settlers and opposed the transfer of influence and authority to white-settler interests within the organisation. The alliance between white communists and the ANC in 1950 thus began the Congress Alliance: led by the anti-African National Congress and joined by the Congress of Democrats, the Indian Congress, and the Coloured Congress. The transformation from an elitist ANC to a mass-based movement of non-racialism, embraced by Oliver Tambo, Sisulu and Mandela, entrenched the organisation's failure to address the enduring injustice of land dispossession.</p>
+        <p>When Mamphaga exhibits Mandela's Legacy, he exposes how, under the anti-African National Congress, foreign invaders were able to retain all the land they had looted, while natives remain confined to dumpsites. In a reversal of justice achieved by the ANC's freedom, natives became informal settlers, while white settler-invaders remained settlers and retained their power under Black representation. Mamphaga underscores how Mandela's legacy is deadly to the native by placing a skull on the shack to symbolise death as the enlivening foundation of the new Union South Africa. The ladder represents a false hope of opportunity that is inaccessible to natives, except Black elites who neglect their own in pursuit of advancement. The ever-present tyre placed above the shack signifies how native protests have been normalised in the new dispensation — for the ANC remains deaf to its own people's demands yet responds swiftly to violence in order to safeguard the comfort of its beloved white settlers.</p>
+        <p>Mandela's legacy, widely venerated by white settlers and the international community, IS the effective sustenance of the Natives Land Act of 1913 through reconstruction. This legislation prohibited Africans from owning or renting land, relegating them to reserves that functioned as dispossessed zones or 'dumpsites.' As Sol Plaatje wrote in <em>Native Life in South Africa</em> (1916), the African was rendered "not actually a slave, but a pariah in the land of his birth."</p>
+        <div class="ts-source">Published on Substack by Tharollo Seatlholo (@thaword) · Khotso Seatlholo Institute</div>
+      </div>
+    </div>
+
+    <!-- Essay 2 -->
+    <div class="ts-essay" id="tse2" onclick="toggleEssay('tse2','tse2-body','tse2-hint')">
+      <div class="ts-essay-head">
+        <div class="ts-essay-meta">
+          <div class="ts-tag">Essay II — On the Freedom Charter & PAC</div>
+          <h3 class="ts-title">White Communist Mantra: Land First, Blacks Second</h3>
+          <p class="ts-desc">The Freedom Charter — authored by white communist Rusty Bernstein, not by those it claimed to represent — is read here as the "Freedom Cheater": a counterfeit freedom for natives that ultimately benefited white settlers. The essay traces the formation of the PAC under Robert Sobukwe, its <em>Izwe Lethu</em> mandate, the Sharpeville massacre of 1960, and Mandela's secret negotiations with the Apartheid regime in the mid-1980s as a betrayal prefigured by the ANC's founding compromises.</p>
+        </div>
+        <div class="ts-read-hint" id="tse2-hint">Read Essay →</div>
+      </div>
+      <div class="ts-body" id="tse2-body" style="display:none">
+        <p>Before the slow death of Africans could be signed and systematised, the anti-African National Congress embraced white communists as its intellectual guides through the adoption of the 'Freedom Charter.' Unlike the capitalistic Dutch and British settlers, who maintained indifference to native life after seizing land, white communists were compelled to include natives in their struggle because they offered them refuge and numbers. The ANC embraced its pretentious placement in the hierarchy of priorities within the struggle of the white communists, applauding Rusty Bernstein for authoring the Freedom Charter — which proclaimed that the land belonged to all who lived in it: Black and white.</p>
+        <p>The ANC did not contest the false claim that citizens had been consulted about their visions for South Africa's future and that their visions culminated into the Charter. However, then-ANC President Albert Luthuli revealed that he was seeing the document for the first time when it was presented at the Congress of the People in Kliptown in 1955. In <em>Freedom for My People</em>, Zachariah Keodirelang Matthews asserts that both the Freedom Charter and the Congress of the People originated from his vision. Although his claim warrants closer examination, it reflects a familiar pattern: whites permitting Blacks to assume credit for promoting ideas that ultimately serve white interests — as seen in the acclaim given to the ANC for the supposed victory of 1994. Matthews came up with the idea of the Freedom Charter, but Rusty Bernstein formulated its substance as we know it.</p>
+        <p>Between 1968 and 1972, Steve Biko formulated the Black Consciousness Philosophy and Movement, deliberately excluding white liberals on the grounds that they carried inherent racism, revealed through paternalism toward natives. He argued that if white liberals were genuinely committed to fighting Black oppression, they should build their own structures and inspire change among their white counterparts, rather than using Black organisations for white preservation. While Biko rejected white liberal paternalism, the ANC hastily welcomed it. The ideological contradiction between the Black Consciousness Movement and the ANC lies in their divergent foundations. Black Consciousness is rooted in a self-descriptive philosophy and ideology, while the ANC functions as a broad church, willing to absorb any ideology — even when in direct opposition — provided that they can be unified under the banner of South Africa. This contradiction underscores the extent to which the ANC was, and continues to be, anti-African.</p>
+        <p>Before the imposition of the Freedom Charter, some members of the ANC Youth League resisted the Congress Alliance, determined to preserve African agency. They included Robert Sobukwe, Potlako Leballo and Zeph Mothopeng. After its imposition, Sobukwe referred to it as the 'Kliptown Charter' to reject its claim of seeking freedom for natives. Philosopher and historian Motsoko Pheko rightly referred to the Freedom Charter as the 'Freedom Cheater' — to describe its envisioned counterfeit freedom for natives that ultimately benefited whites. Once the Freedom Cheater was unveiled, members of the Youth League committed to African self-determination conceded that their vision had been ignored and declared their breakaway from the anti-African National Congress. It was at this moment that Robert Sobukwe announced that the ANC was no longer a liberation movement.</p>
+        <p>In 1959, M'Afrika Robert Sobukwe spearheaded the formation of the Pan Africanist Congress (PAC), intended as a refuge for those who rejected the Freedom Charter and resisted both Black elitism and settler prioritisation. Sobukwe maintained that Mandela and his allies, by collaborating with whites, had abandoned the true ANC founded in 1912. The PAC was founded on the 6th of April — deliberately marking the day Jan van Riebeeck invaded Azania in 1652. This decision was more than a historical reference; it was a constant and living symbol of the PAC's reason for existence and the sole task it ought to carry forward.</p>
+        <p>Corroborating the words of Khotso Seatlholo — a Black Conscious youth leader of the 1976 uprising who stated that "the struggle for liberation was about Land" — the PAC immediately started with African-prioritised programs of disobedience: marching against the pass laws to challenge the system, and crippling the stolen nation's economy through labour withdrawal. The march against the pass laws tragically culminated in the Sharpeville massacre on 21 March 1960. Though now 'celebrated' under the revised Union of South Africa as Human Rights Day, the PAC-led protest carried the inevitable outcome of violent confrontation between Africanists and settlers. Unlike the Congress Alliance, which pursued cosmetic concessions while preserving injustice, the PAC was a native union committed to the ultimate restoration of stolen land.</p>
+        <p>According to <em>White Malice: The CIA and the Covert Recolonization of Africa</em> by Susan Williams, protesters chanted "Izwe Lethu — iAfrika" during the Sharpeville march. The PAC's stated mission was independence by 1963, and the march was conceived as a preliminary stage to rebuild native confidence before the decisive confrontation to reclaim Izwe Lethu. The PAC was confident of success within three years, since African nationalist and former Ghanaian president Kwame Nkrumah had pledged not only to fund the realisation of independence in Azania but also to supply ammunition to the PAC.</p>
+        <p>The anti-African National Congress posed little threat to the Apartheid regime as it was vulnerable to infiltration and compromised by white communists acting as informants. The Apartheid regime's deepest anxiety was centred on the PAC, whose native union had resulted in the Sharpeville massacre. To respond to this anxiety, the regime banned both the PAC and ANC in 1960. M'Afrika Sobukwe was placed in solitary confinement to suppress the spread of his "African First and Land First" philosophy, while Nelson Mandela — who admitted at the 1962 Rivonia trial to having fought against "black domination" — was considered less threatening and imprisoned with his comrades on Robben Island. In the mid-1980s, Mandela was released from Robben Island and deliberately isolated from other prisoners to secretly negotiate with the Apartheid regime. These covert "talks about talks" began after the terror of greater retaliation from African nations in response to the 1976 Soweto massacre of the youth.</p>
+        <div class="ts-source">Published on Substack by Tharollo Seatlholo (@thaword) · Khotso Seatlholo Institute</div>
+      </div>
+    </div>
+
+    <!-- Essay 3 -->
+    <div class="ts-essay" id="tse3" onclick="toggleEssay('tse3','tse3-body','tse3-hint')">
+      <div class="ts-essay-head">
+        <div class="ts-essay-meta">
+          <div class="ts-tag">Essay III — On Art, Culture & Consciousness</div>
+          <h3 class="ts-title">Stage Six: The Genetically Engineered Natives & Artistic Decline in ANC South Africa</h3>
+          <p class="ts-desc">The final destination of the anti-African National Congress is the production of what Tharollo Seatlholo terms Genetically Engineered Natives (GEN) — Africans who have consciously or unconsciously rejected their African identity and agency to serve foreign power. The essay traces this project through the Medu Art Ensemble (1979–1985), the engineering of art as anaesthetic rather than truth-telling, and the TRC's exploitation of Ubuntu to normalise forgiveness without justice. Anchored in Slovo Mamphaga's visual works.</p>
+        </div>
+        <div class="ts-read-hint" id="tse3-hint">Read Essay →</div>
+      </div>
+      <div class="ts-body" id="tse3-body" style="display:none">
+        <p>When art refuses to confront truth, it serves as an agent of destruction and neglects the role of a medium of expression that summons action. Within the Anti-Black Rainbow Nation, the art that rejects truth to sow and sustain ignorance is highly exalted because it advances the nation's mission of African degeneration and destruction. Only a few artists persist in the struggle to plant seeds of critical thought through their work, carefully guiding us toward the anticipated revolution. Slovo Mamphaga, a visual artist, designer and futurist, stands among them — offering works that affirm truth and prepare us for the restoration of the African nation.</p>
+        <p>The 1994 settlement of the 'new South Africa' manufactured a hollow culture of art to evade confrontation with the truth of its injustice. The so-called 'peaceful' transition diverted a necessary revolution by handing representational power to the ANC and offering natives little more than freedom of movement within the new settler Union of South Africa. The decline of the arts reached a new low in the 1980s, when leaders of the Apartheid regime and the ANC began 'secret' negotiations aimed at insulating settlers from war with countless natives. This decline was epitomised by the Medu Art Ensemble, formed by exiled artists in Botswana and active from 1979 to 1985.</p>
+        <p>The final destination of the anti-African National Congress is to fully underdevelop Africans into Genetically Engineered Natives. Genetically Engineered Natives (GEN) are Africans who have consciously or unconsciously rejected their African identity, agency, society and culture in order to serve foreign power — becoming servants of their own destruction. GEN refers to a defect in the consciousness of the African, programmed to think, desire, respond and act as a mechanoid of the foreign destroyer. Since the GEN mechanoid functions best in isolation from Africans, it can only relate to them through projects that secure their exploitation or implant their destruction.</p>
+        <p>The Medu Art Ensemble was an arts and cultural movement founded in 1979 by artists from the anti-African National Congress who were exiled in Botswana. The movement tasked itself with using art as a "weapon of struggle," though it miscommunicated the ideas of freedom and revolution. Anchored in the ideals of collaboration within the ANC, their works infused political theories from Europe, America, Asia, Latin America and the African continent to inspire a new Union of South Africa. According to the Tricontinental: Institute for Social Research study on the Medu Art Ensemble (Dossier n.71, 2023), the movement brought "together pre-colonial cultural elements and ideas from the burgeoning international socialist and communist movements." It is important to note, however, that no pre-colonial ideas or philosophies were included in an Artistic Ensemble based in Africa; rather, foreign ideas were employed to inform it. This re-enacted the ANC's rejection of the Youth League's suggestion to ground the organisation in African Nationalism, while later embracing Communism from the white settlers with whom it allied itself.</p>
+        <p>The poem by Bheki Langa, "Isandlwana Incarnate" (1979), illustrates the purpose and nature of most artworks developed under the Ensemble. The 1879 Battle of Isandlwana was a decisive confrontation between natives and invaders, as British troops attempted to penetrate the Kingdom of AmaZulu to control the region's diamond and gold mines. AmaZulu defeated the British invaders despite their possession of the most technologically advanced machinery, killing a third of the invading force. Yet Langa's poem reduces the victory of the natives who fought for their land to the poverty and violence they experienced one hundred years later under Apartheid — denying the truth that AmaZulu also possessed technological machinery and used it in the battle. As a genetically engineered Native, the anti-African nationalist Langa trivialised the significance of Isandlwana by reframing its meaning from African nationalism to a narrative of Black poverty under Apartheid in order to maintain white comfort.</p>
+        <p>The Medu Art Ensemble ceased to exist in 1985 when fourteen of its members were murdered by the South African Defence Force after raiding Botswana. That same year, Mandela began secret negotiations with leaders of the Apartheid regime. A few years later, Mandela was overtly promoted as the country's leader by organisations such as the Mass Democratic Movement and the United Democratic Front — non-racial formations that manifestly also embraced the Freedom Cheater introduced by white-settler communists. One of their campaigns, "Free Nelson Mandela," helped engineer natives to accept the already foregone conclusion as the country's president — an announcement later made public in 1994.</p>
+        <p>After 1994, the nature of art was further reduced to celebrating a cheated freedom, designed to provoke and then maintain native ignorance. Both pre- and post-Apartheid artists were tasked with nation-building to feed the illusion of unity and freedom. Under the anti-African National Congress, current artists carry the duty of identifying as Genetically Engineered Natives to maintain ignorance and historical distortion. This represents a denial of truth by artists in exchange for national and international renown and the elevation of their status to Black elites. Modern artists who fail to comply face the same exclusion, silencing or elimination once faced by the PAC and BCM organisations — despite their significant roles in history that have since been revised, re-owned and commodified by the anti-African National Congress.</p>
+        <p>In 1995, the so-called Truth and Reconciliation Council (TRC) was established to deceive natives into believing that justice had taken place simply because they were given the opportunity to relive their trauma by regurgitating it. This sadistic and anti-African council limited the "rehabilitation" process to events between 1960 and 1994 — not only to evade land injustice but also to embed the Freedom Cheater of 1955 into the nation's historical ideals. To emphasise forgiveness from natives to white settlers, the Council was chaired by Archbishop Desmond Tutu — exploiting the guilt of natives if they chose not to forgive, since forgiveness was fundamental to the Christian religion natives had adopted. Although the TRC was presented as widely accepted, the Azanian People's Organisation (AZAPO) legally challenged the National Unity and Reconciliation Act on the basis that it denied natives the right to seek justice. The family of Steve Biko echoed this position and also contested the legitimacy of the TRC.</p>
+        <div class="ts-divider"></div>
+        <h4 class="ts-coda-head">Coda</h4>
+        <p>The "elephant in the room" implies that we have an outstanding duty to confront centuries of injustice that continue to this day, despite the false moment of freedom engineered for many to accept. The room is suffocating because we remain landless and bound to Mandela's shack — a physical representation of Frantz Fanon's zone of non-being. We are incapable of breathing because the room is filled with innumerable practices, teachings and orders directed toward our destruction.</p>
+        <p>The first artistic offering presented by Master Artist Slovo Mamphaga, titled <em>Walking to the Peak</em>, depicts the shadow of a Black man walking on an empty beer bottle littered across a fraction of barren land reserved by white settlers for natives. The face of a white settler-invader, owning fertile ground, stands still and sturdy atop a mountain peak on foreign land, protected by a fence that prohibits natives from "invading" and reclaiming it. The white settler's face and the Black man's shadow are diametrically opposed, symbolising the inherent confrontation between the two as the "elephant in the room." The "Peak" is threefold: it speaks to white supremacy grounded in the ANC-defended ownership of stolen land; it refers to the peak of African destruction engineered by settlers, characterised by non-being, depicted as a shadow; and it refers to the peak of white supremacy, sustained through the occupation of invaded land — and our call to walk toward it to attain justice, so that we can begin to transition from the shadows we have become as a result of land dispossession to our true selves.</p>
+        <p>As Africans, we can either settle for survival in the peripheries of our own land and concede to racial suicide, or we can confront "the elephant in the room" through the expulsion of white invaders — by walking to the peak to re-occupy it, then begin the process of a Generational Rebirth after restoring the land of our ancestors. The two relational master artistic offerings of Slovo Mamphaga speak to the urgent need to realise and live within the reality of "African First, Land First."</p>
+        <p style="font-style:italic;color:var(--parchment);font-family:'EB Garamond',serif;font-size:1.05rem;margin-top:1rem">Izwe Lethu!</p>
+        <div class="ts-source">Published on Substack by Tharollo Seatlholo (@thaword) · Khotso Seatlholo Institute</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- VOICES -->
 <section class="voices-section" id="voices">
   <div class="voices-inner">
@@ -1448,7 +1596,8 @@ footer{background:var(--chamber);border-top:1px solid rgba(196,146,42,.2)}
         <div class="footer-col-head">Tools</div>
         <a href="#law-lookup">Law Lookup</a>
         <a href="#robben">Robben Island Archive</a>
-        <a href="#voices">Testimonies</a>
+        <a href="#writings">Khotso's Writings</a>
+        <a href="#tharollo-essays">Tharollo's Essays</a>
         <a href="#mission">About the Foundation</a>
       </div>
       <div class="footer-col">
@@ -1510,6 +1659,31 @@ function playVideo(playerId, thumbId, frameId, videoId) {
   }
   thumb.style.display = 'none';
   frame.style.display = 'block';
+}
+
+// ── ESSAY TOGGLES ──
+function toggleEssay(id, bodyId, hintId) {
+  const el = document.getElementById(id);
+  const body = document.getElementById(bodyId);
+  const hint = document.getElementById(hintId);
+  const isOpen = el.classList.contains('open');
+  // Close all open essays
+  ['tse1','tse2','tse3'].forEach(eid => {
+    const e = document.getElementById(eid);
+    if (e) {
+      e.classList.remove('open');
+      const b = document.getElementById(eid + '-body');
+      const h = document.getElementById(eid + '-hint');
+      if (b) b.style.display = 'none';
+      if (h) h.textContent = 'Read Essay →';
+    }
+  });
+  if (!isOpen) {
+    el.classList.add('open');
+    body.style.display = 'block';
+    hint.textContent = 'Collapse ↑';
+    setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+  }
 }
 
 // ── CHAPTER TOGGLES ──
