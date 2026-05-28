@@ -448,28 +448,85 @@ h3 {
 }
 @media (min-width: 600px) { .home-nav-grid { grid-template-columns: repeat(3,1fr); } }
 @media (min-width: 900px) { .home-nav-grid { grid-template-columns: repeat(6,1fr); } }
+
 .home-nav-card {
-  background: var(--dark);
-  padding: 1.5rem 1rem;
+  position: relative;
+  aspect-ratio: 3/4;
   cursor: pointer;
-  border-top: 2px solid transparent;
-  transition: border-color 0.2s, background 0.2s;
-  text-align: center;
+  overflow: hidden;
+  border-top: 3px solid transparent;
+  transition: border-color 0.3s;
 }
-.home-nav-card:nth-child(1){ border-color:var(--red); }
-.home-nav-card:nth-child(2){ border-color:var(--gold); }
-.home-nav-card:nth-child(3){ border-color:var(--green); }
-.home-nav-card:nth-child(4){ border-color:var(--red); }
-.home-nav-card:nth-child(5){ border-color:var(--gold); }
-.home-nav-card:nth-child(6){ border-color:var(--green); }
-.home-nav-card:hover { background: rgba(255,255,255,0.04); }
-.home-nav-card .icon { font-size: 1.5rem; margin-bottom: 0.4rem; }
-.home-nav-card .label {
+@media (min-width: 900px) { .home-nav-card { aspect-ratio: 2/3; } }
+
+.home-nav-card:nth-child(1) { border-top-color: var(--red); }
+.home-nav-card:nth-child(2) { border-top-color: var(--gold); }
+.home-nav-card:nth-child(3) { border-top-color: var(--green); }
+.home-nav-card:nth-child(4) { border-top-color: var(--red); }
+.home-nav-card:nth-child(5) { border-top-color: var(--gold); }
+.home-nav-card:nth-child(6) { border-top-color: var(--green); }
+
+/* background image layer */
+.home-nav-card .card-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center top;
+  filter: grayscale(30%) contrast(1.1);
+  transition: transform 0.6s ease, filter 0.4s ease;
+}
+.home-nav-card:hover .card-bg {
+  transform: scale(1.06);
+  filter: grayscale(0%) contrast(1.05);
+}
+
+/* dark gradient overlay */
+.home-nav-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(10,8,4,0.2) 0%,
+    rgba(10,8,4,0.5) 50%,
+    rgba(10,8,4,0.88) 100%
+  );
+  transition: background 0.4s;
+  z-index: 1;
+}
+.home-nav-card:hover::after {
+  background: linear-gradient(
+    180deg,
+    rgba(10,8,4,0.1) 0%,
+    rgba(10,8,4,0.3) 50%,
+    rgba(10,8,4,0.82) 100%
+  );
+}
+
+/* text content */
+.home-nav-card .card-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 1rem 0.9rem;
+  z-index: 2;
+}
+.home-nav-card .card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  letter-spacing: 0.04em;
+  color: var(--warm-white);
+  line-height: 1.1;
+  display: block;
+  margin-bottom: 0.2rem;
+  transition: color 0.2s;
+}
+.home-nav-card:hover .card-title { color: var(--gold); }
+.home-nav-card .card-sub {
   font-family: 'Courier Prime', monospace;
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-size: 8px;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--grey);
+  color: rgba(212,160,23,0.7);
 }
 
 /* ═══════════════════════════════════════════
@@ -950,28 +1007,46 @@ footer {
   <!-- Quick navigation cards -->
   <div class="home-nav-grid">
     <div class="home-nav-card" onclick="showPage('about')">
-      <div class="icon">&#x25A6;</div>
-      <div class="label">About KSI</div>
+      <div class="card-bg" style="background-image:url('https://app.businesshustle.co.za/wp-content/uploads/2026/05/3-people-standing-over-book-table.jpg');"></div>
+      <div class="card-body">
+        <span class="card-title">About KSI</span>
+        <span class="card-sub">Our Mission</span>
+      </div>
     </div>
     <div class="home-nav-card" onclick="showPage('khotso')">
-      <div class="icon">&#x2726;</div>
-      <div class="label">Khotso Seatlholo</div>
+      <div class="card-bg" style="background-image:url('https://app.businesshustle.co.za/wp-content/uploads/2026/05/Khotso-Seatlholo.jpg');background-position:center top;"></div>
+      <div class="card-body">
+        <span class="card-title">Khotso Seatlholo</span>
+        <span class="card-sub">1953 &mdash; 2004</span>
+      </div>
     </div>
     <div class="home-nav-card" onclick="showPage('robben')">
-      <div class="icon">&#x25CB;</div>
-      <div class="label">Robben Island</div>
+      <div class="card-bg" style="background-image:url('https://app.businesshustle.co.za/wp-content/uploads/2026/05/IMG_2824-2.jpg');background-position:center top;"></div>
+      <div class="card-body">
+        <span class="card-title">Robben Island</span>
+        <span class="card-sub">The Archive</span>
+      </div>
     </div>
     <div class="home-nav-card" onclick="showPage('insights')">
-      <div class="icon">&#x270D;</div>
-      <div class="label">Insights</div>
+      <div class="card-bg" style="background-image:url('Slovo_Mamphaga-_Mandela_s_Legacy__mixed_media__2019.webp');"></div>
+      <div class="card-body">
+        <span class="card-title">Insights</span>
+        <span class="card-sub">Writings &amp; Lectures</span>
+      </div>
     </div>
     <div class="home-nav-card" onclick="showPage('events')">
-      <div class="icon">&#x2737;</div>
-      <div class="label">Events</div>
+      <div class="card-bg" style="background-image:url('https://app.businesshustle.co.za/wp-content/uploads/2026/05/Picture-of-crowd-from-event.-Notable-people-in-crowd.jpg');"></div>
+      <div class="card-body">
+        <span class="card-title">Events</span>
+        <span class="card-sub">Artistic Takeover</span>
+      </div>
     </div>
     <div class="home-nav-card" onclick="showPage('people')">
-      <div class="icon">&#x25C8;</div>
-      <div class="label">People</div>
+      <div class="card-bg" style="background-image:url('https://app.businesshustle.co.za/wp-content/uploads/2026/05/Tharollo-Seatlholo-official-image.jpg');background-position:center top;"></div>
+      <div class="card-body">
+        <span class="card-title">People</span>
+        <span class="card-sub">Who We Are</span>
+      </div>
     </div>
   </div>
 
