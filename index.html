@@ -22,11 +22,8 @@
     --grey: #8a7e6e;
     --border: rgba(212,160,23,0.3);
   }
-
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
-
   body {
     background: var(--black);
     color: var(--cream);
@@ -35,8 +32,6 @@
     line-height: 1.7;
     overflow-x: hidden;
   }
-
-  /* ── NOISE OVERLAY ── */
   body::before {
     content: '';
     position: fixed;
@@ -47,11 +42,10 @@
     opacity: 0.4;
   }
 
-  /* ── NAV ── */
+  /* NAV */
   nav {
     position: fixed;
-    top: 0;
-    width: 100%;
+    top: 0; width: 100%;
     z-index: 1000;
     background: rgba(10,8,4,0.95);
     border-bottom: 1px solid var(--border);
@@ -62,26 +56,9 @@
     justify-content: space-between;
     height: 64px;
   }
-
-  .nav-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    text-decoration: none;
-  }
-
-  .nav-logo img {
-    height: 40px;
-    width: auto;
-    filter: brightness(1.1);
-  }
-
-  .nav-links {
-    display: flex;
-    gap: 0;
-    list-style: none;
-  }
-
+  .nav-logo { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+  .nav-logo img { height: 40px; width: auto; filter: brightness(1.1); }
+  .nav-links { display: flex; gap: 0; list-style: none; }
   .nav-links a {
     color: var(--grey);
     text-decoration: none;
@@ -93,12 +70,10 @@
     transition: color 0.2s;
     border-right: 1px solid rgba(255,255,255,0.06);
   }
-
   .nav-links a:first-child { border-left: 1px solid rgba(255,255,255,0.06); }
   .nav-links a:hover { color: var(--gold); }
-
   .nav-donate {
-    background: var(--red);
+    background: var(--red) !important;
     color: #fff !important;
     font-family: 'Courier Prime', monospace !important;
     font-size: 11px !important;
@@ -110,134 +85,192 @@
     transition: background 0.2s !important;
     text-decoration: none;
   }
-
   .nav-donate:hover { background: var(--red-dark) !important; color: #fff !important; }
 
-  /* ── HERO ── */
+  /* ═══ HERO WITH RADIAL LOGO EFFECT ═══ */
   .hero {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    padding: 6rem 4rem 4rem;
+    justify-content: center;
+    align-items: center;
     position: relative;
     overflow: hidden;
+    background: #080603;
   }
-
-  .hero-bg {
+  /* Radial concentric rings */
+  .hero-rings {
     position: absolute;
     inset: 0;
-    background:
-      linear-gradient(180deg, rgba(10,8,4,0.3) 0%, rgba(10,8,4,0.7) 60%, rgba(10,8,4,1) 100%),
-      url('https://ksf-nine.vercel.app/images/khotso-hero.jpg') center/cover no-repeat;
-  }
-
-  /* Pan-African stripe accent */
-  .hero::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 6px;
-    height: 100%;
-    background: linear-gradient(180deg, var(--red) 33.33%, var(--gold) 33.33% 66.66%, var(--green) 66.66%);
-  }
-
-  .hero-eyebrow {
-    font-family: 'Courier Prime', monospace;
-    font-size: 11px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.5rem;
-    position: relative;
     display: flex;
     align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(212,160,23,0.12);
+    animation: ring-pulse 6s ease-in-out infinite;
+  }
+  .ring:nth-child(1)  { width: 160px;  height: 160px;  animation-delay: 0s; }
+  .ring:nth-child(2)  { width: 280px;  height: 280px;  animation-delay: 0.3s; border-color: rgba(212,160,23,0.09); }
+  .ring:nth-child(3)  { width: 400px;  height: 400px;  animation-delay: 0.6s; border-color: rgba(212,160,23,0.07); }
+  .ring:nth-child(4)  { width: 540px;  height: 540px;  animation-delay: 0.9s; border-color: rgba(212,160,23,0.05); }
+  .ring:nth-child(5)  { width: 700px;  height: 700px;  animation-delay: 1.2s; border-color: rgba(212,160,23,0.04); }
+  .ring:nth-child(6)  { width: 880px;  height: 880px;  animation-delay: 1.5s; border-color: rgba(192,57,43,0.04); }
+  .ring:nth-child(7)  { width: 1080px; height: 1080px; animation-delay: 1.8s; border-color: rgba(192,57,43,0.03); }
+  .ring:nth-child(8)  { width: 1300px; height: 1300px; animation-delay: 2.1s; border-color: rgba(192,57,43,0.02); }
+  @keyframes ring-pulse {
+    0%, 100% { opacity: 0.6; transform: scale(1); }
+    50%       { opacity: 1;   transform: scale(1.015); }
+  }
+  /* Rotating radial text rings */
+  .ring-text-outer {
+    position: absolute;
+    width: 620px;
+    height: 620px;
+    border-radius: 50%;
+    animation: spin-slow 40s linear infinite;
+  }
+  .ring-text-inner {
+    position: absolute;
+    width: 460px;
+    height: 460px;
+    border-radius: 50%;
+    animation: spin-slow 28s linear infinite reverse;
+  }
+  @keyframes spin-slow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  /* Cross hair lines */
+  .crosshair {
+    position: absolute;
+    pointer-events: none;
+  }
+  .crosshair::before, .crosshair::after {
+    content: '';
+    position: absolute;
+    background: rgba(212,160,23,0.15);
+  }
+  .crosshair::before { width: 1px; height: 200px; top: -100px; left: 50%; }
+  .crosshair::after  { width: 200px; height: 1px; left: -100px; top: 50%; }
+  /* Logo centre */
+  .hero-logo-wrap {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: hero-appear 2s ease forwards;
+    opacity: 0;
+  }
+  @keyframes hero-appear {
+    0%   { opacity: 0; transform: scale(0.88); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  .hero-logo-wrap img {
+    width: 120px;
+    height: auto;
+    filter: brightness(1.2) drop-shadow(0 0 30px rgba(212,160,23,0.3));
+    margin-bottom: 2.5rem;
+  }
+  .hero-text-centre {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 1rem;
   }
-
-  .hero-eyebrow::before {
+  .hero-eyebrow::before, .hero-eyebrow::after {
     content: '';
     display: inline-block;
-    width: 40px;
+    width: 30px;
     height: 1px;
     background: var(--gold);
   }
-
   .hero h1 {
     font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(4rem, 10vw, 9rem);
-    line-height: 0.9;
+    font-size: clamp(3.5rem, 8vw, 7.5rem);
+    line-height: 0.92;
     letter-spacing: 0.02em;
     color: var(--warm-white);
-    position: relative;
-    max-width: 900px;
     margin-bottom: 1.5rem;
   }
-
-  .hero h1 span.accent { color: var(--gold); }
-  .hero h1 span.red { color: var(--red); }
-
+  .hero h1 .accent { color: var(--gold); }
+  .hero h1 .red    { color: var(--red); }
   .hero-sub {
     font-style: italic;
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--grey);
-    max-width: 560px;
-    position: relative;
-    margin-bottom: 2.5rem;
-    border-left: 2px solid var(--red);
-    padding-left: 1.2rem;
+    max-width: 480px;
+    margin: 0 auto 2.5rem;
     line-height: 1.6;
+    border-left: 2px solid var(--red);
+    padding-left: 1rem;
+    text-align: left;
   }
-
   .hero-actions {
     display: flex;
     gap: 1rem;
-    position: relative;
+    justify-content: center;
+    flex-wrap: wrap;
   }
-
-  .btn-primary {
-    background: var(--red);
-    color: #fff;
+  /* Pan-African vertical stripe */
+  .hero::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 6px; height: 100%;
+    background: linear-gradient(180deg, var(--red) 33.33%, var(--gold) 33.33% 66.66%, var(--green) 66.66%);
+    z-index: 3;
+  }
+  /* Scroll indicator */
+  .scroll-cue {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    animation: scroll-bob 2s ease-in-out infinite;
+  }
+  .scroll-cue span {
     font-family: 'Courier Prime', monospace;
-    font-size: 12px;
-    letter-spacing: 0.2em;
+    font-size: 9px;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    padding: 14px 32px;
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: background 0.2s, transform 0.1s;
+    color: rgba(212,160,23,0.5);
+  }
+  .scroll-cue::after {
+    content: '';
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(180deg, rgba(212,160,23,0.5), transparent);
+  }
+  @keyframes scroll-bob {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50%       { transform: translateX(-50%) translateY(8px); }
   }
 
-  .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); color: #fff; }
-
-  .btn-outline {
-    background: transparent;
-    color: var(--cream);
-    font-family: 'Courier Prime', monospace;
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 14px 32px;
-    border: 1px solid rgba(245,237,216,0.4);
-    cursor: pointer;
-    text-decoration: none;
-    display: inline-block;
-    transition: border-color 0.2s, color 0.2s, transform 0.1s;
-  }
-
-  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
-
-  /* ── PAN-AFRICAN STRIPE DIVIDER ── */
+  /* STRIPE DIVIDER */
   .stripe-divider {
     height: 8px;
     background: linear-gradient(90deg, var(--red) 33.33%, var(--gold) 33.33% 66.66%, var(--green) 66.66%);
-    width: 100%;
   }
 
-  /* ── TICKER ── */
+  /* TICKER */
   .ticker {
     background: var(--dark);
     border-top: 1px solid var(--border);
@@ -246,7 +279,6 @@
     padding: 10px 0;
     white-space: nowrap;
   }
-
   .ticker-inner {
     display: inline-block;
     animation: ticker 30s linear infinite;
@@ -256,15 +288,13 @@
     text-transform: uppercase;
     color: var(--gold);
   }
-
   @keyframes ticker {
-    0% { transform: translateX(100vw); }
+    0%   { transform: translateX(100vw); }
     100% { transform: translateX(-100%); }
   }
 
-  /* ── SECTIONS ── */
+  /* SECTIONS */
   section { padding: 6rem 4rem; }
-
   .section-label {
     font-family: 'Courier Prime', monospace;
     font-size: 10px;
@@ -276,14 +306,7 @@
     align-items: center;
     gap: 0.8rem;
   }
-
-  .section-label::after {
-    content: '';
-    flex: 0 0 30px;
-    height: 1px;
-    background: var(--gold);
-  }
-
+  .section-label::after { content: ''; flex: 0 0 30px; height: 1px; background: var(--gold); }
   h2 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(2.5rem, 5vw, 4.5rem);
@@ -292,7 +315,6 @@
     color: var(--warm-white);
     margin-bottom: 2rem;
   }
-
   h3 {
     font-family: 'Bebas Neue', sans-serif;
     font-size: clamp(1.5rem, 3vw, 2.2rem);
@@ -300,8 +322,11 @@
     letter-spacing: 0.05em;
     margin-bottom: 0.8rem;
   }
+  .text-gold { color: var(--gold); }
+  .text-red  { color: var(--red); }
+  .container { max-width: 1200px; margin: 0 auto; }
 
-  /* ── MISSION STATEMENT ── */
+  /* MISSION */
   .mission {
     background: var(--dark);
     border-top: 1px solid var(--border);
@@ -310,19 +335,16 @@
     text-align: center;
     position: relative;
   }
-
   .mission::before {
     content: '"';
     font-family: 'Bebas Neue', sans-serif;
     font-size: 20rem;
-    color: rgba(212,160,23,0.05);
+    color: rgba(212,160,23,0.04);
     position: absolute;
-    top: -4rem;
-    left: 2rem;
+    top: -4rem; left: 2rem;
     line-height: 1;
     pointer-events: none;
   }
-
   .mission blockquote {
     font-size: clamp(1.3rem, 2.5vw, 1.9rem);
     font-style: italic;
@@ -332,7 +354,6 @@
     line-height: 1.5;
     position: relative;
   }
-
   .mission cite {
     font-family: 'Courier Prime', monospace;
     font-size: 11px;
@@ -341,576 +362,266 @@
     color: var(--gold);
   }
 
-  /* ── ABOUT KSI (3 pillars) ── */
-  .pillars-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    margin-top: 3rem;
-  }
-
+  /* PILLARS */
+  .pillars-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 2px; margin-top: 3rem; }
   .pillar {
-    background: var(--dark);
-    padding: 2.5rem 2rem;
-    border-top: 3px solid var(--gold);
-    position: relative;
+    background: var(--dark); padding: 2.5rem 2rem;
+    border-top: 3px solid var(--gold); position: relative;
   }
-
   .pillar-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 5rem;
-    color: rgba(212,160,23,0.1);
-    position: absolute;
-    top: 1rem;
-    right: 1.5rem;
-    line-height: 1;
+    font-family: 'Bebas Neue', sans-serif; font-size: 5rem;
+    color: rgba(212,160,23,0.1); position: absolute; top: 1rem; right: 1.5rem; line-height: 1;
   }
-
-  .pillar h4 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.4rem;
-    letter-spacing: 0.05em;
-    color: var(--gold);
-    margin-bottom: 1rem;
-  }
-
-  .pillar p { font-size: 0.95rem; color: var(--grey); line-height: 1.7; }
-
-  /* ── KHOTSO SECTION ── */
-  .khotso-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 6rem;
-    align-items: start;
-  }
-
-  .khotso-image-wrap {
-    position: relative;
-  }
-
-  .khotso-image-wrap img {
-    width: 100%;
-    display: block;
-    filter: grayscale(20%) contrast(1.1);
-  }
-
-  .khotso-image-wrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(192,57,43,0.15) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .khotso-image-wrap .image-credit {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 2rem 1.5rem 1rem;
-    background: linear-gradient(0deg, rgba(10,8,4,0.9) 0%, transparent 100%);
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--gold);
-  }
-
-  /* ── ROBBEN ISLAND ── */
-  .robben-section {
-    background: var(--dark);
-    border-top: 1px solid var(--border);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .robben-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4rem;
-    align-items: center;
-  }
-
-  .robben-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    margin-top: 2rem;
-  }
-
-  .stat-box {
-    background: rgba(192,57,43,0.1);
-    border: 1px solid rgba(192,57,43,0.3);
-    padding: 1.5rem;
-    text-align: center;
-  }
-
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 3rem;
-    color: var(--red);
-    display: block;
-    line-height: 1;
-  }
-
-  .stat-label {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--grey);
-    margin-top: 0.3rem;
-  }
-
-  /* ── INSIGHTS TABS ── */
-  .insights-section { background: #0d0a06; }
-
-  .tabs {
-    display: flex;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 3rem;
-    overflow-x: auto;
-  }
-
-  .tab-btn {
-    font-family: 'Courier Prime', monospace;
-    font-size: 11px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--grey);
-    background: none;
-    border: none;
-    padding: 14px 22px;
-    cursor: pointer;
-    border-bottom: 2px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
-    white-space: nowrap;
-  }
-
-  .tab-btn.active {
-    color: var(--gold);
-    border-bottom-color: var(--gold);
-  }
-
-  .tab-btn:hover { color: var(--cream); }
-
-  .tab-pane { display: none; }
-  .tab-pane.active { display: block; }
-
-  /* ── ARTICLE LAYOUT ── */
-  .article-hero-img {
-    width: 100%;
-    max-height: 480px;
-    object-fit: cover;
-    display: block;
-    margin-bottom: 2rem;
-    filter: contrast(1.05);
-  }
-
-  .article-meta {
-    font-family: 'Courier Prime', monospace;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 0.8rem;
-  }
-
-  .article-body {
-    max-width: 760px;
-    font-size: 1.05rem;
-    line-height: 1.8;
-    color: var(--cream);
-  }
-
-  .article-body p { margin-bottom: 1.4rem; }
-
-  .article-body h4 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.6rem;
-    color: var(--gold);
-    margin: 2.5rem 0 1rem;
-    letter-spacing: 0.05em;
-  }
-
-  .article-body .pull-quote {
-    border-left: 3px solid var(--red);
-    padding: 1rem 1.5rem;
-    margin: 2rem 0;
-    font-size: 1.2rem;
-    font-style: italic;
-    color: var(--cream);
-    background: rgba(192,57,43,0.06);
-  }
-
-  /* Image in article inline */
-  .article-img-block {
-    margin: 2.5rem 0;
-  }
-
-  .article-img-block img {
-    width: 100%;
-    max-height: 440px;
-    object-fit: cover;
-    display: block;
-    filter: contrast(1.05) saturate(0.9);
-  }
-
-  .article-img-block figcaption {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--grey);
-    margin-top: 0.5rem;
-    padding-left: 0.5rem;
-    border-left: 2px solid var(--border);
-  }
-
-  /* Image grid for Trading Spaces */
-  .img-grid-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 4px;
-    margin: 2rem 0;
-  }
-
-  .img-grid-2 img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    filter: contrast(1.05) saturate(0.9);
-  }
-
-  /* ── RAMOSE SECTION ── */
-  .ramose-intro {
-    background: rgba(45,106,53,0.08);
-    border: 1px solid rgba(45,106,53,0.3);
-    padding: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  .ramose-intro p {
-    font-style: italic;
-    color: var(--grey);
-    font-size: 0.95rem;
-  }
-
-  .coming-soon-badge {
-    display: inline-block;
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--green-light);
-    border: 1px solid var(--green-light);
-    padding: 4px 10px;
-    margin-bottom: 1rem;
-  }
-
-  /* ── DONATE SECTION ── */
-  .donate-section {
-    position: relative;
-    overflow: hidden;
-    padding: 8rem 4rem;
-    text-align: center;
-  }
-
-  .donate-section::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(rgba(10,8,4,0.85), rgba(10,8,4,0.85)),
-      url('https://ksf-nine.vercel.app/images/robben.jpg') center/cover;
-  }
-
-  .donate-section .stripe-top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, var(--red) 33.33%, var(--gold) 33.33% 66.66%, var(--green) 66.66%);
-  }
-
-  .donate-section > * { position: relative; }
-
-  .donate-section h2 {
-    font-size: clamp(2.5rem, 6vw, 6rem);
-    margin-bottom: 1rem;
-  }
-
-  .donate-section .sub {
-    font-size: 1.1rem;
-    color: var(--grey);
-    max-width: 600px;
-    margin: 0 auto 3rem;
-    font-style: italic;
-  }
-
-  .donate-amounts {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    margin-bottom: 2.5rem;
-  }
-
-  .amount-btn {
-    font-family: 'Courier Prime', monospace;
-    font-size: 13px;
-    letter-spacing: 0.15em;
-    background: transparent;
-    color: var(--cream);
-    border: 1px solid rgba(245,237,216,0.3);
-    padding: 12px 24px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .amount-btn:hover, .amount-btn.selected {
-    background: var(--gold);
-    color: var(--black);
-    border-color: var(--gold);
-  }
-
-  .donate-form {
-    display: flex;
-    gap: 0;
-    max-width: 480px;
-    margin: 0 auto;
-  }
-
-  .donate-input {
-    flex: 1;
-    background: rgba(245,237,216,0.1);
-    border: 1px solid rgba(245,237,216,0.3);
-    border-right: none;
-    color: var(--cream);
-    font-family: 'Courier Prime', monospace;
-    font-size: 14px;
-    padding: 14px 18px;
-    outline: none;
-  }
-
-  .donate-input::placeholder { color: var(--grey); }
-
-  .donate-submit {
-    background: var(--red);
-    color: #fff;
-    font-family: 'Courier Prime', monospace;
-    font-size: 12px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    padding: 14px 28px;
-    border: 1px solid var(--red);
-    cursor: pointer;
-    transition: background 0.2s;
-    white-space: nowrap;
-  }
-
-  .donate-submit:hover { background: var(--red-dark); }
-
-  .donate-note {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--grey);
-    margin-top: 1.5rem;
-  }
-
-  /* ── TEAM ── */
-  .team-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2px;
-    max-width: 800px;
-    margin-top: 3rem;
-  }
-
-  .team-card {
-    background: var(--dark);
-    overflow: hidden;
-    position: relative;
-  }
-
-  .team-card img {
-    width: 100%;
-    height: 340px;
-    object-fit: cover;
-    object-position: top;
-    display: block;
-    filter: grayscale(30%) contrast(1.1);
-    transition: filter 0.4s;
-  }
-
-  .team-card:hover img { filter: grayscale(0%) contrast(1.05); }
-
-  .team-info {
-    padding: 1.5rem;
-    border-top: 2px solid var(--gold);
-  }
-
-  .team-name {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.5rem;
-    color: var(--warm-white);
-    letter-spacing: 0.05em;
-  }
-
-  .team-role {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-top: 0.3rem;
-  }
-
-  .team-bio {
-    font-size: 0.9rem;
-    color: var(--grey);
-    margin-top: 0.8rem;
-    line-height: 1.6;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--dark);
-    border-top: 1px solid var(--border);
-    padding: 4rem 4rem 2rem;
-  }
-
-  .footer-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr 1fr;
-    gap: 4rem;
-    margin-bottom: 3rem;
-  }
-
-  .footer-logo img {
-    height: 48px;
-    width: auto;
-    margin-bottom: 1rem;
-  }
-
-  .footer-about {
-    font-size: 0.9rem;
-    color: var(--grey);
-    line-height: 1.7;
-    max-width: 320px;
-  }
-
-  .footer-col h5 {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--gold);
-    margin-bottom: 1.2rem;
-  }
-
-  .footer-col ul { list-style: none; }
-
-  .footer-col ul li {
-    margin-bottom: 0.6rem;
-  }
-
-  .footer-col ul li a {
-    color: var(--grey);
-    text-decoration: none;
-    font-size: 0.9rem;
-    transition: color 0.2s;
-  }
-
-  .footer-col ul li a:hover { color: var(--cream); }
-
-  .footer-bottom {
-    border-top: 1px solid var(--border);
-    padding-top: 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .footer-bottom p {
-    font-family: 'Courier Prime', monospace;
-    font-size: 10px;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--grey);
-  }
-
-  .footer-stripe {
-    height: 4px;
-    background: linear-gradient(90deg, var(--red) 33.33%, var(--gold) 33.33% 66.66%, var(--green) 66.66%);
-    margin-top: 2rem;
-  }
-
-  /* ── UTILITY ── */
-  .text-gold { color: var(--gold); }
-  .text-red { color: var(--red); }
-  .container { max-width: 1200px; margin: 0 auto; }
-
-  /* ── ILLITERACY TYPES ── */
-  .illiteracy-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 2px;
-    margin-top: 3rem;
-  }
-
-  .ill-card {
-    background: var(--dark);
-    padding: 2rem 1.5rem;
-    border-top: 3px solid transparent;
-    transition: border-color 0.2s;
-  }
-
+  .pillar h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.05em; color: var(--gold); margin-bottom: 1rem; }
+  .pillar p  { font-size: 0.95rem; color: var(--grey); line-height: 1.7; }
+
+  /* ILLITERACY */
+  .illiteracy-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 2px; margin-top: 3rem; }
+  .ill-card { background: var(--dark); padding: 2rem 1.5rem; border-top: 3px solid transparent; }
   .ill-card:nth-child(1) { border-top-color: var(--red); }
   .ill-card:nth-child(2) { border-top-color: var(--gold); }
   .ill-card:nth-child(3) { border-top-color: var(--green); }
   .ill-card:nth-child(4) { border-top-color: var(--red); }
   .ill-card:nth-child(5) { border-top-color: var(--gold); }
+  .ill-card h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.05em; color: var(--warm-white); margin-bottom: 0.6rem; }
+  .ill-card p  { font-size: 0.85rem; color: var(--grey); line-height: 1.6; }
 
-  .ill-card h4 {
+  /* KHOTSO SECTION */
+  .khotso-section { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .khotso-image-wrap { position: relative; }
+  .khotso-image-wrap img { width: 100%; display: block; filter: grayscale(20%) contrast(1.1); }
+  .khotso-image-wrap::after {
+    content: ''; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(192,57,43,0.15) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .khotso-image-wrap .image-credit {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 2rem 1.5rem 1rem;
+    background: linear-gradient(0deg, rgba(10,8,4,0.9) 0%, transparent 100%);
+    font-family: 'Courier Prime', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold);
+  }
+
+  /* ROBBEN ISLAND */
+  .robben-section { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .robben-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .robben-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 2rem; }
+  .stat-box { background: rgba(192,57,43,0.1); border: 1px solid rgba(192,57,43,0.3); padding: 1.5rem; text-align: center; }
+  .stat-num { font-family: 'Bebas Neue', sans-serif; font-size: 3rem; color: var(--red); display: block; line-height: 1; }
+  .stat-label { font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); margin-top: 0.3rem; }
+
+  /* UPCOMING EVENT */
+  .event-section {
+    background: var(--black);
+    border-top: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+  .event-section::before {
+    content: 'ARTISTIC TAKEOVER';
+    position: absolute;
     font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.1rem;
+    font-size: 12rem;
+    color: rgba(192,57,43,0.04);
+    white-space: nowrap;
+    top: 50%;
+    left: -2rem;
+    transform: translateY(-50%);
+    pointer-events: none;
     letter-spacing: 0.05em;
-    color: var(--warm-white);
-    margin-bottom: 0.6rem;
+  }
+  .event-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .event-badge {
+    display: inline-block;
+    font-family: 'Courier Prime', monospace;
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: var(--black); background: var(--red);
+    padding: 4px 12px; margin-bottom: 1.5rem;
+  }
+  .event-date-block {
+    display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2rem;
+  }
+  .event-date-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 5rem; color: var(--gold); line-height: 1;
+  }
+  .event-date-text { font-family: 'Courier Prime', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--grey); line-height: 1.5; }
+  .event-images { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; }
+  .event-images img { width: 100%; height: 220px; object-fit: cover; filter: grayscale(20%) contrast(1.08); transition: filter 0.4s; }
+  .event-images img:hover { filter: grayscale(0%) contrast(1.05); }
+
+  /* VIDEOS */
+  .video-section { background: #0d0a06; }
+  .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 2.5rem; }
+  .video-wrap {
+    position: relative;
+    background: var(--dark);
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+  .video-wrap iframe {
+    width: 100%;
+    height: 320px;
+    display: block;
+    border: none;
+  }
+  .video-label {
+    padding: 1rem 1.2rem;
+    border-top: 2px solid var(--gold);
+  }
+  .video-label h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; letter-spacing: 0.05em; color: var(--warm-white); }
+  .video-label p  { font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--gold); margin-top: 0.3rem; }
+  .video-label a  { color: var(--gold); text-decoration: none; }
+  .video-label a:hover { color: var(--cream); }
+
+  /* INSIGHTS TABS */
+  .insights-section { background: #0d0a06; }
+  .tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 3rem; overflow-x: auto;
+  }
+  .tab-btn {
+    font-family: 'Courier Prime', monospace; font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--grey);
+    background: none; border: none; padding: 14px 22px; cursor: pointer;
+    border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+    white-space: nowrap;
+  }
+  .tab-btn.active { color: var(--gold); border-bottom-color: var(--gold); }
+  .tab-btn:hover  { color: var(--cream); }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* ARTICLE */
+  .article-hero-img { width: 100%; max-height: 480px; object-fit: cover; display: block; margin-bottom: 2rem; filter: contrast(1.05); }
+  .article-meta { font-family: 'Courier Prime', monospace; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.8rem; }
+  .article-body { max-width: 760px; font-size: 1.05rem; line-height: 1.8; color: var(--cream); }
+  .article-body p { margin-bottom: 1.4rem; }
+  .article-body h4 { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; color: var(--gold); margin: 2.5rem 0 1rem; letter-spacing: 0.05em; }
+  .article-body .pull-quote {
+    border-left: 3px solid var(--red); padding: 1rem 1.5rem; margin: 2rem 0;
+    font-size: 1.2rem; font-style: italic; color: var(--cream); background: rgba(192,57,43,0.06);
+  }
+  .article-img-block { margin: 2.5rem 0; }
+  .article-img-block img { width: 100%; max-height: 440px; object-fit: cover; display: block; filter: contrast(1.05) saturate(0.9); }
+  .article-img-block figcaption {
+    font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--grey); margin-top: 0.5rem;
+    padding-left: 0.5rem; border-left: 2px solid var(--border);
+  }
+  .img-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin: 2rem 0; }
+  .img-grid-2 img { width: 100%; height: 300px; object-fit: cover; filter: contrast(1.05) saturate(0.9); }
+
+  /* RAMOSE */
+  .ramose-intro { background: rgba(45,106,53,0.08); border: 1px solid rgba(45,106,53,0.3); padding: 2rem; margin-bottom: 2rem; }
+  .ramose-intro p { font-style: italic; color: var(--grey); font-size: 0.95rem; }
+  .coming-soon-badge {
+    display: inline-block; font-family: 'Courier Prime', monospace; font-size: 10px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--green-light); border: 1px solid var(--green-light);
+    padding: 4px 10px; margin-bottom: 1rem;
   }
 
-  .ill-card p { font-size: 0.85rem; color: var(--grey); line-height: 1.6; }
-
-  /* ── ANIMATIONS ── */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+  /* TEAM */
+  .team-section-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start; }
+  .team-person-img {
+    width: 100%; display: block;
+    filter: grayscale(15%) contrast(1.1);
+    transition: filter 0.4s;
   }
+  .team-person-img:hover { filter: grayscale(0%) contrast(1.05); }
+  .team-person-name { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; letter-spacing: 0.05em; color: var(--warm-white); margin-top: 1rem; }
+  .team-person-role { font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem; }
+  .team-person-bio { font-size: 0.95rem; color: var(--grey); line-height: 1.8; }
 
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
+  /* EVENT GALLERY */
+  .event-gallery { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; margin-top: 3rem; }
+  .event-gallery img { width: 100%; height: 240px; object-fit: cover; filter: grayscale(15%) contrast(1.08); transition: filter 0.4s, transform 0.4s; }
+  .event-gallery img:hover { filter: grayscale(0%) contrast(1.05); transform: scale(1.02); }
+
+  /* DONATE */
+  .donate-section {
+    position: relative; overflow: hidden;
+    padding: 8rem 4rem; text-align: center;
+    background: var(--dark);
   }
+  .donate-section .stripe-top { position: absolute; top: 0; left: 0; right: 0; height: 6px; background: linear-gradient(90deg, var(--red) 33.33%, var(--gold) 33.33% 66.66%, var(--green) 66.66%); }
+  .donate-section > * { position: relative; }
+  .donate-amounts { display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; }
+  .amount-btn {
+    font-family: 'Courier Prime', monospace; font-size: 13px; letter-spacing: 0.15em;
+    background: transparent; color: var(--cream); border: 1px solid rgba(245,237,216,0.3);
+    padding: 12px 24px; cursor: pointer; transition: all 0.2s;
+  }
+  .amount-btn:hover, .amount-btn.selected { background: var(--gold); color: var(--black); border-color: var(--gold); }
+  .donate-form { display: flex; gap: 0; max-width: 480px; margin: 0 auto; }
+  .donate-input {
+    flex: 1; background: rgba(245,237,216,0.08); border: 1px solid rgba(245,237,216,0.3);
+    border-right: none; color: var(--cream); font-family: 'Courier Prime', monospace;
+    font-size: 14px; padding: 14px 18px; outline: none;
+  }
+  .donate-input::placeholder { color: var(--grey); }
+  .donate-submit {
+    background: var(--red); color: #fff; font-family: 'Courier Prime', monospace;
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 14px 28px; border: 1px solid var(--red); cursor: pointer;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .donate-submit:hover { background: var(--red-dark); }
+  .donate-note { font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey); margin-top: 1.5rem; }
 
-  /* Mobile */
+  /* BUTTONS */
+  .btn-primary {
+    background: var(--red); color: #fff; font-family: 'Courier Prime', monospace;
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 14px 32px; border: none; cursor: pointer; text-decoration: none;
+    display: inline-block; transition: background 0.2s, transform 0.1s;
+  }
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); color: #fff; }
+  .btn-outline {
+    background: transparent; color: var(--cream); font-family: 'Courier Prime', monospace;
+    font-size: 12px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 14px 32px; border: 1px solid rgba(245,237,216,0.4); cursor: pointer;
+    text-decoration: none; display: inline-block; transition: border-color 0.2s, color 0.2s, transform 0.1s;
+  }
+  .btn-outline:hover { border-color: var(--gold); color: var(--gold); transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer { background: var(--dark); border-top: 1px solid var(--border); padding: 4rem 4rem 2rem; }
+  .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4rem; margin-bottom: 3rem; }
+  .footer-logo img { height: 48px; width: auto; margin-bottom: 1rem; }
+  .footer-about { font-size: 0.9rem; color: var(--grey); line-height: 1.7; max-width: 320px; }
+  .footer-col h5 { font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1.2rem; }
+  .footer-col ul { list-style: none; }
+  .footer-col ul li { margin-bottom: 0.6rem; }
+  .footer-col ul li a { color: var(--grey); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+  .footer-col ul li a:hover { color: var(--cream); }
+  .footer-bottom { border-top: 1px solid var(--border); padding-top: 1.5rem; display: flex; justify-content: space-between; align-items: center; }
+  .footer-bottom p { font-family: 'Courier Prime', monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--grey); }
+  .footer-stripe { height: 4px; background: linear-gradient(90deg, var(--red) 33.33%, var(--gold) 33.33% 66.66%, var(--green) 66.66%); margin-top: 2rem; }
+
+  /* FADE IN */
+  .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  /* MOBILE */
   @media (max-width: 768px) {
     nav { padding: 0 1rem; }
     .nav-links { display: none; }
     section { padding: 4rem 1.5rem; }
     .hero { padding: 5rem 1.5rem 3rem; }
-    .khotso-section, .robben-inner { grid-template-columns: 1fr; gap: 2rem; }
+    .khotso-section, .robben-inner, .event-inner, .team-section-inner { grid-template-columns: 1fr; gap: 2rem; }
     .pillars-grid, .illiteracy-grid { grid-template-columns: 1fr; }
-    .team-grid { grid-template-columns: 1fr; }
+    .video-grid, .img-grid-2, .event-images { grid-template-columns: 1fr; }
+    .event-gallery { grid-template-columns: 1fr 1fr; }
     .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
-    .img-grid-2 { grid-template-columns: 1fr; }
     .donate-form { flex-direction: column; }
     .donate-input { border-right: 1px solid rgba(245,237,216,0.3); border-bottom: none; }
     h2 { font-size: 2.5rem; }
+    .ring-text-outer, .ring-text-inner { display: none; }
+    .ring:nth-child(n+5) { display: none; }
   }
 </style>
 </head>
@@ -926,29 +637,70 @@
     <a href="#khotso">Khotso Seatlholo</a>
     <a href="#robben-island">Robben Island</a>
     <a href="#insights">Insights</a>
+    <a href="#event">Events</a>
     <a href="#team">People</a>
     <a class="nav-donate" href="#donate">Donate</a>
   </ul>
 </nav>
 
-<!-- HERO -->
+<!-- HERO: RADIAL LOGO EFFECT -->
 <section class="hero" id="home">
-  <div class="hero-bg"></div>
-  <div class="hero-eyebrow">Khotso Seatlholo Institute — Founded in the Spirit of 1976</div>
-  <h1>
-    Reclaiming<br>
-    <span class="accent">Memory.</span><br>
-    <span class="red">(Re)creating</span><br>
-    an African-Centred<br>Future.
-  </h1>
-  <p class="hero-sub">
-    "We will never be pardoned by future generations if we outlive our significance."<br>
-    <em>Khotso Seatlholo, 1976</em>
-  </p>
-  <div class="hero-actions">
-    <a href="#about-ksi" class="btn-primary">Our Mission</a>
-    <a href="#donate" class="btn-outline">Support the Work</a>
+  <div class="hero-rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <!-- Rotating text rings using SVG -->
+    <svg class="ring-text-outer" viewBox="0 0 620 620" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:620px;height:620px;opacity:0.35;">
+      <defs>
+        <path id="circle-path-outer" d="M 310,310 m -270,0 a 270,270 0 1,1 540,0 a 270,270 0 1,1 -540,0"/>
+      </defs>
+      <text font-family="'Courier Prime', monospace" font-size="11" fill="#d4a017" letter-spacing="6">
+        <textPath href="#circle-path-outer">
+          RECLAIMING MEMORY &nbsp;&bull;&nbsp; IZWE LETHU &nbsp;&bull;&nbsp; AFRICAN-CENTRED FUTURISM &nbsp;&bull;&nbsp; BLACK CONSCIOUSNESS &nbsp;&bull;&nbsp; 1976 &nbsp;&bull;&nbsp; AZANIA &nbsp;&bull;&nbsp; DECOLONISE &nbsp;&bull;&nbsp;
+        </textPath>
+      </text>
+    </svg>
+    <svg class="ring-text-inner" viewBox="0 0 460 460" xmlns="http://www.w3.org/2000/svg" style="position:absolute;width:460px;height:460px;opacity:0.3;">
+      <defs>
+        <path id="circle-path-inner" d="M 230,230 m -190,0 a 190,190 0 1,1 380,0 a 190,190 0 1,1 -380,0"/>
+      </defs>
+      <text font-family="'Courier Prime', monospace" font-size="10" fill="#c0392b" letter-spacing="5">
+        <textPath href="#circle-path-inner">
+          RESTORING ERODED AGENCY &nbsp;&bull;&nbsp; LAND FIRST &nbsp;&bull;&nbsp; GENERATIONAL REBIRTH &nbsp;&bull;&nbsp; KHOTSO SEATLHOLO &nbsp;&bull;&nbsp;
+        </textPath>
+      </text>
+    </svg>
+    <div class="crosshair"></div>
   </div>
+
+  <div class="hero-logo-wrap">
+    <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/KSF-logo-.png" alt="Khotso Seatlholo Institute">
+  </div>
+
+  <div class="hero-text-centre" style="position:relative;z-index:2;margin-top:2rem;">
+    <div class="hero-eyebrow">Founded in the Spirit of 1976</div>
+    <h1>
+      Reclaiming<br>
+      <span class="accent">Memory.</span><br>
+      <span class="red">(Re)creating</span><br>
+      an African-Centred Future.
+    </h1>
+    <p class="hero-sub">
+      "We will never be pardoned by future generations if we outlive our significance."<br>
+      <em>Khotso Seatlholo, 1976</em>
+    </p>
+    <div class="hero-actions">
+      <a href="#about-ksi" class="btn-primary">Our Mission</a>
+      <a href="#donate" class="btn-outline">Support the Work</a>
+    </div>
+  </div>
+
+  <div class="scroll-cue"><span>Scroll</span></div>
 </section>
 
 <!-- TICKER -->
@@ -958,7 +710,7 @@
   </div>
 </div>
 
-<!-- MISSION -->
+<!-- MISSION QUOTE -->
 <div class="mission fade-in">
   <blockquote>
     Education is not a mundane obligation pretending to be a gateway for mere survival; it is a lifelong crucible of continuous creation and recreation.
@@ -971,13 +723,12 @@
   <div class="container">
     <div class="section-label">About the Institute</div>
     <h2>What We Are<br><span class="text-gold">Building</span></h2>
-    <p style="max-width:680px; color:var(--grey); font-size:1.05rem; line-height:1.8; margin-bottom:1rem;">
+    <p style="max-width:680px;color:var(--grey);font-size:1.05rem;line-height:1.8;margin-bottom:1rem;">
       The Khotso Seatlholo Institute (KSI) is a nonprofit organisation dedicated to restoring the eroded agency of youth by reimagining the deep socio-cultural and socio-economic future of Azania and Africa. Guided by the philosophy and practice of African-centred futurism, the Institute intentionally intersects historical memory, contemporary struggle, and speculative creativity to surface indigenous agency and solutions for the modern era.
     </p>
-    <p style="max-width:680px; color:var(--grey); font-size:1.05rem; line-height:1.8;">
+    <p style="max-width:680px;color:var(--grey);font-size:1.05rem;line-height:1.8;">
       Moving beyond traditional schooling, the Institute deploys the arts not as mere ornament, but as an active, transformative pedagogy.
     </p>
-
     <div class="pillars-grid fade-in">
       <div class="pillar">
         <span class="pillar-num">01</span>
@@ -992,34 +743,19 @@
       <div class="pillar">
         <span class="pillar-num">03</span>
         <h4>Transformative Creative Production</h4>
-        <p>Art, music, spoken-word poetry, theater, and film exhibitions interrogating our current socio-cultural realities. By visualising alternative, liberated futures, our creative productions aim to awaken consciousness and summon a nation to action.</p>
+        <p>Art, music, spoken-word poetry, theater, and film exhibitions interrogating our current socio-cultural realities. By visualising alternative, liberated futures, our creative productions awaken consciousness and summon a nation to action.</p>
       </div>
     </div>
 
-    <div style="margin-top: 5rem;">
+    <div style="margin-top:5rem;">
       <div class="section-label">The Crisis We Confront</div>
       <h2>Five Forms of<br><span class="text-red">Illiteracy</span></h2>
       <div class="illiteracy-grid fade-in">
-        <div class="ill-card">
-          <h4>Cultural Illiteracy</h4>
-          <p>A profound lack of knowledge regarding one's own cultural history and practices, as well as those of others.</p>
-        </div>
-        <div class="ill-card">
-          <h4>Digital Illiteracy</h4>
-          <p>A deficiency in the essential skills required to navigate technology, the internet, and modern digital tools.</p>
-        </div>
-        <div class="ill-card">
-          <h4>Media Illiteracy</h4>
-          <p>An inability to critically assess information sources, leaving individuals highly vulnerable to propaganda and disinformation.</p>
-        </div>
-        <div class="ill-card">
-          <h4>Civic Ignorance</h4>
-          <p>A limited understanding of constitutional rights, laws, and democratic processes, which weakens public participation in governance.</p>
-        </div>
-        <div class="ill-card">
-          <h4>Historical Ignorance</h4>
-          <p>A failure to engage with past injustices, which actively perpetuates inequality and the erasure of marginalised histories.</p>
-        </div>
+        <div class="ill-card"><h4>Cultural Illiteracy</h4><p>A profound lack of knowledge regarding one's own cultural history and practices, as well as those of others.</p></div>
+        <div class="ill-card"><h4>Digital Illiteracy</h4><p>A deficiency in the essential skills required to navigate technology, the internet, and modern digital tools.</p></div>
+        <div class="ill-card"><h4>Media Illiteracy</h4><p>An inability to critically assess information sources, leaving individuals highly vulnerable to propaganda and disinformation.</p></div>
+        <div class="ill-card"><h4>Civic Ignorance</h4><p>A limited understanding of constitutional rights, laws, and democratic processes, which weakens public participation in governance.</p></div>
+        <div class="ill-card"><h4>Historical Ignorance</h4><p>A failure to engage with past injustices, which actively perpetuates inequality and the erasure of marginalised histories.</p></div>
       </div>
     </div>
   </div>
@@ -1034,40 +770,32 @@
     <div class="khotso-section">
       <div>
         <h2>Khotso<br><span class="text-gold">Seatlholo</span><br>1953 &mdash; 2004</h2>
-        <p style="color:var(--grey); margin-bottom:1.4rem; font-size:1.05rem; line-height:1.8;">
+        <p style="color:var(--grey);margin-bottom:1.4rem;font-size:1.05rem;line-height:1.8;">
           Khotso Seatlholo was a visionary leader of the 1976 Soweto Youth Uprising and President of the Soweto Students' Representative Council (SSRC) from August 1976 to January 1977. Following his forced exile, he was appointed by fellow Black Consciousness student leaders as the President of the South African Youth Revolutionary Council (SAYRCO), a revolutionary underground formation launched in 1979.
         </p>
-        <p style="color:var(--grey); margin-bottom:1.4rem; font-size:1.05rem; line-height:1.8;">
+        <p style="color:var(--grey);margin-bottom:1.4rem;font-size:1.05rem;line-height:1.8;">
           While on a clandestine mission to recruit and mobilise youth forces, Seatlholo was captured by the apartheid regime and sentenced to 15 years on Robben Island under the notorious Terrorism Act. Released in 1990 alongside other political prisoners, he spent his remaining years in Soweto, largely isolated from mainstream socio-political activities.
         </p>
-        <p style="color:var(--grey); font-size:1.05rem; line-height:1.8; border-left: 2px solid var(--red); padding-left:1.2rem; font-style:italic;">
+        <p style="color:var(--grey);font-size:1.05rem;line-height:1.8;border-left:2px solid var(--red);padding-left:1.2rem;font-style:italic;">
           Disillusioned by a changing political landscape that led him to believe he had outlived his significance, he transitioned in 2004. The Institute exists to ensure his significance is never forgotten.
         </p>
+        <div style="margin-top:2.5rem;">
+          <div class="section-label">His Writing</div>
+          <div style="background:var(--dark);border:1px solid var(--border);padding:2rem;margin-top:1rem;">
+            <div class="article-meta">Published &mdash; Culture Review</div>
+            <h3 style="margin-bottom:0.8rem;">Historical Distortions of the 1976 Black Power Movement</h3>
+            <p style="color:var(--grey);font-size:0.95rem;line-height:1.7;margin-bottom:1.5rem;">
+              An essential corrective account of how the 1976 Soweto Uprising has been misrepresented, co-opted, and stripped of its Black Consciousness political foundations in the post-apartheid era.
+            </p>
+            <a href="http://culture-review.co.za/historical-distortions-of-the-1976-black-power-movement" target="_blank" class="btn-outline" style="font-size:11px;padding:10px 22px;">Read the Essay &rarr;</a>
+          </div>
+        </div>
       </div>
       <div class="khotso-image-wrap fade-in">
-        <img src="https://ksf-nine.vercel.app/images/khotso-young.jpg" 
+        <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/Tharollo-Majakathata.jpg"
              onerror="this.src='https://ksf-nine.vercel.app/images/khotso-hero.jpg'"
              alt="Khotso Seatlholo" loading="lazy">
         <div class="image-credit">Khotso Seatlholo &mdash; President, SSRC, 1976</div>
-      </div>
-    </div>
-
-    <!-- His Writings -->
-    <div style="margin-top:5rem;" id="writings">
-      <div class="section-label">Historical Distortions</div>
-      <h2>Khotso's<br><span class="text-gold">Writing</span></h2>
-      <div style="background:var(--dark); border:1px solid var(--border); padding:2.5rem; max-width:720px; margin-top:2rem;" class="fade-in">
-        <div class="article-meta">Published — Culture Review</div>
-        <h3 style="margin-bottom:1rem;">Historical Distortions of the 1976 Black Power Movement</h3>
-        <p style="color:var(--grey); font-size:0.95rem; line-height:1.7; margin-bottom:1.5rem;">
-          An essential corrective account of how the 1976 Soweto Uprising has been misrepresented, co-opted, and stripped of its Black Consciousness political foundations in the post-apartheid era.
-        </p>
-        <a href="http://culture-review.co.za/historical-distortions-of-the-1976-black-power-movement" 
-           target="_blank" 
-           class="btn-outline" 
-           style="font-size:11px; padding:10px 22px;">
-          Read the Essay &rarr;
-        </a>
       </div>
     </div>
   </div>
@@ -1080,46 +808,120 @@
       <div>
         <div class="section-label">The Island</div>
         <h2>Robben<br><span class="text-red">Island</span></h2>
-        <p style="color:var(--grey); margin-bottom:1.4rem; font-size:1.05rem; line-height:1.8;">
+        <p style="color:var(--grey);margin-bottom:1.4rem;font-size:1.05rem;line-height:1.8;">
           Robben Island was the apartheid state's most dreaded instrument of silence. For over three decades, the regime used it to bury the most dangerous minds of the liberation struggle; those who dared to imagine an Africa free of white supremacy.
         </p>
-        <p style="color:var(--grey); margin-bottom:1.4rem; font-size:1.05rem; line-height:1.8;">
+        <p style="color:var(--grey);margin-bottom:1.4rem;font-size:1.05rem;line-height:1.8;">
           Khotso Seatlholo was sentenced to 15 years on Robben Island under the Terrorism Act. He arrived not as a criminal but as a revolutionary; a young man who had refused to bow. He was released in 1990, joining leaders including Nelson Mandela, Robert Sobukwe, Walter Sisulu, and Ahmed Kathrada who the island had tried and failed to erase.
         </p>
-        <p style="color:var(--grey); font-size:1.05rem; line-height:1.8;">
+        <p style="color:var(--grey);font-size:1.05rem;line-height:1.8;">
           The Institute maintains an active archive of Robben Island prisoners and their histories, ensuring the sacrifices of our political ancestors are never reduced to museum exhibits or tourist footnotes.
         </p>
         <div class="robben-stats">
-          <div class="stat-box">
-            <span class="stat-num">3,000+</span>
-            <div class="stat-label">Prisoners Held</div>
-          </div>
-          <div class="stat-box">
-            <span class="stat-num">27</span>
-            <div class="stat-label">Years, Mandela</div>
-          </div>
-          <div class="stat-box">
-            <span class="stat-num">15</span>
-            <div class="stat-label">Years, Khotso</div>
-          </div>
-          <div class="stat-box">
-            <span class="stat-num">1964</span>
-            <div class="stat-label">Maximum Security Est.</div>
-          </div>
+          <div class="stat-box"><span class="stat-num">3,000+</span><div class="stat-label">Prisoners Held</div></div>
+          <div class="stat-box"><span class="stat-num">27</span><div class="stat-label">Years, Mandela</div></div>
+          <div class="stat-box"><span class="stat-num">15</span><div class="stat-label">Years, Khotso</div></div>
+          <div class="stat-box"><span class="stat-num">1964</span><div class="stat-label">Maximum Security Est.</div></div>
         </div>
       </div>
       <div class="fade-in" style="position:relative;">
-        <img src="https://ksf-nine.vercel.app/images/robben.jpg" 
+        <img src="https://ksf-nine.vercel.app/images/robben.jpg"
              onerror="this.style.display='none'"
-             alt="Robben Island" 
+             alt="Robben Island"
              style="width:100%;display:block;filter:grayscale(40%) contrast(1.1);" loading="lazy">
         <div style="position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem 1.5rem;background:linear-gradient(0deg,rgba(10,8,4,0.9) 0%,transparent 100%);">
-          <p style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);">
-            Robben Island &mdash; Cape Town, South Africa
-          </p>
+          <p style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);">Robben Island &mdash; Cape Town, South Africa</p>
         </div>
-        <!-- Pan-African accent bar -->
         <div style="height:4px;background:linear-gradient(90deg,var(--red) 33.33%,var(--gold) 33.33% 66.66%,var(--green) 66.66%);"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<!-- UPCOMING EVENT: ARTISTIC TAKEOVER -->
+<section class="event-section" id="event">
+  <div class="container">
+    <div class="section-label">Upcoming</div>
+    <div class="event-inner">
+      <div>
+        <span class="event-badge">Artistic Takeover</span>
+        <h2>The Artistic<br><span class="text-gold">Takeover</span></h2>
+        <p style="color:var(--grey);font-size:1.05rem;line-height:1.8;margin-bottom:1.5rem;">
+          The Khotso Seatlholo Institute presents its inaugural Artistic Takeover: a convergence of visual art, spoken word, music, and philosophical discourse in the service of African-centred restoration. This is not an arts festival. It is a deliberate occupation of space by those whose culture and memory have been colonised.
+        </p>
+        <p style="color:var(--grey);font-size:1.05rem;line-height:1.8;margin-bottom:2rem;">
+          The Artistic Takeover brings together Master Artists, thinkers, writers, and organisers to interrogate the role of creative production in the liberation struggle. Expect confrontation. Expect beauty. Expect truth.
+        </p>
+        <div style="margin-bottom:1.5rem;">
+          <p style="font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.3rem;">Venue</p>
+          <p style="color:var(--cream);font-size:1rem;">Cape Town &mdash; Venue to be confirmed</p>
+        </div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <a href="#donate" class="btn-primary">Register Interest</a>
+          <a href="mailto:team@businesshustle.co.za" class="btn-outline">Partner with Us</a>
+        </div>
+      </div>
+      <div>
+        <div class="event-images">
+          <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/June-16-lecture.jpg"
+               onerror="this.style.display='none'"
+               alt="June 16 Lecture" loading="lazy">
+          <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/Previous-event-discussion.jpg"
+               onerror="this.style.display='none'"
+               alt="Previous Event Discussion" loading="lazy">
+          <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/3-people-standing-over-book-table.jpg"
+               onerror="this.style.display='none'"
+               alt="Discussion at book table" loading="lazy">
+          <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/Picture-of-crowd-from-event.-Notable-people-in-crowd.jpg"
+               onerror="this.style.display='none'"
+               alt="Event crowd" loading="lazy">
+        </div>
+        <div style="margin-top:3px;">
+          <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/Tharollo-discussing-with-another.jpg"
+               onerror="this.style.display='none'"
+               alt="Tharollo discussing"
+               style="width:100%;height:200px;object-fit:cover;filter:grayscale(15%) contrast(1.08);" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe-divider"></div>
+
+<!-- VIDEOS -->
+<section class="video-section" id="videos">
+  <div class="container">
+    <div class="section-label">Watch</div>
+    <h2>Tharollo<br><span class="text-gold">In Conversation</span></h2>
+    <div class="video-grid fade-in">
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/l8qrnhRzAP0"
+          title="Tharollo Seatlholo - Lecture"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+        <div class="video-label">
+          <h4>Tharollo Seatlholo</h4>
+          <p>Lecture &mdash; African-Centred Futurism &nbsp;&bull;&nbsp; <a href="https://m.youtube.com/watch?v=l8qrnhRzAP0" target="_blank">Watch on YouTube &rarr;</a></p>
+        </div>
+      </div>
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/ozpkOmKG41E"
+          title="Tharollo Seatlholo - In Conversation"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+          loading="lazy">
+        </iframe>
+        <div class="video-label">
+          <h4>Tharollo Seatlholo</h4>
+          <p>In Conversation &mdash; Art, Land &amp; Liberation &nbsp;&bull;&nbsp; <a href="https://m.youtube.com/watch?v=ozpkOmKG41E" target="_blank">Watch on YouTube &rarr;</a></p>
+        </div>
       </div>
     </div>
   </div>
@@ -1140,10 +942,10 @@
       <button class="tab-btn" onclick="switchTab(event,'tab-ramose')">Ramose Lecture</button>
     </div>
 
-    <!-- TAB 1: Art as Anaesthetic -->
+    <!-- TAB 1: Art as Anaesthetic (FULL) -->
     <div id="tab-anaesthetic" class="tab-pane active">
       <figure class="article-img-block">
-        <img src="https://ksf-nine.vercel.app/images/art-as-anaesthetic-the-restoration.webp" 
+        <img src="https://ksf-nine.vercel.app/images/art-as-anaesthetic-the-restoration.webp"
              onerror="this.closest('figure').style.display='none'"
              alt="Art as Anaesthetic" class="article-hero-img">
       </figure>
@@ -1152,30 +954,31 @@
       <p style="font-style:italic;color:var(--grey);margin-bottom:2rem;font-size:1rem;">Honoring Slovo Mamphaga's Creative Legacy through wordscapes of Justice.</p>
 
       <div class="article-body">
-        <p>
-          When art refuses to confront truth, it serves as an agent of destruction and neglects the role of a medium of expression that summons action. Within the Anti-Black Rainbow Nation, the art that rejects truth to sow and sustain ignorance is highly exalted because it advances the nation's mission of African degeneration and destruction. Only a few artists persist in the struggle to plant seeds of critical thought through their work, carefully guiding us toward the anticipated revolution. Slovo Mamphaga, a visual artist, designer and futurist stands among them by offering works that affirm truth and prepare us for the restoration of the African nation.
-        </p>
-
-        <div class="pull-quote">
-          The 1994 settlement of the 'new South Africa' manufactured a hollow culture of art to evade confrontation with the truth of its injustice.
-        </div>
+        <h4>Introduction</h4>
+        <p>When art refuses to confront truth, it serves as an agent of destruction and neglects the role of a medium of expression that summons action. Within the Anti-Black Rainbow Nation, the art that rejects truth to sow and sustain ignorance is highly exalted because it advances the nation's mission of African degeneration and destruction. Only a few artists persist in the struggle to plant seeds of critical thought through their work, carefully guiding us toward the anticipated revolution. Slovo Mamphaga, a visual artist, designer and futurist stands among them by offering works that affirm truth and prepare us for the restoration of the African nation.</p>
+        <p>The 1994 settlement of the 'new South Africa' manufactured a hollow culture of art to evade confrontation with the truth of its injustice. The so-called 'peaceful' transition of 1994 diverted a necessary revolution by handing representational power to the African National Congress (ANC) and offering natives little more than freedom of movement within the new settler Union of South Africa. The decline of the arts in the country reached a new low in the 1980s, when leaders of the Apartheid regime and the ANC began 'secret' negotiations aimed at insulating settlers from war with countless natives. This decline was epitomised by the Medu Art Ensemble, formed by exiled 'South African' artists in Botswana and active from 1979 to 1985. After representational power was transferred to the ANC, the dominant arts were reduced to celebrations of injustice; suffocating the country with ignorance under the guise of a pretentious victory.</p>
+        <p>The most celebrated artists were those whose works not only silenced their supposed inter-actors but also acted as an anaesthetic to their pain and suffering, delivered through the enjoyment and consumption of frivolous art. Through the imposition of Euro-cultural values and systems, art was employed to promote the adoption of political ideology, particularly non-racial liberalism, rather than truthfully reflecting the realities and spirito-cultural visions of the people it concerned. With capitalism as the country's economic system, extreme profits were generated both nationally and internationally through the exploitation of artists. This was achieved by separating their creations from representing them as individuals and from reflecting the collective consciousness in which they are a part. Works of art were deceptively presented as one-way communication with the natives, thereby erasing the African philosophy and role of art in society which informs its creation.</p>
+        <p>More than thirty years after the country's settlement was declared (Re)public, the deliberate separation of truth from the arts has cultivated hostility toward critical thought and nurtured self-destruction. While some may argue that art has evolved to promote indigeneity, it is crucial to note that its recent recognition is rooted in avoidance of structural collapse and revolutionary demands as opposed to an honour thereof. In addition to making profit by creating demand before supply, the sudden promotion of indigenous arts is an evasion of the growing demands of natives for land restoration. Instead, it serves as an investment in the saturation and eventual destruction of African culture. This essay engages with the offerings of Master Artist Slovo Mamphaga, whose creations speak truth to power and, unlike the degenerate arts that reject truth, engage with their inter-acters rather than speaking at them and over them. It will essentially examine the historical and contemporary truths shaping Mamphaga's works, particularly 'Mandela's Legacy,' 'Land First, Blacks Second,' 'Stage Six,' 'Walking to the Peak,' 'The Elephant in the Room' and 'Generational rebirth'.</p>
 
         <div class="article-img-block">
           <figure>
-            <img src="https://ksf-nine.vercel.app/images/Slovo_Mamphaga-_Mandela_s_Legacy__mixed_media__2019.webp" 
+            <img src="https://ksf-nine.vercel.app/images/Slovo_Mamphaga-_Mandela_s_Legacy__mixed_media__2019.webp"
                  onerror="this.closest('figure').style.display='none'"
                  alt="Mandela's Legacy by Slovo Mamphaga">
             <figcaption>Slovo Mamphaga: Mandela's Legacy, mixed media, 2019</figcaption>
           </figure>
         </div>
 
-        <h4>Mandela's Legacy: Landlessness as Penalty</h4>
-        <p>
-          Mandela's Legacy by Slovo Mamphaga reminds us that there was never a nation to build without the restoration of native land but only an injustice to preserve white settlers. This offering does not seek to shock its inter-actors but reflect the lived reality of natives amidst the romanticisation of Mandela and his so-called anti-Apartheid struggle. As a truthful reflection of the socio-political condition, Mamphaga urges us to question whether the legacy was deliberate and voluntary.
-        </p>
-        <p>
-          A historical reading of the ANC makes clear that the 1994 settlement was not betrayal, but a fidelity to its founding principles and mission. The ANC began in 1912 as the South African National Native Congress (SANNC), formed by Black elites shaped through missionary education and assimilation into British liberal culture.
-        </p>
+        <h4>Mandela's Legacy: Landlessness as the Penalty for Native Inclusion</h4>
+        <p>Mandela's Legacy by Slovo Mamphaga reminds us that there was never a nation to build without the restoration of native land but only an injustice to preserve white settlers. This offering does not seek to shock its inter-actors but reflect the lived reality of natives amidst the romanticisation of Mandela and his so-called anti-Apartheid struggle. As a truthful reflection of the socio-political condition, Mamphaga urges us to question whether the legacy was deliberate and voluntary.</p>
+        <p>A historical reading of the ANC makes clear that the 1994 settlement was not betrayal, but a fidelity to its founding principles and mission. The ANC began in 1912 as the South African National Native Congress (SANNC), formed by Black elites shaped through missionary education and assimilation into British liberal culture. These elites were descendants of those freed after the abolition of slavery in 1830 in the Natal and Cape colonies. Its formation came in the shadow of the Union of South Africa, created in 1910 under British administration, which recognised only Dutch and British settlers as citizens.</p>
+        <p>The members of the SANNC sought to preserve their 'privilege' under Cecil John Rhodes's declaration of 'equal rights for all civilised men'. They struggled to conceive how they could exist without concessions from white power, fearing that they would be reduced to the social status and horrifying experiences of their fellow natives. By naming their organisation as the South African National Native Congress, the Black-elitist leaders such as John Dube, Pixley ka Seme and Sol Plaatjie conceded to the misnaming of their native land as 'South Africa.' They resisted the Union by petitioning Britain against their exclusion by white colonists in "South Africa", declaring Britain as their "mother country" and labelling themselves as "loyal subjects" of the British Crown.</p>
+        <p>A secondary reason for the formation of the SANNC was to unite natives who had been waging wars against invaders in fragmented groups across different regions. Yet, despite calling themselves the Native Congress, their reality stood in opposition to the broader population who were confined to 'native-only' reserves. In 1923, the SANNC renamed itself the African National Congress (ANC). Yet, due to its prioritisation of Black elitism and a superior logic over the broader native population, the ANC experienced a significant decline because it was never mass-centred.</p>
+        <p>As the ANC declined, Africans, Coloureds, and Indians formed the Non-European Unity Movement in 1943 to oppose segregation, thereby creating a mass organisation that challenged the elitist character of the ANC. A year after Apartheid was instituted in 1948, an Indian trader in Durban brutally murdered an African boy by throwing him from the top floor of his shop. In response, natives sought justice through an attack that left fifty Indians dead. The ANC denounced the retaliation as "barbaric," a stance that revealed its admiration for Mahatma Gandhi, despite his racism and open contempt for African life.</p>
+        <p>When the Apartheid state banned the white liberal Communist Party of South Africa under the Suppression of Communism Act of 1950, white liberals turned to the ANC, seeking refuge and to initiate a parasitic relation with them for ideological influence. As an organisation that had long decentred Africans, the ANC welcomed them despite its Youth League's rejection of collaboration. The Communist Party deliberately forged an alliance by claiming 'refuge' to suppress the rise of exclusive African Nationalism.</p>
+        <p>When Mamphaga exhibits Mandela's Legacy, he exposes how, under the anti-African National Congress, foreign invaders were able to retain all the land they had looted; while natives remain confined to dumpsites. In a reversal of justice achieved by the ANC's freedom, natives became informal settlers, while white settler-invaders remained settlers and retained their power under Black representation. Mamphaga underscores how Mandela's legacy is deadly to the native by placing a skull on the shack to symbolise death as the enlivening foundation of the new Union South of Africa. The ladder represents a false hope of opportunity that is inaccessible to natives, except Black elites who neglect their own in pursuit of advancement. The ever-present tire placed above the shack signifies how native protests have been normalised in the new dispensation, for the ANC remains deaf to its own people's demands yet responds swiftly to violence in order to safeguard the comfort of its beloved white settlers.</p>
+
+        <div class="pull-quote">Mandela's legacy, widely venerated by white settlers and the international community, IS the effective sustenance of the Natives Land Act of 1913 through reconstruction.</div>
 
         <div class="article-img-block">
           <figure>
@@ -1187,9 +990,11 @@
         </div>
 
         <h4>White Communist Mantra: Land First, Blacks Second</h4>
-        <p>
-          Before the slow death of Africans could be signed and systematised, the anti-African National Congress embraced white communists as its intellectual guides through the adoption of the Freedom Charter. Unlike the capitalistic Dutch and British settlers, who maintained indifference to native life after seizing land, white communists were compelled to include natives in their struggle because they offered them refuge and numbers.
-        </p>
+        <p>Before the slow death of Africans could be signed and systematised, the anti-African National Congress embraced white communists as its intellectual guides through the adoption of the 'Freedom Charter.' Unlike the capitalistic Dutch and British settlers, who maintained indifference to native life after seizing land, white communists were compelled to include natives in their struggle because they offered them refuge and numbers. The ANC embraced its pretentious placement in the hierarchy of priorities within the struggle of the white communists, applauding Rusty Bernstein for authoring the Freedom Charter, which proclaimed that the land belonged to all who lived in it; Black and white.</p>
+        <p>Between 1968 and 1972, Steve Biko formulated the Black Consciousness Philosophy and Movement, deliberately excluding white liberals on the grounds that they carried inherent racism, revealed through paternalism toward natives. He argued that if white liberals were genuinely committed to fighting Black oppression, they should build their own structures and inspire change among their white counterparts, rather than using Black organisations for white preservation. While Biko rejected white liberal paternalism, the ANC hastily welcomed it.</p>
+        <p>Before the imposition of the Freedom Charter, some members of the ANC Youth League resisted the Congress Alliance; determined to preserve African agency. They included Robert Sobukwe, Potlako Leballo and Zeph Mothopeng. After its imposition, Sobukwe referred to it as the 'Kliptown Charter' to reject its claim of seeking freedom for the natives. Philosopher and Historian Motsoko Pheko rightly referred to the Freedom Charter as the 'Freedom Cheater' to describe its envisioned counterfeit freedom for natives that ultimately benefited whites.</p>
+        <p>In 1959, M'Afrika Robert Sobukwe spearheaded the formation of the Pan Africanist Congress (PAC), intended as a refuge for those who rejected the Freedom Charter and resisted both Black elitism and settler prioritisation. Sobukwe maintained that Mandela and his allies, by collaborating with whites, had abandoned the true ANC founded in 1912. The PAC was highly motivated and dedicated to the restoration of Izwe Lethu, which still remains the organisation's slogan.</p>
+        <p>The PAC immediately started with the African-prioritised programs of disobedience. Their strategy involved both marching against the pass laws to challenge the system and crippling the stolen nation's economy through labour withdrawal. The march against the pass laws tragically culminated in the Sharpeville massacre on 21 March 1960. Though it is now 'celebrated' under the revised Union of South Africa as Human Rights Day, the PAC-led protest against the pass laws carried the inevitable outcome of violent confrontation between Africanists and settlers.</p>
 
         <div class="article-img-block">
           <figure>
@@ -1200,18 +1005,23 @@
           </figure>
         </div>
 
-        <h4>Stage Six: The Genetically Engineered Natives</h4>
-        <p>
-          The final destination of the anti-African National Congress is to fully underdevelop Africans into Genetically Engineered Natives. Genetically Engineered Natives (GEN) are Africans who have consciously or unconsciously rejected their African identity, agency, society and culture in order to serve foreign power; becoming servants of their own destruction.
-        </p>
+        <p>Born on March 21st, twenty-eight years after the Sharpeville massacre; Master Artist Slovo Mamphaga was destined to remain unsettled with "Mandela's Legacy." Through his selected works, Mamphaga confronts the harsh truths of the betrayed freedom of 1994. He rejects the idea that art should obscure truth or serve merely as entertainment by channelling critical thought into works that summon people to work towards the realisation of their justice.</p>
+        <p>Donald Trump's call for Afrikaners to claim refugee status in America underscores the dominant yet fictional narrative of exclusion, racism and alleged murders said to be inflicted by natives upon Afrikaners and speaks to global white supremacy and solidarity. It of course remains puzzling how a Black government that preserves the white notion of "Land First and Blacks Never" could ever be seen as oppressive. However, this white settler anxiety stems from witnessing natives demand historical justice to realise M'Afrika Sobukwe's vision of "Africans First and Land First".</p>
 
-        <div class="img-grid-2">
+        <div class="article-img-block">
           <figure>
             <img src="https://ksf-nine.vercel.app/images/Stage_six_by_Slovo_Mamphaga.jpg"
                  onerror="this.closest('figure').style.display='none'"
-                 alt="Stage Six">
+                 alt="Stage Six by Slovo Mamphaga">
             <figcaption>Stage Six by Slovo Mamphaga</figcaption>
           </figure>
+        </div>
+
+        <h4>Stage Six: The Genetically Engineered Natives and Artistic Decline</h4>
+        <p>The final destination of the anti-African National Congress is to fully underdevelop Africans into Genetically Engineered Natives. Genetically Engineered Natives (GEN) are Africans who have consciously or unconsciously rejected their African identity, agency, society and culture in order to serve foreign power; becoming servants of their own destruction. GEN refers to a defect in the consciousness of the African, programmed to think, desire, respond and act as a mechanoid of the foreign destroyer.</p>
+        <p>The Medu Art Ensemble was an arts and cultural movement founded in 1979 by artists from the anti-African National Congress who were exiled in Botswana. The movement tasked itself with using art as a "weapon of struggle," though it miscommunicated the ideas of freedom and revolution. Anchored in the ideals of collaboration within the ANC, their works infused political theories from Europe, America, Asia, Latin America and the African continent to inspire a new Union of South Africa.</p>
+
+        <div class="article-img-block">
           <figure>
             <img src="https://ksf-nine.vercel.app/images/A_collage_of_works_from_the_Medu_Art_Ensemble__1979-1985.webp"
                  onerror="this.closest('figure').style.display='none'"
@@ -1220,9 +1030,10 @@
           </figure>
         </div>
 
-        <p>
-          The Medu Art Ensemble was an arts and cultural movement founded in 1979 by artists from the anti-African National Congress who were exiled in Botswana. The movement tasked itself with using art as a weapon of struggle, though it miscommunicated the ideas of freedom and revolution. Anchored in the ideals of collaboration within the ANC, their works infused political theories from Europe, America, Asia, Latin America and the African continent to inspire a new Union of South Africa.
-        </p>
+        <p>The research fails to acknowledge that art held value for Africans beyond the struggle of producing Genetically Engineered Natives. This omission reflects its focus on fragments that it describes as "elements" of African truth rather than the whole. It reveals how the founders of the Medu Art Ensemble privileged foreign ideas over African ones, thereby echoing the programming of the anti-African National Congress. The Medu Art Ensemble ceased to exist in 1985 when fourteen of its members were murdered by the South African Defence Force after raiding Botswana to disband them.</p>
+        <p>After 1994, the nature of art was further reduced to celebrating a cheated freedom, designed to provoke and then maintain native ignorance. Both pre- and post-Apartheid artists were tasked with nation-building to feed the illusion of unity and freedom. Under the anti-African National Congress, current artists carry the duty of identifying as Genetically Engineered Natives to maintain ignorance and historical distortion. This represents a denial of truth by artists in exchange for national and international renown including the elevation of their status to Black elites.</p>
+        <p>The sudden promotion of indigenous art and culture by the anti-African National Congress is reminiscent of the relationship between Bantustan leaders and the Apartheid government, where the leaders posed as figures that served the illusion that Africans were independent under oppression; whereas its aim was to prevent African unity. As Frantz Fanon observed, the colonial elite mummifies national culture.</p>
+        <p>Stage Six, as exhibited by Mamphaga, demonstrates a facilitated shutdown of the African mind by all means necessary, with a relational reference to the country's experience of loadshedding.</p>
 
         <div class="article-img-block">
           <figure>
@@ -1233,9 +1044,13 @@
           </figure>
         </div>
 
-        <div class="pull-quote">
-          The "elephant in the room" implies that we have an outstanding duty to confront centuries of injustice that continue to this day, despite the false moment of freedom engineered for many to accept.
-        </div>
+        <h4>Coda</h4>
+        <p>The "elephant in the room" implies that we have an outstanding duty to confront centuries of injustice that continue to this day, despite the false moment of freedom engineered for many to accept. The room is suffocating because we remain landless and bound to Mandela's shack which is a physical representation of Frantz Fanon's zone of non-being. We are incapable of breathing because the room is filled with innumerable practices, teachings and orders directed toward our destruction.</p>
+        <p>The first artistic offering presented by Master Artist Slovo Mamphaga, titled Walking to the Peak, depicts the shadow of a Black man walking on an empty beer bottle littered across a fraction of barren land reserved by white settlers for natives. The face of a white settler-invader, owning fertile ground, stands still and sturdy atop a mountain peak on foreign land, protected by a fence that prohibits natives from "invading" and reclaiming it. The white settler's face and the Black man's shadow are diametrically opposed, symbolising the inherent confrontation between the two as the "elephant in the room."</p>
+        <p>As Africans, we can either settle for survival in the peripheries of our own land and concede to racial suicide, or we can confront the elephant in the room through the expulsion of white invaders by walking to the peak to re-occupy it then begin the process of a Generational Rebirth after restoring the land of our ancestors. By addressing the elephant in the room and shipping white settlers back in the boats in which they came; all Euro-toxins, mental and material, that have been introduced to Africans should be discarded as the trash they are since they would also obstruct the process of rebirth.</p>
+        <p>By doing so, we empty our minds to prepare for our historic and cultural rebirth. In this way, the blood of ancestral regeneration will transfuse our asili, as the cultural seed of origin and essence; through the divine satellite. The two relational master artistic offerings of Slovo Mamphaga speak to the urgent need to realise and live within the reality of "African First, Land First." Will you walk to the peak of African degeneration as a Genetically Engineered Native, or will you confront the elephant in the room and run to the peak to restore the awaiting reality of putting your African-self and native Land First?</p>
+
+        <p style="color:var(--gold);font-style:italic;font-size:1.2rem;font-weight:600;">Izwe Lethu!</p>
 
         <div class="article-img-block">
           <figure>
@@ -1246,92 +1061,69 @@
           </figure>
         </div>
 
-        <p>
-          As Africans, we can either settle for survival in the peripheries of our own land and concede to racial suicide, or we can confront the elephant in the room through the expulsion of white invaders by walking to the peak to re-occupy it then begin the process of a Generational Rebirth after restoring the land of our ancestors.
-        </p>
-
-        <p style="color:var(--gold);font-style:italic;font-size:1.1rem;">Izwe Lethu!</p>
-
         <div style="margin-top:2rem;">
-          <a href="https://substack.com/home/post/p-192599626" target="_blank" class="btn-primary" style="font-size:11px;">
-            Read Full Essay on Substack &rarr;
-          </a>
+          <a href="https://substack.com/home/post/p-192599626" target="_blank" class="btn-primary" style="font-size:11px;">Read on Substack &rarr;</a>
         </div>
       </div>
     </div>
 
-    <!-- TAB 2: Trading Spaces -->
+    <!-- TAB 2: Trading Spaces (FULL) -->
     <div id="tab-trading" class="tab-pane">
       <div class="article-meta">Tharollo Seatlholo &mdash; February 28, 2026</div>
       <h3 style="margin-bottom:0.3rem;">Trading Spaces: Privatizing the Future to Secure Endless Domination</h3>
       <p style="font-style:italic;color:var(--grey);margin-bottom:2rem;font-size:1rem;">Confronting realities to reimagine futures: A Comparative Study of Okorafor's Binti and Bell's Space Traders</p>
 
       <div class="img-grid-2" style="margin-bottom:2rem;">
-        <img src="https://ksf-nine.vercel.app/images/Trading_Spaces_1.webp" 
-             onerror="this.style.display='none'"
-             alt="Trading Spaces 1" loading="lazy">
-        <img src="https://ksf-nine.vercel.app/images/Trading_spaces_3.webp"
-             onerror="this.style.display='none'"
-             alt="Trading Spaces 3" loading="lazy">
+        <img src="https://ksf-nine.vercel.app/images/Trading_Spaces_1.webp" onerror="this.style.display='none'" alt="Trading Spaces 1" loading="lazy">
+        <img src="https://ksf-nine.vercel.app/images/Trading_spaces_3.webp" onerror="this.style.display='none'" alt="Trading Spaces 3" loading="lazy">
       </div>
 
       <div class="article-body">
-        <p>
-          The fictive yet self-legitimising mandate of western hegemony to conquer the future presupposes the permanence of racism, anti-Black violence and systemic exploitation should the people of African descent not resist against it. Racists have long claimed that Black people have no future, portraying them as devoid of agency and therefore incapable of existing except in servitude.
-        </p>
-
-        <div class="pull-quote">
-          Afrofuturism challenges this racist fiction by rejecting the claim that Black people have no future while affirming their capacity to imagine and create one on their own terms.
-        </div>
+        <h4>Introduction</h4>
+        <p>The fictive yet self-legitimising mandate of western hegemony to conquer the future presupposes the permanence of racism, anti-Black violence and systemic exploitation should the people of African descent not resist against it. Racists have long claimed that Black people have no future, portraying them as devoid of agency and therefore incapable of existing except in servitude. Historically portrayed as a people desperate for permanent guardianship and surveillance, the incorporation of Africans into a western-defined future is justified as yet another enactment of Rudyard Kipling's notion of the "White Man's Burden."</p>
+        <p>Afrofuturism challenges this racist fiction by rejecting the claim that Black people have no future while affirming their capacity to imagine and create one on their own terms. As a philosophy and movement grounded in speculative fiction, Afrofuturism reimagines African-American and diasporic futures through the lenses of art, technology, history and culture. Alondra Nelson conceptualises it as a practice of critical analysis and culture creation which explores the intersection of race and technology. Science fiction writer, Nnedi Okorafor has presented an alternative cultural framework by expanding Afrofuturism to encompass the African continent with its diverse histories, cultures and experiences under the term 'Africanfuturism.'</p>
+        <p>This essay offers a comparative analysis of two works of science fiction; Nnedi Okorafor's novella Binti (2015) and Derrick Bell's short story titled The Space Traders (1990). Binti tells the story of a gifted mathematician and scientist who flees home to attend an intergalactic university and becomes its first and only African student. The Space Traders, rooted in racial realism, tells a story of aliens offering the United States salvation from economic, technological and environmental crises in exchange for its Black population. This essay will explore the themes of space colonisation, western education, individualism, brain drain and the devolution of African being across the two stories.</p>
 
         <div class="img-grid-2">
-          <img src="https://ksf-nine.vercel.app/images/Trading_spaces_4.webp"
-               onerror="this.style.display='none'"
-               alt="Trading Spaces 4" loading="lazy">
-          <img src="https://ksf-nine.vercel.app/images/trading_spaces_5.webp"
-               onerror="this.style.display='none'"
-               alt="Trading Spaces 5" loading="lazy">
+          <img src="https://ksf-nine.vercel.app/images/Trading_spaces_4.webp" onerror="this.style.display='none'" alt="Trading Spaces 4" loading="lazy">
+          <img src="https://ksf-nine.vercel.app/images/trading_spaces_5.webp" onerror="this.style.display='none'" alt="Trading Spaces 5" loading="lazy">
         </div>
 
         <h4>Afrofuturism and Africanfuturism</h4>
-        <p>
-          Afrofuturism is a philosophy and cultural practice of Black speculative arts that encompasses historical memory, contemporary realities and future possibilities for African-Americans. Though works of Black speculative fiction have been produced by African-American communities since the 18th century, they remained uncategorised and excluded from science fiction which was a genre reserved for narratives rooted in western cultural traditions.
-        </p>
-        <p>
-          Nnedi Okorafor defines Africanfuturism as "specifically and more rooted in African culture, history, mythology, and point of view." From an African-centred perspective, Africanfuturism and Africanjujuism are already intertwined; their separation is unnecessary and symbolises an artificial division inspired by the western impulse to impose separations where none are needed.
-        </p>
-
-        <div class="img-grid-2">
-          <img src="https://ksf-nine.vercel.app/images/trading_spaces_8.webp"
-               onerror="this.style.display='none'"
-               alt="Trading Spaces 8" loading="lazy">
-          <img src="https://ksf-nine.vercel.app/images/Is_it_still_literature_without_western_conventions_.webp"
-               onerror="this.style.display='none'"
-               alt="Is it still literature without western conventions" loading="lazy">
-        </div>
+        <p>Afrofuturism is a philosophy and cultural practice of Black speculative arts that encompasses historical memory, contemporary realities and future possibilities for African-Americans. Though works of Black speculative fiction have been produced by African-American communities since the 18th century, they remained uncategorised and excluded from science fiction which was a genre reserved for narratives rooted in western cultural traditions. In 1994, the Euro-American critic Mark Dery developed the term 'Afrofuturism' to describe Black speculative arts.</p>
+        <p>Nnedi Okorafor defines Africanfuturism as "specifically and more rooted in African culture, history, mythology, and point of view." She underscores that Africanfuturism is "about Africa and Africans... telling stories rooted in the continent, imagining futures from African perspectives and not filtering through Western lenses." From an African-centred perspective, Africanfuturism and Africanjujuism are already intertwined; their separation is unnecessary and symbolises an artificial division inspired by the western impulse to impose separations where none are needed.</p>
 
         <h4>Space Colonization and Evasion of Justice</h4>
-        <p>
-          The plots of Binti and The Space Traders centralise space in divergent ways: an African girl pursues a white space for her own (dis)empowerment, while the Black collective is coerced into an unknown space for the benefit of the white majority. Both stories situate their characters in white/foreign spaces, yet their experience and resolution of their predicaments is determined by western power.
-        </p>
+        <p>The plots of Binti and The Space Traders centralise space in divergent ways: an African girl pursues a white space for her own (dis)empowerment, while the Black collective is coerced into an unknown space for the benefit of the white majority. Both stories situate their characters in white/foreign spaces, yet their experience and resolution of their predicaments is determined by western power.</p>
+        <p>In Binti, the Khoush, although only 5% of the population among extraterrestrial life; dominate space to the extent that they built a university. In The Space Traders, however, whites meet aliens coming from a galaxy that they have never colonised. Their lack of control leads them to initially perceive extraterrestrial life as a threat until they regard the offer as an opportunity to preserve and enhance white supremacy.</p>
+        <p>In Space Traders, Black Americans are cast into an unknown land after having been abducted from Africa to build America's so-called "greatness" using their own blood and sweat. Bell underscores this point: their spaces were seen as burdensome and obstruction to white profit which needed to be cleared for better use.</p>
 
-        <div class="pull-quote">
-          In Okorafor's imagined African future, the Khoush preserve their culture and lineage, whereas Binti, as the lone Himba among foreigners, is erased. This imbalance underscores the reality that Africans have no place in a white space or future.
+        <div class="img-grid-2">
+          <img src="https://ksf-nine.vercel.app/images/trading_spaces_8.webp" onerror="this.style.display='none'" alt="Trading Spaces 8" loading="lazy">
+          <img src="https://ksf-nine.vercel.app/images/Is_it_still_literature_without_western_conventions_.webp" onerror="this.style.display='none'" alt="Is it still literature" loading="lazy">
         </div>
 
-        <p>
-          An African-centred futurism should be introduced as a corrective philosophy to Africanfuturism that transcends the limits of science fiction, functioning as a movement deeply embedded in both the arts and the sciences. It ought to operate as a philosophy and a movement committed to confronting anti-African realities and restoring African culture, agency and dignity, with the ultimate purpose of recreating a future for people of African descent across the globe.
-        </p>
+        <h4>Western Education, Individualism and The African Brain Drain</h4>
+        <p>Binti projects a future in which the present anti-African realities are a part of it; therefore offering no radical transformation or temporal shift despite the novella being a utopian Africanfuturist work. This questions the creativity and motive of the novella if it is merely a reproduction of the same oppressive structures in which Africans are forced to exist.</p>
+        <p>Binti's flight from home against her parents' will to attend a foreign university reinforces the enduring phenomenon of African brain drain. Since the era of slavery and colonisation, Africa's brightest minds have been extracted, trained in foreign institutions or factories and subjected to cultural, ethical, and spiritual erasure in order to survive. Binti's mother gave her an explicit warning: "There is a reason why our people do not go to that university. Oomza Uni wants you for its own gain, Binti. You go to the school and you become its slave."</p>
+        <p>Binti became bound to the Khoush even before beginning her studies at the university, when she assumed the role of mediator between them and the Meduse; embodying the colonial demand that Africans constantly validate their worth before whiteness. The figure of Binti embodies the problematic notion of "Black excellence," where racism is temporarily suspended when extraordinary African talent serves western interests.</p>
+        <p>In Space Traders, Professor Golightly refers to himself amidst whiteness as a 'good soldier' to the conservative party and the 'man on the inside.' Both Binti and Golightly emerge as isolated figures whose agency is recognised only insofar as it benefits outsiders. Golightly's journey of exploitation under whiteness comes to an end, while Binti's is only beginning. When he refuses to persuade the Black collective, on the day of the trade, a white cabinet member blocks his family's escape and ushers him onto the ship with the others. This demonstrates that no investment in or proximity to whiteness can ever secure exemption from racism or sacrifice.</p>
+
+        <h4>The Devolution of the African Being</h4>
+        <p>In compliance with the white world's rule that Black people are only tolerated when they have something beneficial to offer; Binti's sacrifice is the use of her divine 'master harmonizer' powers to resolve the century-long feud between the Khoush and Meduse. In surrendering her hair to an alien species, the code to her lineage, culture, and history was erased, implying that her original identity ceased to exist. It is striking that Binti alone undergoes transformation, while the Meduse and Khoush remain unchanged. This mirrors the post-apartheid 'Rainbow Nation' in South Africa, where the burden of integration fell on the natives.</p>
+        <p>In Okorafor's imagined African future, the Khoush preserve their culture and lineage, whereas Binti, as the lone Himba among foreigners, is erased. This imbalance underscores the reality that Africans have no place in a white space or future.</p>
+
+        <h4>Coda</h4>
+        <p>Binti and The Space Traders challenge us to reflect on the difference between writing about, to and for a people since this distinction reveals where power lies and where the power is being directed. Binti does include an African future and though it was intended as a utopian celebration of African histories, cultures, mythologies and perspectives; it achieves the opposite. Okorafor tokenises African culture and mythologies while operating from a western worldview.</p>
+        <p>An African-centred futurism should be introduced as a corrective philosophy to Africanfuturism that transcends the limits of science fiction, functioning as a movement deeply embedded in both the arts and the sciences. It ought to operate as a philosophy and a movement committed to confronting anti-African realities and restoring African culture, agency and dignity, with the ultimate purpose of recreating a future for people of African descent across the globe.</p>
 
         <div style="margin-top:2rem;">
-          <a href="https://substack.com/home/post/p-189442108" target="_blank" class="btn-primary" style="font-size:11px;">
-            Read Full Essay on Substack &rarr;
-          </a>
+          <a href="https://substack.com/home/post/p-189442108" target="_blank" class="btn-primary" style="font-size:11px;">Read on Substack &rarr;</a>
         </div>
       </div>
     </div>
 
-    <!-- TAB 3: Rite of Restoration -->
+    <!-- TAB 3: Rite of Restoration (FULL) -->
     <div id="tab-rite" class="tab-pane">
       <div class="article-meta">Tharollo Seatlholo &mdash; January 30, 2026</div>
       <h3 style="margin-bottom:0.3rem;">The Rite of Restoration and the Second Ascent of Master Artists</h3>
@@ -1349,31 +1141,31 @@
       </div>
 
       <div class="article-body">
-        <p>
-          Ben Okri's <em>The Last Gift of the Master Artists</em> (2022) arrives as an urgent philosophical intervention at a moment when Africa stands at the precipice of a defining choice: whether to continue surrendering its most brilliant creative minds to the machinery of western consumption, or to reclaim the Master Artist as the sacred vessel through which ancestral knowledge, collective memory, and liberated futures are transmitted.
-        </p>
+        <p>Ben Okri's <em>The Last Gift of the Master Artists</em> (2022) arrives as an urgent philosophical intervention at a moment when Africa stands at the precipice of a defining choice: whether to continue surrendering its most brilliant creative minds to the machinery of western consumption, or to reclaim the Master Artist as the sacred vessel through which ancestral knowledge, collective memory, and liberated futures are transmitted.</p>
 
-        <div class="pull-quote">
-          The rite of restoration is not a ceremony. It is an imperative. The second ascent is not a metaphor. It is a demand.
-        </div>
+        <div class="pull-quote">The rite of restoration is not a ceremony. It is an imperative. The second ascent is not a metaphor. It is a demand.</div>
 
         <div class="article-img-block">
           <figure>
             <img src="https://ksf-nine.vercel.app/images/Ben_Okri_s_The_Last_Gift_of_the_Master_Artists.webp"
                  onerror="this.closest('figure').style.display='none'"
-                 alt="Ben Okri's The Last Gift of the Master Artists">
+                 alt="Ben Okri: The Last Gift of the Master Artists">
             <figcaption>Ben Okri: The Last Gift of the Master Artists, 2022</figcaption>
           </figure>
         </div>
 
-        <p>
-          Okri's text demands that we ask not what art can do for western civilisation, but what it can do for the restoration of African civilisation. The Master Artist in Okri's framework is not a solitary genius whose value is measured by the market, but a being of collective responsibility, charged with holding open the door between the visible and invisible worlds.
-        </p>
+        <p>Okri's text demands that we ask not what art can do for western civilisation, but what it can do for the restoration of African civilisation. The Master Artist in Okri's framework is not a solitary genius whose value is measured by the market, but a being of collective responsibility, charged with holding open the door between the visible and invisible worlds.</p>
+        <p>In the tradition of African philosophy, the artist is not separate from the community but is its most acute expression. Their gift is not personal achievement but communal inheritance. When Okri speaks of the "last gift," he signals an urgency: the Master Artists are disappearing into western cultural markets, and with them goes the possibility of self-knowledge, historical continuity, and imagined liberation for African people.</p>
+        <p>The "second ascent" is Okri's call for renewal. The first ascent was the emergence of great African artistic traditions before and during colonisation; traditions that held entire cosmologies, governance systems, healing practices, and historical memory in their forms. The second ascent is not a return but a resurrection: a deliberate reclaiming of the Master Artist's role as the keeper of collective consciousness and the summoner of liberated futures.</p>
+        <p>What does this mean for us in Azania, where Master Artist Slovo Mamphaga walks to the peak through canvases that refuse anaesthesia? It means that the restoration Okri demands is already underway in the hands of those who have refused to let art become entertainment, tourism, or therapeutic distraction. It means that the rite of restoration requires not only the artist but the audience: inter-actors who bring their full historical consciousness to the encounter.</p>
+
+        <div class="pull-quote">The Master Artist does not decorate the world. The Master Artist diagnoses it, and by naming the wound, initiates the healing.</div>
+
+        <p>Okri's philosophical intervention challenges us to refuse the reduction of African art to commodity or curiosity. The last gift of the Master Artists is not a painting or a poem. It is a map. It is an instrument of navigation through the ongoing catastrophe of dispossession, and a compass pointing toward the civilisation that must be rebuilt from the ground up, beginning with the ground itself: the land.</p>
+        <p>The Khotso Seatlholo Institute holds this vision as central to its mission. We do not deploy the arts as ornament. We deploy them as the Okri demands: as the living medium through which memory becomes action, and through which the future that must exist begins to be made real.</p>
 
         <div style="margin-top:2rem;">
-          <a href="https://open.substack.com/pub/thaword/p/the-restoration-rite-and-the-second?r=n9fre&utm_medium=ios" target="_blank" class="btn-primary" style="font-size:11px;">
-            Read Full Essay on Substack &rarr;
-          </a>
+          <a href="https://open.substack.com/pub/thaword/p/the-restoration-rite-and-the-second?r=n9fre&utm_medium=ios" target="_blank" class="btn-primary" style="font-size:11px;">Read on Substack &rarr;</a>
         </div>
       </div>
     </div>
@@ -1383,32 +1175,17 @@
       <div class="ramose-intro">
         <span class="coming-soon-badge">Archive Forthcoming</span>
         <h3 style="margin-bottom:1rem;color:var(--green-light);">Prof. Mogobe Ramose</h3>
-        <p>
-          The KSI archive includes a lecture by Professor Mogobe Ramose, one of Africa's foremost philosophers and the pre-eminent scholar of Ubuntu philosophy as African jurisprudence. The full transcribed and corrected text is currently being prepared for publication on this platform.
-        </p>
+        <p>The KSI archive includes a lecture by Professor Mogobe Ramose, one of Africa's foremost philosophers and the pre-eminent scholar of Ubuntu philosophy as African jurisprudence. The full transcribed and corrected text is currently being prepared for publication on this platform.</p>
       </div>
       <div class="article-body">
         <h4 style="color:var(--green-light);">On Ubuntu and African Philosophy</h4>
-        <p style="color:var(--grey);">
-          Professor Ramose's lecture interrogates the appropriation of Ubuntu philosophy by post-apartheid South African state and corporate interests, arguing that the philosophical richness of Ubuntu has been systematically stripped of its radical political content in order to produce a depoliticised ethic of reconciliation without justice.
-        </p>
-        <p style="color:var(--grey);">
-          Where Ubuntu demands the restoration of personhood through the restoration of land, dignity, and communal sovereignty, its co-opted form produces instead a theology of forgiveness that benefits perpetrators while demanding silence from victims.
-        </p>
-
-        <div class="pull-quote" style="border-left-color:var(--green);">
-          Ubuntu is not a philosophy of forgiveness for those who have not repaired the harm. It is a philosophy of restoration. Umuntu ngumuntu ngabantu demands that personhood be made possible for all, or it demands nothing.
-        </div>
-
-        <p style="color:var(--grey);">
-          The PDF of the lecture is currently undergoing transcription and spelling correction. Once complete, the full text will be published here in its corrected form. Sign up to be notified upon release.
-        </p>
-
-        <div style="margin-top:2rem; display:flex; gap:1rem; flex-wrap:wrap;">
+        <p style="color:var(--grey);">Professor Ramose's lecture interrogates the appropriation of Ubuntu philosophy by post-apartheid South African state and corporate interests, arguing that the philosophical richness of Ubuntu has been systematically stripped of its radical political content in order to produce a depoliticised ethic of reconciliation without justice.</p>
+        <p style="color:var(--grey);">Where Ubuntu demands the restoration of personhood through the restoration of land, dignity, and communal sovereignty, its co-opted form produces instead a theology of forgiveness that benefits perpetrators while demanding silence from victims.</p>
+        <div class="pull-quote" style="border-left-color:var(--green);">Ubuntu is not a philosophy of forgiveness for those who have not repaired the harm. It is a philosophy of restoration. Umuntu ngumuntu ngabantu demands that personhood be made possible for all, or it demands nothing.</div>
+        <p style="color:var(--grey);">The PDF of the lecture is currently undergoing transcription and spelling correction. Once complete, the full text will be published here in its corrected form. Sign up to be notified upon release.</p>
+        <div style="margin-top:2rem;display:flex;gap:1rem;flex-wrap:wrap;">
           <input type="email" placeholder="your@email.com" class="donate-input" style="max-width:280px;border:1px solid rgba(45,106,53,0.4);">
-          <button class="btn-primary" style="background:var(--green);font-size:11px;" onclick="alert('Thank you. We will notify you when the Ramose lecture is published.')">
-            Notify Me
-          </button>
+          <button class="btn-primary" style="background:var(--green);font-size:11px;" onclick="alert('Thank you. We will notify you when the Ramose lecture is published.')">Notify Me</button>
         </div>
       </div>
     </div>
@@ -1418,35 +1195,57 @@
 
 <div class="stripe-divider"></div>
 
-<!-- TEAM -->
+<!-- TEAM / PEOPLE -->
 <section id="team">
   <div class="container">
     <div class="section-label">The People</div>
     <h2>Who We<br><span class="text-gold">Are</span></h2>
-    <div class="team-grid fade-in">
-      <div class="team-card">
+
+    <div class="team-section-inner fade-in">
+      <!-- Khotso -->
+      <div>
         <img src="https://ksf-nine.vercel.app/images/khotso-young.jpg"
              onerror="this.src='https://ksf-nine.vercel.app/images/khotso-hero.jpg'"
-             alt="Khotso Seatlholo" loading="lazy">
-        <div class="team-info">
-          <div class="team-name">Khotso Seatlholo</div>
-          <div class="team-role">Namesake &mdash; 1953 to 2004</div>
-          <p class="team-bio">
-            President of the SSRC, 1976. Revolutionary, Robben Island prisoner, Black Consciousness leader. Sentenced to 15 years under the Terrorism Act. Released 1990. The Institute carries his name and his charge.
-          </p>
-        </div>
+             alt="Khotso Seatlholo"
+             class="team-person-img" loading="lazy">
+        <div class="team-person-name">Khotso Seatlholo</div>
+        <div class="team-person-role">Namesake &mdash; 1953 to 2004</div>
+        <p class="team-person-bio">President of the Soweto Students' Representative Council during the 1976 Soweto Youth Uprising. Black Consciousness leader, revolutionary, and Robben Island political prisoner. Sentenced to 15 years under the Terrorism Act. Released in 1990. The Institute carries his name and his charge against forgetting.</p>
       </div>
-      <div class="team-card">
-        <img src="https://ksf-nine.vercel.app/images/tharollo.jpg"
-             onerror="this.style.background='var(--dark)';this.style.height='340px'"
-             alt="Tharollo Seatlholo" loading="lazy">
-        <div class="team-info">
-          <div class="team-name">Tharollo Seatlholo</div>
-          <div class="team-role">Founding Director</div>
-          <p class="team-bio">
-            Tharollo Seatlholo is a writer, researcher, and African-centred futurist. Grandson of Khotso Seatlholo, his essays and lectures interrogate the intersections of art, history, land, and liberation. He leads the intellectual and programmatic vision of the Institute.
-          </p>
-        </div>
+      <!-- Tharollo -->
+      <div>
+        <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/Tharollo-Seatlholo-official-image.jpg"
+             onerror="this.style.background='var(--dark)'"
+             alt="Tharollo Seatlholo"
+             class="team-person-img" loading="lazy">
+        <div class="team-person-name">Tharollo Seatlholo</div>
+        <div class="team-person-role">Founding Director</div>
+        <p class="team-person-bio">Tharollo Seatlholo is a writer, researcher, and African-centred futurist. Grandson of Khotso Seatlholo, his essays and lectures interrogate the intersections of art, history, land, and liberation in Azania and across the continent. He leads the intellectual and programmatic vision of the Khotso Seatlholo Institute.</p>
+      </div>
+    </div>
+
+    <!-- Event photo gallery -->
+    <div style="margin-top:5rem;">
+      <div class="section-label">From Our Events</div>
+      <div class="event-gallery fade-in">
+        <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/Tharollo-Majakathata.jpg"
+             onerror="this.style.display='none'"
+             alt="Tharollo Majakathata" loading="lazy">
+        <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/3-people-standing-over-book-table.jpg"
+             onerror="this.style.display='none'"
+             alt="Discussion at book table" loading="lazy">
+        <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/Tharollo-discussing-with-another.jpg"
+             onerror="this.style.display='none'"
+             alt="Tharollo in discussion" loading="lazy">
+        <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/Previous-event-discussion.jpg"
+             onerror="this.style.display='none'"
+             alt="Previous event" loading="lazy">
+        <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/Picture-of-crowd-from-event.-Notable-people-in-crowd.jpg"
+             onerror="this.style.display='none'"
+             alt="Event crowd" loading="lazy">
+        <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/June-16-lecture.jpg"
+             onerror="this.style.display='none'"
+             alt="June 16 lecture" loading="lazy">
       </div>
     </div>
   </div>
@@ -1456,10 +1255,9 @@
 <section class="donate-section" id="donate">
   <div class="stripe-top"></div>
   <h2>Fund the<br><span class="text-gold">Future</span></h2>
-  <p class="sub">
+  <p class="sub" style="font-size:1.1rem;color:var(--grey);max-width:600px;margin:0 auto 3rem;font-style:italic;">
     The work of reclaiming memory and recreating an African-centred future requires sustained investment. Your contribution directly funds programs, publications, and the restoration of our people's eroded agency.
   </p>
-
   <div class="donate-amounts">
     <button class="amount-btn" onclick="setAmount(this,'500')">R500</button>
     <button class="amount-btn selected" onclick="setAmount(this,'1000')">R1,000</button>
@@ -1467,15 +1265,11 @@
     <button class="amount-btn" onclick="setAmount(this,'5000')">R5,000</button>
     <button class="amount-btn" onclick="setAmount(this,'custom')">Custom</button>
   </div>
-
   <div class="donate-form">
     <input id="donate-amount" type="text" class="donate-input" value="R1,000" placeholder="Enter amount">
     <button class="donate-submit" onclick="handleDonate()">Donate Now &rarr;</button>
   </div>
-
-  <p class="donate-note" style="margin-top:1rem;">
-    All donations are used directly toward KSI programs, publications, and educational work.
-  </p>
+  <p class="donate-note" style="margin-top:1rem;">All donations are used directly toward KSI programs, publications, and educational work.</p>
   <p class="donate-note" style="margin-top:0.4rem;color:var(--grey);">
     For institutional partnerships, grants, or large donations: <a href="mailto:team@businesshustle.co.za" style="color:var(--gold);">team@businesshustle.co.za</a>
   </p>
@@ -1488,12 +1282,8 @@
       <div class="footer-logo">
         <img src="https://app.businesshustle.co.za/wp-content/uploads/2026/05/KSF-logo-.png" alt="KSI Logo">
       </div>
-      <p class="footer-about">
-        The Khotso Seatlholo Institute is a nonprofit organisation dedicated to restoring the eroded agency of youth by reimagining the deep socio-cultural and socio-economic future of Azania and Africa.
-      </p>
-      <p style="margin-top:1rem;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--red);">
-        "We will never be pardoned by future generations if we outlive our significance."
-      </p>
+      <p class="footer-about">The Khotso Seatlholo Institute is a nonprofit organisation dedicated to restoring the eroded agency of youth by reimagining the deep socio-cultural and socio-economic future of Azania and Africa.</p>
+      <p style="margin-top:1rem;font-family:'Courier Prime',monospace;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--red);">"We will never be pardoned by future generations if we outlive our significance."</p>
     </div>
     <div class="footer-col">
       <h5>Navigate</h5>
@@ -1502,6 +1292,7 @@
         <li><a href="#khotso">Khotso Seatlholo</a></li>
         <li><a href="#robben-island">Robben Island</a></li>
         <li><a href="#insights">Insights</a></li>
+        <li><a href="#event">Events</a></li>
         <li><a href="#team">People</a></li>
         <li><a href="#donate">Donate</a></li>
       </ul>
@@ -1513,6 +1304,7 @@
         <li><a href="#">Cape Town, South Africa</a></li>
         <li><a href="http://culture-review.co.za/historical-distortions-of-the-1976-black-power-movement" target="_blank">Culture Review Archive</a></li>
         <li><a href="https://substack.com/@thaword" target="_blank">Tharollo on Substack</a></li>
+        <li><a href="https://m.youtube.com/watch?v=l8qrnhRzAP0" target="_blank">YouTube</a></li>
       </ul>
     </div>
   </div>
@@ -1524,63 +1316,31 @@
 </footer>
 
 <script>
-  // Tab switching
   function switchTab(e, id) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
     e.target.classList.add('active');
     document.getElementById(id).classList.add('active');
+    document.getElementById('insights').scrollIntoView({behavior:'smooth', block:'start'});
   }
-
-  // Donate amount
   function setAmount(btn, val) {
     document.querySelectorAll('.amount-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     const input = document.getElementById('donate-amount');
-    if (val === 'custom') {
-      input.value = '';
-      input.placeholder = 'Enter amount';
-      input.focus();
-    } else {
-      input.value = 'R' + parseInt(val).toLocaleString();
-    }
+    if (val === 'custom') { input.value = ''; input.placeholder = 'Enter amount'; input.focus(); }
+    else { input.value = 'R' + parseInt(val).toLocaleString(); }
   }
-
   function handleDonate() {
     const val = document.getElementById('donate-amount').value;
-    alert('Thank you for your support.\n\nAmount: ' + val + '\n\nYou will be redirected to our secure payment portal.\n\nFor direct donations: team@businesshustle.co.za');
+    alert('Thank you for your support.\n\nAmount: ' + val + '\n\nFor donations please contact: team@businesshustle.co.za');
   }
-
-  // Scroll fade-in
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-  // Nav scroll effect
   window.addEventListener('scroll', () => {
-    const nav = document.querySelector('nav');
-    if (window.scrollY > 80) {
-      nav.style.borderBottomColor = 'rgba(212,160,23,0.4)';
-    } else {
-      nav.style.borderBottomColor = 'rgba(212,160,23,0.3)';
-    }
-  });
-
-  // Smooth scroll for nav links
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const target = document.querySelector(a.getAttribute('href'));
-      if (target) {
-        e.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
+    document.querySelector('nav').style.borderBottomColor =
+      window.scrollY > 80 ? 'rgba(212,160,23,0.5)' : 'rgba(212,160,23,0.3)';
   });
 </script>
 </body>
